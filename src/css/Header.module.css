@@ -1,0 +1,6 @@
+header {
+    background-color: var(--primary-color);
+    color: var(--logo-font-color);
+    padding: 10px;
+    padding-left: 60px;
+}

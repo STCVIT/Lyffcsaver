@@ -1,0 +1,13 @@
+* {
+    border: 0;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+:root {
+    --primary-color: #4357ad;
+    --logo-font-color: #fff;
+    --label-font-color: #000;
+    --font-color: #000;
+    --outline-color: #000;
+}

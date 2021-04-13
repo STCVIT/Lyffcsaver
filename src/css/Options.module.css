@@ -1,0 +1,23 @@
+.screen {
+    padding: 0 60px 0 60px;
+    display: flex;
+    flex-direction: column;
+}
+.row {
+    margin-top: 50px;
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+.option {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+input,
+select {
+    /* margin-top: 7px; */
+    padding: 5px;
+    border: 2px solid var(--outline-color);
+    border-radius: 6px;
+}

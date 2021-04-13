@@ -1,0 +1,36 @@
+.list {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+}
+.row {
+    display: flex;
+}
+.cell {
+    border: 1px solid var(--outline-color);
+    text-align: center;
+    padding: 3px 5px;
+    flex: 2;
+}
+.add,
+.remove,
+.ranked {
+    flex: 1;
+}
+.add,
+.remove {
+    font-weight: 1000;
+    cursor: pointer;
+}
+.add {
+    color: green;
+}
+.remove {
+    color: red;
+}
+.ranked {
+    /* width: min-content; */
+}
+.ranked > input {
+    border-width: 0.2px;
+}
