@@ -2,7 +2,14 @@ import Searchbar from "./Searchbar";
 import List from "./List";
 import styles from "../css/SearchableList.module.css";
 
-const SearchableList = ({ name, values, listType, onAdd, onRemove }) => {
+const SearchableList = ({
+    name,
+    values,
+    listType,
+    onAdd,
+    onRemove,
+    onSelect,
+}) => {
     return values.length > 0 ? (
         <div className={styles.SearchableList}>
             <label>
@@ -15,6 +22,7 @@ const SearchableList = ({ name, values, listType, onAdd, onRemove }) => {
                 listType={listType}
                 onAdd={onAdd}
                 onRemove={onRemove}
+                onSelect={onSelect}
             ></List>
         </div>
     ) : (

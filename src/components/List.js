@@ -11,7 +11,7 @@ function camelize(str) {
 }
 // end code from stackoverflow
 
-const List = ({ name, values, listType, onAdd, onRemove }) => {
+const List = ({ name, values, listType, onAdd, onRemove, onSelect }) => {
     const InteractionElement = ({ id, index }) => {
         switch (listType) {
             case "add":
@@ -19,7 +19,7 @@ const List = ({ name, values, listType, onAdd, onRemove }) => {
                     <div
                         className={styles.cell + " " + styles.add}
                         key={id + "-i"}
-                        onClick={() => onAdd(id)}
+                        onClick={() => onAdd(id, styles.activeRow)}
                     >
                         +
                     </div>
@@ -29,7 +29,7 @@ const List = ({ name, values, listType, onAdd, onRemove }) => {
                     <div
                         className={styles.cell + " " + styles.remove}
                         key={id + "-i"}
-                        onClick={() => onRemove(id)}
+                        onClick={() => onRemove(id, styles.activeRow)}
                     >
                         -
                     </div>
@@ -85,6 +85,7 @@ const List = ({ name, values, listType, onAdd, onRemove }) => {
                                             e.target.parentNode.classList.remove(
                                                 styles.hoverRow
                                             );
+                                            onSelect(styles.activeRow);
                                         }
                                     }}
                                     onMouseEnter={(e) => {
