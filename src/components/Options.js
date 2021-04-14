@@ -113,6 +113,9 @@ const Options = () => {
         );
 
         const activeRow = document.querySelector(`.${activeRowClassName}`);
+        if (activeRow === null) {
+            return;
+        }
         const courseCode = activeRow.children[1].innerText;
         if (courseCode === course.courseCode) {
             // course being removed from selectedCourses was the one selected
@@ -127,7 +130,6 @@ const Options = () => {
         }
         const activeRow = document.querySelector(`.${activeRowClassName}`);
         if (activeRow === null) {
-            console.log(activeRowClassName);
             setFacultyList([]);
             return;
         }
