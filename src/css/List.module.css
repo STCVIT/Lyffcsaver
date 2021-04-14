@@ -12,6 +12,15 @@
     padding: 3px 5px;
     flex: 2;
 }
+.selectedCourses {
+    cursor: pointer;
+}
+.activeRow {
+    background-color: var(--active-bg);
+}
+.hoverRow {
+    background-color: var(--selectable-row-hover-bg);
+}
 .add,
 .remove,
 .ranked {
@@ -25,11 +34,14 @@
 .add {
     color: green;
 }
+.add:hover {
+    background-color: var(--add-hover-bg);
+}
 .remove {
     color: red;
 }
-.ranked {
-    /* width: min-content; */
+.remove:hover {
+    background-color: var(--remove-hover-bg);
 }
 .ranked > input {
     border-width: 0.2px;

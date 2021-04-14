@@ -10,6 +10,7 @@ const SearchableList = ({ name, values, listType, onAdd, onRemove }) => {
             </label>
             <Searchbar></Searchbar>
             <List
+                name={name}
                 values={values}
                 listType={listType}
                 onAdd={onAdd}
