@@ -1,6 +1,80 @@
+import { useState } from "react";
 import styles from "../css/Options.module.css";
 import SearchableList from "./SearchableList";
 const Options = () => {
+    const courses = [
+        {
+            courseCode: "MAT1014",
+            courseName: "Discrete Mathematics and Graph Theory",
+            id: "c1",
+            facultyId: ["f1", "f2", "f3", "f4"],
+        },
+        {
+            courseCode: "MAT2001",
+            courseName: "Statistics for Engineers",
+            id: "c2",
+            facultyId: ["f1", "f2", "f3", "f4"],
+        },
+        {
+            courseCode: "CSE1002",
+            courseName: "Problem solving and Programming",
+            id: "c3",
+            facultyId: ["f1", "f2", "f3", "f4"],
+        },
+        {
+            courseCode: "CHY1701",
+            courseName: "Engineering Chemistry",
+            id: "c4",
+            facultyId: ["f1", "f2", "f3", "f4"],
+        },
+        {
+            courseCode: "CSE1003",
+            courseName: "Digital Logic and Design",
+            id: "c5",
+            facultyId: ["f1", "f2", "f3", "f4"],
+        },
+        {
+            courseCode: "CSE2011",
+            courseName: "Data Structures and Algorithms",
+            id: "c6",
+            facultyId: ["f1", "f2", "f3", "f4"],
+        },
+    ];
+    const faculties = [
+        { name: "Clement J", id: "f1" },
+        { name: "Manimaran A", id: "f2" },
+        { name: "Bhulakshmi", id: "f3" },
+        { name: "Uma", id: "f4" },
+        { name: "Akhila M", id: "f5" },
+        { name: "Sharief", id: "f6" },
+    ];
+
+    const [selectedCourses, setSelectedCourses] = useState([]);
+    const [availableCourses, setAvailableCourses] = useState(courses);
+    const [facultyList, setFacultyList] = useState([]);
+
+    const addCourse = (id) => {
+        const course = availableCourses.find((element) => element.id === id);
+        if (course === undefined) return;
+        setSelectedCourses((prevSelectedCourses) => [
+            ...prevSelectedCourses,
+            course,
+        ]);
+        setAvailableCourses((prevAvailableCourses) =>
+            prevAvailableCourses.filter((element) => element !== course)
+        );
+    };
+    const removeCourse = (id) => {
+        const course = selectedCourses.find((element) => element.id === id);
+        if (course === undefined) return;
+        setAvailableCourses((prevAvailableCourses) => [
+            ...prevAvailableCourses,
+            course,
+        ]);
+        setSelectedCourses((prevSelectedCourses) =>
+            prevSelectedCourses.filter((element) => element !== course)
+        );
+    };
     return (
         <div className={styles.screen}>
             <div className={styles.row}>
@@ -66,30 +140,19 @@ const Options = () => {
             <div className={styles.row}>
                 <SearchableList
                     name={"Available Courses"}
-                    values={[
-                        ["MAT1014", "Discrete Mathematics"],
-                        ["MAT1014", "Discrete Mathematics"],
-                        ["MAT1014", "Discrete Mathematics"],
-                    ]}
+                    values={availableCourses}
                     listType="add"
+                    onAdd={addCourse}
                 ></SearchableList>
                 <SearchableList
                     name={"Selected Courses"}
-                    values={[
-                        ["MAT1014", "Discrete Mathematics"],
-                        ["MAT1014", "Discrete Mathematics"],
-                        ["MAT1014", "Discrete Mathematics"],
-                    ]}
+                    values={selectedCourses}
                     listType="remove"
+                    onRemove={removeCourse}
                 ></SearchableList>
                 <SearchableList
-                    name={"Faculty Preference"}
-                    values={[
-                        ["Clement J"],
-                        ["Manimaran A"],
-                        ["Bhulakshmi"],
-                        ["Uma"],
-                    ]}
+                    name="Faculty Preference"
+                    values={facultyList}
                     listType="ranked"
                 ></SearchableList>
             </div>
