@@ -67,18 +67,18 @@ const List = ({ name, values, listType, onAdd, onRemove }) => {
                                     className={styles.cell + " " + styles[key]}
                                     key={entry.id + "-c-" + key}
                                     onClick={(e) => {
-                                        document
-                                            .querySelector(
-                                                `.${styles.activeRow}`
-                                            )
-                                            ?.classList.remove(
-                                                styles.activeRow
-                                            );
                                         if (
                                             e.target.parentNode.parentNode.classList.contains(
                                                 styles.selectedCourses
                                             )
                                         ) {
+                                            document
+                                                .querySelector(
+                                                    `.${styles.activeRow}`
+                                                )
+                                                ?.classList.remove(
+                                                    styles.activeRow
+                                                );
                                             e.target.parentNode.classList.toggle(
                                                 styles.activeRow
                                             );

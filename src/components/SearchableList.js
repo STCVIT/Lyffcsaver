@@ -3,7 +3,7 @@ import List from "./List";
 import styles from "../css/SearchableList.module.css";
 
 const SearchableList = ({ name, values, listType, onAdd, onRemove }) => {
-    return (
+    return values.length > 0 ? (
         <div className={styles.SearchableList}>
             <label>
                 <h2>{name}</h2>
@@ -17,6 +17,8 @@ const SearchableList = ({ name, values, listType, onAdd, onRemove }) => {
                 onRemove={onRemove}
             ></List>
         </div>
+    ) : (
+        <></>
     );
 };
 

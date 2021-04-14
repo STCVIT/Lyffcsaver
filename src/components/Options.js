@@ -7,37 +7,67 @@ const Options = () => {
             courseCode: "MAT1014",
             courseName: "Discrete Mathematics and Graph Theory",
             id: "c1",
-            facultyId: ["f1", "f2", "f3", "f4"],
+            faculties: [
+                { index: 0, facultyId: "f1", preferenceScore: 0 },
+                { index: 1, facultyId: "f2", preferenceScore: 0 },
+                { index: 2, facultyId: "f3", preferenceScore: 0 },
+                { index: 3, facultyId: "f4", preferenceScore: 0 },
+            ],
         },
         {
             courseCode: "MAT2001",
             courseName: "Statistics for Engineers",
             id: "c2",
-            facultyId: ["f1", "f2", "f3", "f4"],
+            faculties: [
+                { index: 0, facultyId: "f1", preferenceScore: 0 },
+                { index: 1, facultyId: "f2", preferenceScore: 0 },
+                { index: 2, facultyId: "f3", preferenceScore: 0 },
+                { index: 3, facultyId: "f4", preferenceScore: 0 },
+            ],
         },
         {
             courseCode: "CSE1002",
             courseName: "Problem solving and Programming",
             id: "c3",
-            facultyId: ["f1", "f2", "f3", "f4"],
+            faculties: [
+                { index: 0, facultyId: "f1", preferenceScore: 0 },
+                { index: 1, facultyId: "f2", preferenceScore: 0 },
+                { index: 2, facultyId: "f3", preferenceScore: 0 },
+                { index: 3, facultyId: "f4", preferenceScore: 0 },
+            ],
         },
         {
             courseCode: "CHY1701",
             courseName: "Engineering Chemistry",
             id: "c4",
-            facultyId: ["f1", "f2", "f3", "f4"],
+            faculties: [
+                { index: 0, facultyId: "f1", preferenceScore: 0 },
+                { index: 1, facultyId: "f2", preferenceScore: 0 },
+                { index: 2, facultyId: "f3", preferenceScore: 0 },
+                { index: 3, facultyId: "f4", preferenceScore: 0 },
+            ],
         },
         {
             courseCode: "CSE1003",
             courseName: "Digital Logic and Design",
             id: "c5",
-            facultyId: ["f1", "f2", "f3", "f4"],
+            faculties: [
+                { index: 0, facultyId: "f1", preferenceScore: 0 },
+                { index: 1, facultyId: "f2", preferenceScore: 0 },
+                { index: 2, facultyId: "f3", preferenceScore: 0 },
+                { index: 3, facultyId: "f4", preferenceScore: 0 },
+            ],
         },
         {
             courseCode: "CSE2011",
             courseName: "Data Structures and Algorithms",
             id: "c6",
-            facultyId: ["f1", "f2", "f3", "f4"],
+            faculties: [
+                { index: 0, facultyId: "f1", preferenceScore: 0 },
+                { index: 1, facultyId: "f2", preferenceScore: 0 },
+                { index: 2, facultyId: "f3", preferenceScore: 0 },
+                { index: 3, facultyId: "f4", preferenceScore: 0 },
+            ],
         },
     ];
     const faculties = [
