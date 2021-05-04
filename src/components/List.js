@@ -6,11 +6,9 @@ import styles from "../css/List.module.css";
 
 function camelize(str) {
   return str
-
     .replace(/(?:^\w|[A-Z]|\b\w)/g, function (word, index) {
       return index === 0 ? word.toLowerCase() : word.toUpperCase();
     })
-
     .replace(/\s+/g, "");
 }
 
@@ -54,6 +52,7 @@ const List = ({ name, values, listType, onAdd, onRemove, onSelect }) => {
               id={`ranking-${id}`}
               defaultValue={index}
               onKeyDown={(e) => e.preventDefault()}
+              className={styles.input}
             />
           </div>
         );
@@ -64,14 +63,15 @@ const List = ({ name, values, listType, onAdd, onRemove, onSelect }) => {
   };
 
   return (
-    <div className={`${styles.list} ${styles[camelize(name)]}`}>
+    <ul className={`${styles.list} ${styles[camelize(name)]}`}>
       {values?.map((entry, index) => {
         return (
-          <div className={styles.row} key={entry.id + "-r"}>
+          <li className={styles.row} key={entry.id + "-r"}>
             <InteractionElement index={index} id={entry.id} />
 
             {Object.keys(entry).map((key) => {
-              return key !== "id" && typeof entry[key] === "string" ? (
+              if (key === "id" || typeof entry[key] !== "string") return <></>;
+              return (
                 <div
                   className={styles.cell + " " + styles[key]}
                   key={entry.id + "-c-" + key}
@@ -82,15 +82,11 @@ const List = ({ name, values, listType, onAdd, onRemove, onSelect }) => {
                       )
                     ) {
                       document
-
                         .querySelector(`.${styles.activeRow}`)
-
                         ?.classList.remove(styles.activeRow);
 
                       e.target.parentNode.classList.toggle(styles.activeRow);
-
                       e.target.parentNode.classList.remove(styles.hoverRow);
-
                       onSelect(styles.activeRow);
                     }
                   }}
@@ -114,14 +110,12 @@ const List = ({ name, values, listType, onAdd, onRemove, onSelect }) => {
                 >
                   {entry[key]}
                 </div>
-              ) : (
-                <></>
               );
             })}
-          </div>
+          </li>
         );
       })}
-    </div>
+    </ul>
   );
 };
 

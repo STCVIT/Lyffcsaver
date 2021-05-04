@@ -1,48 +1,54 @@
 .list {
-    margin-top: 20px;
-    display: flex;
-    flex-direction: column;
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
 }
 .row {
-    display: flex;
+  display: flex;
 }
 .cell {
-    border: 1px solid var(--outline-color);
-    text-align: center;
-    padding: 3px 5px;
-    flex: 2;
+  border: 1px solid var(--outline-color);
+  text-align: center;
+  padding: 3px 5px;
+  flex: 2;
 }
 .selectedCourses {
-    cursor: pointer;
+  cursor: pointer;
 }
 .activeRow {
-    background-color: var(--active-bg);
+  background-color: var(--active-bg);
 }
 .hoverRow {
-    background-color: var(--selectable-row-hover-bg);
+  background-color: var(--selectable-row-hover-bg);
 }
 .add,
 .remove,
 .ranked {
-    flex: 1;
+  flex: 1;
 }
 .add,
 .remove {
-    font-weight: 1000;
-    cursor: pointer;
+  font-weight: 1000;
+  cursor: pointer;
 }
 .add {
-    color: green;
+  color: green;
 }
 .add:hover {
-    background-color: var(--add-hover-bg);
+  background-color: var(--add-hover-bg);
 }
 .remove {
-    color: red;
+  color: red;
 }
 .remove:hover {
-    background-color: var(--remove-hover-bg);
+  background-color: var(--remove-hover-bg);
 }
 .ranked > input {
-    border-width: 0.2px;
+  border-width: 0.2px;
+}
+.input {
+  /* margin-top: 7px; */
+  padding: 5px;
+  border: 2px solid var(--outline-color);
+  border-radius: 6px;
 }

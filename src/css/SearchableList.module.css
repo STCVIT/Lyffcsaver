@@ -1,8 +1,8 @@
 .SearchableList {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
-label {
-    margin-bottom: 20px;
+.label {
+  margin-bottom: 20px;
 }

@@ -1,16 +1,20 @@
-form {
-    position: relative;
-    height: min-content;
+.form {
+  position: relative;
+  height: min-content;
 }
-button {
-    position: absolute;
-    right: 0;
-    /* top: 50%; */
-    height: 100%;
-    border-radius: 0px 6px 6px 0px;
-    border: 2px solid var(--outline-color);
+.button {
+  position: absolute;
+  right: 0;
+  /* top: 50%; */
+  height: 100%;
+  border-radius: 0px 6px 6px 0px;
+  border: 2px solid var(--outline-color);
+  padding: 6px;
 }
-input {
-    margin: 0;
-    width: 100%;
+.input {
+  padding: 6px;
+  margin: 0;
+  width: 100%;
+  border-radius: 6px;
+  border: 2px solid var(--outline-color);
 }

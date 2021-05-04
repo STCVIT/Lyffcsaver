@@ -1,7 +1,8 @@
+import styles from "../css/Header.module.css";
 const Header = () => {
   return (
-    <header>
-      <h1>lyffcsaver</h1>
+    <header className={styles.header}>
+      <h1 className={styles.logotype}>lyffcsaver</h1>
     </header>
   );
 };

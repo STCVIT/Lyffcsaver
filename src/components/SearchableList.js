@@ -12,7 +12,7 @@ const SearchableList = ({
 }) => {
   return values.length > 0 ? (
     <div className={styles.SearchableList}>
-      <label>
+      <label className={styles.label}>
         <h2>{name}</h2>
       </label>
       <Searchbar></Searchbar>

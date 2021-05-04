@@ -151,7 +151,7 @@ const Options = () => {
           <label htmlFor="semester">
             <h2>Semester</h2>
           </label>
-          <select name="semester" id="semester">
+          <select className={styles.select} name="semester" id="semester">
             <option value="fal-sem-19">Fall Semester 2019-20</option>
             <option value="win-sem-19">Winter Semester 2019-20</option>
             <option value="fal-sem-20">Fall Semester 2020-21</option>
@@ -169,13 +169,14 @@ const Options = () => {
             max={new Date().getFullYear() + 1}
             step="1"
             defaultValue={new Date().getFullYear()}
+            className={styles.input}
           />
         </div>
         <div className={styles.option}>
           <label htmlFor="branch">
             <h2>Branch</h2>
           </label>
-          <select name="branch" id="branch">
+          <select className={styles.select} name="branch" id="branch">
             <option value="cse-info-sec">CSE with Information Security</option>
             <option value="cse-info-sec">CSE with Information Security</option>
             <option value="cse-info-sec">CSE with Information Security</option>
@@ -185,7 +186,7 @@ const Options = () => {
           <label htmlFor="school">
             <h2>School</h2>
           </label>
-          <select name="school" id="school">
+          <select className={styles.select} name="school" id="school">
             <option value="scope">Scope</option>
             <option value="scope">Scope</option>
             <option value="scope">Scope</option>
