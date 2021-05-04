@@ -1,4 +1,9 @@
 {
+    "editor.formatOnSave": true,
+    "editor.formatOnPaste": true,
+    "editor.formatOnType": true,
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "prettier.tabWidth": 4,
     "emmet.includeLanguages": {
         "javascript": "javascriptreact"
     }
