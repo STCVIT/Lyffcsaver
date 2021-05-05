@@ -1,0 +1,27 @@
+{
+  "name": "lyffcsaver-backend",
+  "version": "1.0.0",
+  "description": "Backend for lyffcsaver",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js",
+    "server": "nodemon server.js"
+  },
+  "keywords": [
+    "vit",
+    "vit-vellore",
+    "ffcs",
+    "timetable",
+    "backend"
+  ],
+  "author": "",
+  "license": "GPL-3.0",
+  "dependencies": {
+    "express": "^4.17.1",
+    "xlsx": "^0.16.9"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.7"
+  }
+}
