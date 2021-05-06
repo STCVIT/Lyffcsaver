@@ -61,6 +61,8 @@ const parseAndLoadExcel = async (filePath) => {
     const newClass = {
       "ERP ID": classInfo["ERP ID"],
       "COURSE CODE": classInfo["COURSE CODE"],
+      "CLASS ID": classInfo["CLASS ID"],
+      "ASSO CLASS ID": classInfo["ASSO CLASS ID"],
       SLOT: classInfo["SLOT"],
       "ROOM NUMBER": classInfo["ROOM NUMBER"],
       BATCH: classInfo["BATCH"],
