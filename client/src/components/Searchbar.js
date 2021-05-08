@@ -1,16 +1,28 @@
 import styles from "../css/Searchbar.module.css";
-const Searchbar = () => {
+const Searchbar = ({ handleSearch }) => {
   return (
-    <form action="/" className={styles.form}>
+    <form
+      action="/"
+      onSubmit={(e) => {
+        if (handleSearch) {
+          e.preventDefault();
+          const formData = new FormData(e.target);
+          handleSearch(formData.get("search"));
+        }
+      }}
+      className={styles.form}
+    >
       <input
         type="text"
         name="search"
         placeholder="Search"
         className={styles.input}
       ></input>
-      <button type="submit" className={styles.button}>
-        Submit
-      </button>
+      <input
+        type="submit"
+        className={styles.button}
+        placeholder="Search"
+      ></input>
     </form>
   );
 };

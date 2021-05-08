@@ -14,4 +14,6 @@
   --selectable-row-hover-bg: rgb(211, 208, 252);
   --add-hover-bg: rgb(218, 252, 190);
   --remove-hover-bg: rgb(248, 194, 163);
+  --button-col: rgb(113, 241, 124);
+  --table-head-bg: #eee;
 }

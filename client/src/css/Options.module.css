@@ -22,3 +22,11 @@
   border: 2px solid var(--outline-color);
   border-radius: 6px;
 }
+.submitBtn {
+  padding: 10px;
+  background-color: var(--button-col);
+}
+.submitBtn:hover {
+  cursor: pointer;
+  box-shadow: 1px 1px 4px #000;
+}

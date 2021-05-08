@@ -1,0 +1,49 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+.label {
+  margin-bottom: 10px;
+}
+.courseTable {
+  border-spacing: 0;
+}
+.tableWrapper {
+  margin-top: 20px;
+  max-width: 40vw;
+  min-width: 500px;
+  max-height: 40vh;
+  overflow: scroll;
+}
+.headRow,
+.headRow th {
+  position: sticky;
+  top: 0;
+  background-color: var(--table-head-bg);
+}
+.cell {
+  border: 1px solid var(--outline-color);
+  text-align: center;
+  padding: 3px 5px;
+  flex: 2;
+  min-width: 120px;
+}
+.add {
+  color: green;
+  font-weight: 1000;
+  cursor: pointer;
+}
+.add:hover {
+  background-color: var(--add-hover-bg);
+}
+
+.loading,
+.error {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50% -50%);
+}

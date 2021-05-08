@@ -11,10 +11,10 @@ import Options from "./components/Options";
 
 function App() {
   return (
-    <div className={styles.App}>
+    <>
       <Header />
       <Options />
-    </div>
+    </>
   );
 }
 

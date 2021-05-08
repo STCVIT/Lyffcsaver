@@ -1,16 +1,28 @@
-.list {
+.container {
   margin-top: 20px;
   display: flex;
   flex-direction: column;
 }
+.list {
+  display: flex;
+  flex-direction: column;
+  max-height: 50vh;
+  /* max-width: 50vw; */
+  overflow: scroll;
+}
+.noOverflow {
+  overflow: unset !important;
+}
 .row {
   display: flex;
+  /* font-size: 10px; */
 }
 .cell {
   border: 1px solid var(--outline-color);
   text-align: center;
   padding: 3px 5px;
   flex: 2;
+  min-width: 120px;
 }
 .selectedCourses {
   cursor: pointer;

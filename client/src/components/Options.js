@@ -1,6 +1,9 @@
 import { useState } from "react";
 import styles from "../css/Options.module.css";
 import SearchableList from "./SearchableList";
+import AvailableCoursesList from "./AvailableCoursesList";
+import FacultiesPreferenceList from "./FacultiesPreferenceList";
+import SelectedCoursesList from "./SelectedCoursesList";
 const Options = () => {
   const courses = [
     {
@@ -77,10 +80,20 @@ const Options = () => {
     { name: "Akhila M", id: "f5" },
     { name: "Sharief", id: "f6" },
   ];
+  // let classes;
 
   const [selectedCourses, setSelectedCourses] = useState([]);
   const [availableCourses, setAvailableCourses] = useState(courses);
   const [facultyList, setFacultyList] = useState([]);
+  // const updateAll = async () => {
+  //   const response = await fetch("/all");
+  //   const data = await response.json();
+  //   setFacultyList(data.faculties);
+  //   setAvailableCourses(data.courses);
+  //   setSelectedCourses([]);
+  //   classes = newClasses;
+  // };
+  // updateAll();
 
   const getById = (elements, id) => {
     return elements.find((element) => element.id === id);
@@ -194,7 +207,7 @@ const Options = () => {
         </div>
       </div>
       <div className={styles.row}>
-        <SearchableList
+        {/* <SearchableList
           name={"Available Courses"}
           values={availableCourses}
           listType="add"
@@ -211,7 +224,13 @@ const Options = () => {
           name="Faculty Preference"
           values={facultyList}
           listType="ranked"
-        ></SearchableList>
+        ></SearchableList> */}
+        <AvailableCoursesList></AvailableCoursesList>
+        <FacultiesPreferenceList></FacultiesPreferenceList>
+        <SelectedCoursesList> </SelectedCoursesList>
+      </div>
+      <div className={styles.row}>
+        <button className={styles.submitBtn}>Generate Timetables</button>
       </div>
     </div>
   );
