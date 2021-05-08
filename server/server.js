@@ -6,6 +6,7 @@ const port = 3001;
 const XLSX = require("xlsx");
 const path = require("path");
 const fs = require("fs");
+const Fuse = require("fuse.js");
 
 const matchesField = (matchData, fieldName, collection) => {
   for (const data of collection) {
@@ -78,21 +79,21 @@ const parseAndLoadExcel = async (filePath) => {
   }
   fs.writeFile(
     path.join(__dirname, "data", "faculties.json"),
-    JSON.stringify(faculties, null, "\t"),
+    JSON.stringify(faculties),
     (err) => {
       if (err !== null) console.log(err);
     }
   );
   fs.writeFile(
     path.join(__dirname, "data", "courses.json"),
-    JSON.stringify(courses, null, "\t"),
+    JSON.stringify(courses),
     (err) => {
       if (err !== null) console.log(err);
     }
   );
   fs.writeFile(
     path.join(__dirname, "data", "classes.json"),
-    JSON.stringify(classes, null, "\t"),
+    JSON.stringify(classes),
     (err) => {
       if (err !== null) console.log(err);
     }
@@ -106,9 +107,74 @@ parseAndLoadExcel(
   )
 );
 
+app.get("/courses", (req, res) => {
+  const courses = JSON.parse(
+    fs.readFileSync(path.join(__dirname, "data", "courses.json"), "utf-8")
+  );
+  const fuse = new Fuse(courses, {
+    keys: ["COURSE OWNER", "COURSE CODE", "COURSE TITLE"],
+    threshold: 0.2,
+  });
+
+  const { query, pageNumber } = req.query;
+  const size = 10;
+  const startIndex = Number(Number(pageNumber - 1) * size);
+  const endIndex = startIndex + Number(size);
+
+  let results;
+  if (query !== "") {
+    console.log(`searching for ${query}`);
+    results = fuse.search(query);
+    let newResults = [];
+    results.forEach((result) => {
+      newResults.push(result.item);
+    });
+    results = newResults;
+    console.log(`found ${results.length} results`);
+  } else {
+    results = courses;
+  }
+
+  const finalResults = results.slice(startIndex, endIndex);
+  console.log(`sending courses from ${startIndex} to ${endIndex}`);
+  if (endIndex < results.length - 1) {
+    res.json({ courses: finalResults, hasMore: true });
+  } else {
+    res.json({ courses: finalResults, hasMore: false });
+  }
+});
 app.get("/", (req, res) => {
   res.send("Hello World!");
 });
+
+// app.get("/faculties", (req, res) => {
+//   const faculties = JSON.parse(
+//     fs.readFileSync(path.join(__dirname, "data", "faculties.json"), "utf-8")
+//   );
+//   const { start, size } = req.query;
+
+//   const startIndex = Number(start);
+//   const endIndex = startIndex + Number(size);
+//   console.log(
+//     `sending faculties from ${startIndex} to ${endIndex}`,
+//     faculties.slice(startIndex, endIndex)
+//   );
+//   res.json(faculties.slice(startIndex, endIndex));
+// });
+
+// app.get("/classes", (req, res) => {
+//   const classes = JSON.parse(
+//     fs.readFileSync(path.join(__dirname, "data", "classes.json"), "utf-8")
+//   );
+//   const { pageNumber } = req.query;
+//   const size = 10;
+//   const startIndex = Number(pageNumber * size);
+//   const endIndex = startIndex + Number(size);
+//   console.log(
+//     `sending classes from ${startIndex} to ${endIndex}`
+//   );
+//   res.json(classes.slice(startIndex, endIndex));
+// });
 
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);

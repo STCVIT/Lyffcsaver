@@ -15,10 +15,11 @@
     "timetable",
     "backend"
   ],
-  "author": "",
+  "author": "STC-VIT",
   "license": "GPL-3.0",
   "dependencies": {
     "express": "^4.17.1",
+    "fuse.js": "^6.4.6",
     "xlsx": "^0.16.9"
   },
   "devDependencies": {
