@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styles from "../css/Options.module.css";
 import SearchableList from "./SearchableList";
 import AvailableCoursesList from "./AvailableCoursesList";
 import FacultiesPreferenceList from "./FacultiesPreferenceList";
 import SelectedCoursesList from "./SelectedCoursesList";
+import axios from "axios";
 const Options = () => {
   const courses = [
     {
@@ -82,81 +83,46 @@ const Options = () => {
   ];
   // let classes;
 
+  const ignoreCols = [
+    "LECTURE HOURS",
+    "TUTORIAL HOURS",
+    "PROJECT HOURS",
+    "PRACTICAL HOURS",
+  ];
   const [selectedCourses, setSelectedCourses] = useState([]);
-  const [availableCourses, setAvailableCourses] = useState(courses);
+  const [availableCourses, setAvailableCourses] = useState([]);
   const [facultyList, setFacultyList] = useState([]);
-  // const updateAll = async () => {
-  //   const response = await fetch("/all");
-  //   const data = await response.json();
-  //   setFacultyList(data.faculties);
-  //   setAvailableCourses(data.courses);
-  //   setSelectedCourses([]);
-  //   classes = newClasses;
-  // };
-  // updateAll();
 
-  const getById = (elements, id) => {
-    return elements.find((element) => element.id === id);
-  };
-  const getCourseByCourseCode = (courseCode) => {
-    return courses.find((course) => course.courseCode === courseCode);
+  useEffect(() => {
+    console.log(selectedCourses);
+  }, [selectedCourses]);
+
+  const selectCourse = async (courseCode) => {
+    console.log(courseCode);
+    try {
+      let res = await axios.get(`/courses?courseCode=${courseCode}`);
+      console.log(res.data);
+      if (res.data !== undefined) {
+        const course = res.data;
+        setSelectedCourses((prevSelectedCourses) => [
+          ...prevSelectedCourses.filter(
+            (prevCourse) => prevCourse["COURSE CODE"] !== course["COURSE CODE"]
+          ),
+          course,
+        ]);
+      }
+    } catch (error) {
+      console.error(error);
+    }
   };
 
-  const addCourse = (id, activeRowClassName) => {
-    const course = availableCourses.find((element) => element.id === id);
-    if (course === undefined) return;
-    setSelectedCourses((prevSelectedCourses) => [
-      ...prevSelectedCourses,
-      course,
-    ]);
-    setAvailableCourses((prevAvailableCourses) =>
-      prevAvailableCourses.filter((element) => element !== course)
-    );
-    populateFacultyList(activeRowClassName);
-  };
-  const removeCourse = (id, activeRowClassName) => {
-    const course = selectedCourses.find((element) => element.id === id);
-    if (course === undefined) return;
-    setAvailableCourses((prevAvailableCourses) => [
-      ...prevAvailableCourses,
-      course,
-    ]);
+  const deselectCourse = (courseCode) => {
     setSelectedCourses((prevSelectedCourses) =>
-      prevSelectedCourses.filter((element) => element !== course)
+      prevSelectedCourses.filter(
+        (course) => courseCode !== course["COURSE CODE"]
+      )
     );
-
-    const activeRow = document.querySelector(`.${activeRowClassName}`);
-    if (activeRow === null) {
-      return;
-    }
-    const courseCode = activeRow.children[1].innerText;
-    if (courseCode === course.courseCode) {
-      // course being removed from selectedCourses was the one selected
-      // and shown in faculty list, therefore faculty list has to be cleared.
-      populateFacultyList();
-    }
   };
-  const populateFacultyList = (activeRowClassName) => {
-    if (activeRowClassName === undefined) {
-      setFacultyList([]);
-      return;
-    }
-    const activeRow = document.querySelector(`.${activeRowClassName}`);
-    if (activeRow === null) {
-      setFacultyList([]);
-      return;
-    }
-    const courseCode = activeRow.children[1].innerText;
-    const course = getCourseByCourseCode(courseCode);
-    const newFacultyList = [];
-    course.faculties.sort((a, b) => a.index - b.index);
-    course.faculties.forEach((facultyInfo) => {
-      const faculty = getById(faculties, facultyInfo.id);
-      newFacultyList.push(faculty);
-    });
-    setFacultyList(newFacultyList);
-  };
-
   return (
     <div className={styles.screen}>
       <div className={styles.row}>
@@ -207,6 +173,17 @@ const Options = () => {
         </div>
       </div>
       <div className={styles.row}>
+        <AvailableCoursesList
+          ignoreCols={ignoreCols}
+          addCourse={selectCourse}
+          selectedCourses={selectedCourses}
+        ></AvailableCoursesList>
+        <SelectedCoursesList
+          ignoreCols={ignoreCols}
+          removeCourse={deselectCourse}
+          selectedCourses={selectedCourses}
+        ></SelectedCoursesList>
+        <FacultiesPreferenceList></FacultiesPreferenceList>
         {/* <SearchableList
           name={"Available Courses"}
           values={availableCourses}
@@ -225,15 +202,74 @@ const Options = () => {
           values={facultyList}
           listType="ranked"
         ></SearchableList> */}
-        <AvailableCoursesList></AvailableCoursesList>
-        <FacultiesPreferenceList></FacultiesPreferenceList>
-        <SelectedCoursesList> </SelectedCoursesList>
       </div>
       <div className={styles.row}>
         <button className={styles.submitBtn}>Generate Timetables</button>
       </div>
     </div>
   );
+
+  // const getById = (elements, id) => {
+  //   return elements.find((element) => element.id === id);
+  // };
+  // const getCourseByCourseCode = (courseCode) => {
+  //   return courses.find((course) => course.courseCode === courseCode);
+  // };
+
+  // const addCourse = (id, activeRowClassName) => {
+  //   const course = availableCourses.find((element) => element.id === id);
+  //   if (course === undefined) return;
+  //   setSelectedCourses((prevSelectedCourses) => [
+  //     ...prevSelectedCourses,
+  //     course,
+  //   ]);
+  //   setAvailableCourses((prevAvailableCourses) =>
+  //     prevAvailableCourses.filter((element) => element !== course)
+  //   );
+  //   populateFacultyList(activeRowClassName);
+  // };
+  // const removeCourse = (id, activeRowClassName) => {
+  //   const course = selectedCourses.find((element) => element.id === id);
+  //   if (course === undefined) return;
+  //   setAvailableCourses((prevAvailableCourses) => [
+  //     ...prevAvailableCourses,
+  //     course,
+  //   ]);
+  //   setSelectedCourses((prevSelectedCourses) =>
+  //     prevSelectedCourses.filter((element) => element !== course)
+  //   );
+
+  //   const activeRow = document.querySelector(`.${activeRowClassName}`);
+  //   if (activeRow === null) {
+  //     return;
+  //   }
+  //   const courseCode = activeRow.children[1].innerText;
+  //   if (courseCode === course.courseCode) {
+  //     // course being removed from selectedCourses was the one selected
+  //     // and shown in faculty list, therefore faculty list has to be cleared.
+  //     populateFacultyList();
+  //   }
+  // };
+  // const populateFacultyList = (activeRowClassName) => {
+  //   if (activeRowClassName === undefined) {
+  //     setFacultyList([]);
+  //     return;
+  //   }
+  //   const activeRow = document.querySelector(`.${activeRowClassName}`);
+  //   if (activeRow === null) {
+  //     setFacultyList([]);
+  //     return;
+  //   }
+  //   const courseCode = activeRow.children[1].innerText;
+  //   const course = getCourseByCourseCode(courseCode);
+  //   const newFacultyList = [];
+  //   course.faculties.sort((a, b) => a.index - b.index);
+  //   course.faculties.forEach((facultyInfo) => {
+  //     const faculty = getById(faculties, facultyInfo.id);
+  //     newFacultyList.push(faculty);
+  //   });
+  //   setFacultyList(newFacultyList);
+  // };
 };
 
 export default Options;

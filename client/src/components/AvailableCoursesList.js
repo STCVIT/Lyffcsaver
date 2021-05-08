@@ -4,15 +4,9 @@ import Searchbar from "./Searchbar";
 import styles from "../css/AvailableCoursesList.module.css";
 import InfoCols from "./InfoCols";
 
-const AvailableCoursesList = () => {
+const AvailableCoursesList = ({ ignoreCols, addCourse, selectedCourses }) => {
   // USING https://github.com/WebDevSimplified/React-Infinite-Scrolling/
   // const [availableCourses, setAvailableCourses] = useState([])
-  const ignoreCols = [
-    "LECTURE HOURS",
-    "TUTORIAL HOURS",
-    "PROJECT HOURS",
-    "PRACTICAL HOURS",
-  ];
 
   const [query, setQuery] = useState("");
   const [pageNumber, setPageNumber] = useState(1);
@@ -21,7 +15,12 @@ const AvailableCoursesList = () => {
     query,
     pageNumber
   );
-
+  const isSelectedCourse = (course) => {
+    const foundCourse = selectedCourses.find((courseToCheck) => {
+      return courseToCheck["COURSE CODE"] === course["COURSE CODE"];
+    });
+    return foundCourse !== undefined;
+  };
   const observer = useRef();
   const lastCourseElementRef = useCallback(
     (node) => {
@@ -73,50 +72,67 @@ const AvailableCoursesList = () => {
 
               <tbody>
                 {courses.map((course, index) => {
-                  if (courses.length === index + 1) {
-                    return (
-                      <tr
-                        ref={lastCourseElementRef}
-                        className={styles.row + " last"}
-                        key={course["COURSE CODE"]}
-                      >
-                        <td
-                          className={styles.cell + " " + styles.add}
-                          key={course["COURSE CODE"] + "-I"}
+                  if (
+                    selectedCourses === undefined ||
+                    (selectedCourses && !isSelectedCourse(course))
+                  ) {
+                    if (courses.length === index + 1) {
+                      return (
+                        <tr
+                          ref={lastCourseElementRef}
+                          className={styles.row}
+                          key={course["COURSE CODE"]}
                         >
-                          +
-                        </td>
-                        <InfoCols
-                          entry={course}
-                          idName="COURSE CODE"
-                          styles={styles}
-                          ignoreCols={ignoreCols}
-                        ></InfoCols>
-                      </tr>
-                    );
-                  } else {
-                    return (
-                      <tr className={styles.row} key={course["COURSE CODE"]}>
-                        <td
-                          className={styles.cell + " " + styles.add}
-                          key={course["COURSE CODE"] + "-I"}
-                        >
-                          +
-                        </td>
-                        <InfoCols
-                          entry={course}
-                          idName="COURSE CODE"
-                          styles={styles}
-                          ignoreCols={ignoreCols}
-                        ></InfoCols>
-                      </tr>
-                    );
+                          <td
+                            className={styles.cell + " " + styles.add}
+                            key={course["COURSE CODE"] + "-I"}
+                            data-coursecode={course["COURSE CODE"]}
+                            onClick={(event) => {
+                              addCourse(event.target.dataset.coursecode);
+                            }}
+                          >
+                            +
+                          </td>
+                          <InfoCols
+                            entry={course}
+                            idName="COURSE CODE"
+                            styles={styles}
+                            ignoreCols={ignoreCols}
+                          ></InfoCols>
+                        </tr>
+                      );
+                    } else {
+                      return (
+                        <tr className={styles.row} key={course["COURSE CODE"]}>
+                          <td
+                            className={styles.cell + " " + styles.add}
+                            data-coursecode={course["COURSE CODE"]}
+                            onClick={(event) => {
+                              addCourse(event.target.dataset.coursecode);
+                            }}
+                            key={course["COURSE CODE"] + "-I"}
+                          >
+                            +
+                          </td>
+                          <InfoCols
+                            entry={course}
+                            idName="COURSE CODE"
+                            styles={styles}
+                            ignoreCols={ignoreCols}
+                          ></InfoCols>
+                        </tr>
+                      );
+                    }
                   }
                 })}
               </tbody>
             </>
           ) : (
-            <>NO RESULTS</>
+            <tbody>
+              <tr>
+                <td>No Results</td>
+              </tr>
+            </tbody>
           )}
         </table>
       </div>
