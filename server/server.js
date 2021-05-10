@@ -29,6 +29,7 @@ app.get("/faculties", (req, res) => {
     fs.readFileSync(path.join(__dirname, "data", "faculties.json"), "utf-8")
   );
   const { query, pageNumber, course } = req.query;
+  console.log("searching for", course, query, pageNumber);
 
   const requiredClasses = matchesFieldAll(course, "COURSE CODE", classes);
   const facultyIds = new Set();
@@ -58,10 +59,10 @@ app.get("/faculties", (req, res) => {
       newResults.push(result.item);
     });
     results = newResults;
-    console.log(`found ${results.length} results`);
   } else {
     results = requiredFaculties;
   }
+  console.log(`found ${results.length} results`);
 
   const finalResults = results.slice(startIndex, endIndex);
   console.log(`sending faculties from ${startIndex} to ${endIndex}`);

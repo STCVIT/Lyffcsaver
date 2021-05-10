@@ -1,5 +1,5 @@
 import { useState, useRef, useCallback } from "react";
-import useCourseSearch from "../utils/useCourseSearch";
+import useDataSearch from "../utils/useDataSearch";
 import Searchbar from "./Searchbar";
 import styles from "../css/AvailableCoursesList.module.css";
 import InfoCols from "./InfoCols";
@@ -7,13 +7,14 @@ import InfoCols from "./InfoCols";
 const AvailableCoursesList = ({ ignoreCols, addCourse, selectedCourses }) => {
   // USING https://github.com/WebDevSimplified/React-Infinite-Scrolling/
   // const [availableCourses, setAvailableCourses] = useState([])
+  console.log("rerendering available");
 
   const [query, setQuery] = useState("");
   const [pageNumber, setPageNumber] = useState(1);
 
-  const { courses, hasMore, loading, error } = useCourseSearch(
-    query,
-    pageNumber
+  const { data: courses, hasMore, loading, error } = useDataSearch(
+    { query, pageNumber },
+    "courses"
   );
   const isSelectedCourse = (course) => {
     const foundCourse = selectedCourses.find((courseToCheck) => {
@@ -22,7 +23,7 @@ const AvailableCoursesList = ({ ignoreCols, addCourse, selectedCourses }) => {
     return foundCourse !== undefined;
   };
   const observer = useRef();
-  const lastCourseElementRef = useCallback(
+  const lastElementRef = useCallback(
     (node) => {
       if (loading) return;
       if (observer.current) observer.current.disconnect();
@@ -79,7 +80,7 @@ const AvailableCoursesList = ({ ignoreCols, addCourse, selectedCourses }) => {
                     if (courses.length === index + 1) {
                       return (
                         <tr
-                          ref={lastCourseElementRef}
+                          ref={lastElementRef}
                           className={styles.row}
                           key={course["COURSE CODE"]}
                         >

@@ -6,81 +6,81 @@ import FacultiesPreferenceList from "./FacultiesPreferenceList";
 import SelectedCoursesList from "./SelectedCoursesList";
 import axios from "axios";
 const Options = () => {
-  const courses = [
-    {
-      courseCode: "MAT1014",
-      courseName: "Discrete Mathematics and Graph Theory",
-      id: "c1",
-      faculties: [
-        { index: 0, id: "f1", preferenceScore: 0 },
-        { index: 1, id: "f2", preferenceScore: 0 },
-        { index: 2, id: "f3", preferenceScore: 0 },
-        { index: 3, id: "f4", preferenceScore: 0 },
-        { index: 4, id: "f6", preferenceScore: 0 },
-      ],
-    },
-    {
-      courseCode: "MAT2001",
-      courseName: "Statistics for Engineers",
-      id: "c2",
-      faculties: [
-        { index: 1, id: "f1", preferenceScore: 0 },
-        { index: 0, id: "f2", preferenceScore: 0 },
-        { index: 2, id: "f3", preferenceScore: 0 },
-        { index: 3, id: "f4", preferenceScore: 0 },
-      ],
-    },
-    {
-      courseCode: "CSE1002",
-      courseName: "Problem solving and Programming",
-      id: "c3",
-      faculties: [
-        { index: 0, id: "f1", preferenceScore: 0 },
-        { index: 1, id: "f2", preferenceScore: 0 },
-        { index: 2, id: "f3", preferenceScore: 0 },
-      ],
-    },
-    {
-      courseCode: "CHY1701",
-      courseName: "Engineering Chemistry",
-      id: "c4",
-      faculties: [
-        { index: 0, id: "f1", preferenceScore: 0 },
-        { index: 1, id: "f3", preferenceScore: 0 },
-        { index: 2, id: "f4", preferenceScore: 0 },
-      ],
-    },
-    {
-      courseCode: "CSE1003",
-      courseName: "Digital Logic and Design",
-      id: "c5",
-      faculties: [
-        { index: 0, id: "f1", preferenceScore: 0 },
-        { index: 1, id: "f5", preferenceScore: 0 },
-        { index: 2, id: "f3", preferenceScore: 0 },
-        { index: 3, id: "f4", preferenceScore: 0 },
-      ],
-    },
-    {
-      courseCode: "CSE2011",
-      courseName: "Data Structures and Algorithms",
-      id: "c6",
-      faculties: [
-        { index: 0, id: "f1", preferenceScore: 0 },
-        { index: 1, id: "f2", preferenceScore: 0 },
-        { index: 2, id: "f3", preferenceScore: 0 },
-        { index: 3, id: "f6", preferenceScore: 0 },
-      ],
-    },
-  ];
-  const faculties = [
-    { name: "Clement J", id: "f1" },
-    { name: "Manimaran A", id: "f2" },
-    { name: "Bhulakshmi", id: "f3" },
-    { name: "Uma", id: "f4" },
-    { name: "Akhila M", id: "f5" },
-    { name: "Sharief", id: "f6" },
-  ];
+  // const courses = [
+  //   {
+  //     courseCode: "MAT1014",
+  //     courseName: "Discrete Mathematics and Graph Theory",
+  //     id: "c1",
+  //     faculties: [
+  //       { index: 0, id: "f1", preferenceScore: 0 },
+  //       { index: 1, id: "f2", preferenceScore: 0 },
+  //       { index: 2, id: "f3", preferenceScore: 0 },
+  //       { index: 3, id: "f4", preferenceScore: 0 },
+  //       { index: 4, id: "f6", preferenceScore: 0 },
+  //     ],
+  //   },
+  //   {
+  //     courseCode: "MAT2001",
+  //     courseName: "Statistics for Engineers",
+  //     id: "c2",
+  //     faculties: [
+  //       { index: 1, id: "f1", preferenceScore: 0 },
+  //       { index: 0, id: "f2", preferenceScore: 0 },
+  //       { index: 2, id: "f3", preferenceScore: 0 },
+  //       { index: 3, id: "f4", preferenceScore: 0 },
+  //     ],
+  //   },
+  //   {
+  //     courseCode: "CSE1002",
+  //     courseName: "Problem solving and Programming",
+  //     id: "c3",
+  //     faculties: [
+  //       { index: 0, id: "f1", preferenceScore: 0 },
+  //       { index: 1, id: "f2", preferenceScore: 0 },
+  //       { index: 2, id: "f3", preferenceScore: 0 },
+  //     ],
+  //   },
+  //   {
+  //     courseCode: "CHY1701",
+  //     courseName: "Engineering Chemistry",
+  //     id: "c4",
+  //     faculties: [
+  //       { index: 0, id: "f1", preferenceScore: 0 },
+  //       { index: 1, id: "f3", preferenceScore: 0 },
+  //       { index: 2, id: "f4", preferenceScore: 0 },
+  //     ],
+  //   },
+  //   {
+  //     courseCode: "CSE1003",
+  //     courseName: "Digital Logic and Design",
+  //     id: "c5",
+  //     faculties: [
+  //       { index: 0, id: "f1", preferenceScore: 0 },
+  //       { index: 1, id: "f5", preferenceScore: 0 },
+  //       { index: 2, id: "f3", preferenceScore: 0 },
+  //       { index: 3, id: "f4", preferenceScore: 0 },
+  //     ],
+  //   },
+  //   {
+  //     courseCode: "CSE2011",
+  //     courseName: "Data Structures and Algorithms",
+  //     id: "c6",
+  //     faculties: [
+  //       { index: 0, id: "f1", preferenceScore: 0 },
+  //       { index: 1, id: "f2", preferenceScore: 0 },
+  //       { index: 2, id: "f3", preferenceScore: 0 },
+  //       { index: 3, id: "f6", preferenceScore: 0 },
+  //     ],
+  //   },
+  // ];
+  // const faculties = [
+  //   { name: "Clement J", id: "f1" },
+  //   { name: "Manimaran A", id: "f2" },
+  //   { name: "Bhulakshmi", id: "f3" },
+  //   { name: "Uma", id: "f4" },
+  //   { name: "Akhila M", id: "f5" },
+  //   { name: "Sharief", id: "f6" },
+  // ];
   // let classes;
 
   const ignoreCols = [
@@ -90,14 +90,18 @@ const Options = () => {
     "PRACTICAL HOURS",
   ];
   const [selectedCourses, setSelectedCourses] = useState([]);
+  const [currentlySelectedCourse, setCurrentlySelectedCourse] = useState("");
   const [availableCourses, setAvailableCourses] = useState([]);
   const [facultyList, setFacultyList] = useState([]);
 
   useEffect(() => {
     console.log(selectedCourses);
   }, [selectedCourses]);
+  useEffect(() => {
+    console.log(currentlySelectedCourse);
+  }, [currentlySelectedCourse]);
 
-  const selectCourse = async (courseCode) => {
+  const addCourse = async (courseCode) => {
     console.log(courseCode);
     try {
       let res = await axios.get(`/courses?courseCode=${courseCode}`);
@@ -116,12 +120,20 @@ const Options = () => {
     }
   };
 
-  const deselectCourse = (courseCode) => {
+  const removeCourse = (courseCode) => {
     setSelectedCourses((prevSelectedCourses) =>
       prevSelectedCourses.filter(
         (course) => courseCode !== course["COURSE CODE"]
       )
     );
+  };
+
+  const selectCourse = (courseCode) => {
+    setCurrentlySelectedCourse(courseCode);
+  };
+
+  const deselectCourse = () => {
+    setCurrentlySelectedCourse("");
   };
   return (
     <div className={styles.screen}>
@@ -175,15 +187,20 @@ const Options = () => {
       <div className={styles.row}>
         <AvailableCoursesList
           ignoreCols={ignoreCols}
-          addCourse={selectCourse}
+          addCourse={addCourse}
           selectedCourses={selectedCourses}
         ></AvailableCoursesList>
         <SelectedCoursesList
           ignoreCols={ignoreCols}
-          removeCourse={deselectCourse}
+          removeCourse={removeCourse}
+          onSelect={selectCourse}
+          onDeselect={deselectCourse}
           selectedCourses={selectedCourses}
         ></SelectedCoursesList>
-        <FacultiesPreferenceList></FacultiesPreferenceList>
+        <FacultiesPreferenceList
+          currentlySelectedCourse={currentlySelectedCourse}
+          ignoreCols={ignoreCols}
+        ></FacultiesPreferenceList>
         {/* <SearchableList
           name={"Available Courses"}
           values={availableCourses}
