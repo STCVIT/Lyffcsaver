@@ -1,5 +1,8 @@
 // includes code from
 // https://medium.com/stackfame/get-list-of-all-files-in-a-directory-in-node-js-befd31677ec5
+
+// TODO: better error handling
+
 const express = require("express");
 const app = express();
 const port = 3001;
@@ -7,7 +10,7 @@ const path = require("path");
 const fs = require("fs");
 const Fuse = require("fuse.js");
 
-const { matchesField } = require("./utils/matchesField");
+const { matchesField, matchesFieldAll } = require("./utils/matchesField");
 const { parseAndLoadExcel } = require("./utils/parseAndLoadExcel");
 
 parseAndLoadExcel(
@@ -17,6 +20,57 @@ parseAndLoadExcel(
     "WINSEM2019-20_ALL_ALLOCATIONREPORT_22-10-2019.xlsx"
   )
 );
+
+app.get("/faculties", (req, res) => {
+  const classes = JSON.parse(
+    fs.readFileSync(path.join(__dirname, "data", "classes.json"), "utf-8")
+  );
+  const faculties = JSON.parse(
+    fs.readFileSync(path.join(__dirname, "data", "faculties.json"), "utf-8")
+  );
+  const { query, pageNumber, course } = req.query;
+
+  const requiredClasses = matchesFieldAll(course, "COURSE CODE", classes);
+  const facultyIds = new Set();
+  const requiredFaculties = [];
+
+  requiredClasses.forEach((requiredClass) => {
+    facultyIds.add(requiredClass["ERP ID"]);
+  });
+  facultyIds.forEach((facultyId) => {
+    requiredFaculties.push(matchesField(facultyId, "ERP ID", faculties));
+  });
+
+  const size = 10;
+  const startIndex = Number(Number(pageNumber - 1) * size);
+  const endIndex = startIndex + Number(size);
+
+  const fuse = new Fuse(requiredFaculties, {
+    keys: ["ERP ID", "EMPLOYEE NAME", "EMPLOYEE SCHOOL"],
+    threshold: 0.2,
+  });
+  let results;
+  if (query !== "" && query !== undefined) {
+    console.log(`searching for ${query}`);
+    results = fuse.search(query);
+    let newResults = [];
+    results.forEach((result) => {
+      newResults.push(result.item);
+    });
+    results = newResults;
+    console.log(`found ${results.length} results`);
+  } else {
+    results = requiredFaculties;
+  }
+
+  const finalResults = results.slice(startIndex, endIndex);
+  console.log(`sending faculties from ${startIndex} to ${endIndex}`);
+  if (endIndex < results.length - 1) {
+    res.json({ faculties: finalResults, hasMore: true });
+  } else {
+    res.json({ faculties: finalResults, hasMore: false });
+  }
+});
 
 app.get("/courses", (req, res) => {
   const courses = JSON.parse(

@@ -14,4 +14,12 @@ const matchesField = (matchData, fieldName, collection) => {
   return null;
 };
 
-module.exports = { matchesField };
+const matchesFieldAll = (matchData, fieldName, collection) => {
+  const results = [];
+  for (const data of collection) {
+    if (data[fieldName] === undefined) continue;
+    if (data[fieldName] === matchData) results.push(data);
+  }
+  return results;
+};
+module.exports = { matchesField, matchesFieldAll };
