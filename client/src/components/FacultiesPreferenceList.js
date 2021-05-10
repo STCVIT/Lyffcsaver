@@ -19,6 +19,8 @@ const FacultiesPreferenceList = ({ currentlySelectedCourse, ignoreCols }) => {
     if (currentlySelectedCourse === "") return;
     const newFacultyPreferenceInfo = facultyPreferenceInfo;
     newFacultyPreferenceInfo[currentlySelectedCourse] = faculties;
+    setQuery("");
+    setPageNumber(1);
     setFacultyPreferenceInfo(newFacultyPreferenceInfo);
   }, [currentlySelectedCourse]);
 
