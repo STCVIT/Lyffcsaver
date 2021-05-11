@@ -1,6 +1,6 @@
 const InfoCols = ({
   entry,
-  idName,
+  getID,
   styles,
   ignoreCols,
   onClick,
@@ -17,7 +17,7 @@ const InfoCols = ({
           return (
             <td
               className={styles.cell + " " + styles[key]}
-              key={entry[idName] + "-c-" + key}
+              key={getID(entry) + "-c-" + key}
               onClick={onClick}
               onMouseEnter={onMouseEnter}
               onMouseLeave={onMouseLeave}

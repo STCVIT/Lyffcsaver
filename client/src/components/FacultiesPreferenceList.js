@@ -5,24 +5,25 @@ import Searchbar from "./Searchbar";
 import InfoCols from "./InfoCols";
 
 const FacultiesPreferenceList = ({
-  currentlySelectedCourseCode,
+  currentlySelectedCourseID,
   selectedFaculties,
   setSelectedFaculties,
   ignoreCols,
+  getCourseID,
 }) => {
   const [query, setQuery] = useState("");
   const [pageNumber, setPageNumber] = useState(1);
 
   const { data: faculties, hasMore, loading, error } = useDataSearch(
-    { courseCode: currentlySelectedCourseCode, query, pageNumber },
+    { courseID: currentlySelectedCourseID, query, pageNumber },
     "faculties"
   );
 
   useEffect(() => {
-    if (currentlySelectedCourseCode === "") return;
+    if (currentlySelectedCourseID === "") return;
     setQuery("");
     setPageNumber(1);
-  }, [currentlySelectedCourseCode]);
+  }, [currentlySelectedCourseID]);
 
   const observer = useRef();
   const lastElementRef = useCallback(
@@ -47,11 +48,9 @@ const FacultiesPreferenceList = ({
   console.log("rerendering faculties");
   const isSelectedFaculty = (facultyToBeChecked) => {
     return (
-      selectedFaculties[currentlySelectedCourseCode]?.find(
-        (selectedFaculty) => {
-          return selectedFaculty["ERP ID"] === facultyToBeChecked["ERP ID"];
-        }
-      ) !== undefined
+      selectedFaculties[currentlySelectedCourseID]?.find((selectedFaculty) => {
+        return selectedFaculty["ERP ID"] === facultyToBeChecked["ERP ID"];
+      }) !== undefined
     );
   };
 
@@ -72,17 +71,17 @@ const FacultiesPreferenceList = ({
           onClick={(e) => {
             let newSelectedFaculties = selectedFaculties;
             console.log(selectedFaculties);
-            if (newSelectedFaculties[currentlySelectedCourseCode] === undefined)
-              newSelectedFaculties[currentlySelectedCourseCode] = [];
+            if (newSelectedFaculties[currentlySelectedCourseID] === undefined)
+              newSelectedFaculties[currentlySelectedCourseID] = [];
             if (e.target.checked) {
               console.log("selecting", e.target.parentNode.parentNode.id);
               if (!isSelectedFaculty(faculty))
-                newSelectedFaculties[currentlySelectedCourseCode].push(faculty);
+                newSelectedFaculties[currentlySelectedCourseID].push(faculty);
             } else {
               console.log("deselecting", e.target.parentNode.parentNode.id);
               newSelectedFaculties[
-                currentlySelectedCourseCode
-              ] = newSelectedFaculties[currentlySelectedCourseCode].filter(
+                currentlySelectedCourseID
+              ] = newSelectedFaculties[currentlySelectedCourseID].filter(
                 (selectedFaculty) => {
                   console.log(
                     selectedFaculty,
@@ -110,7 +109,7 @@ const FacultiesPreferenceList = ({
     );
   };
 
-  return currentlySelectedCourseCode !== "" ? (
+  return currentlySelectedCourseID !== "" ? (
     <div className={styles.container}>
       <label className={styles.label}>
         <h2>Faculties</h2>
@@ -151,7 +150,7 @@ const FacultiesPreferenceList = ({
               </thead>
 
               <tbody>
-                {selectedFaculties[currentlySelectedCourseCode]?.map(
+                {selectedFaculties[currentlySelectedCourseID]?.map(
                   (faculty, index) => {
                     // if (!isSelectedFaculty(faculty)) return <></>;
                     // Rendering selected faculties
@@ -169,7 +168,7 @@ const FacultiesPreferenceList = ({
 
                           <InfoCols
                             entry={faculty}
-                            idName="ERP ID"
+                            getID={(faculty) => faculty["ERP ID"]}
                             styles={styles}
                           ></InfoCols>
                         </tr>
@@ -187,7 +186,7 @@ const FacultiesPreferenceList = ({
 
                           <InfoCols
                             entry={faculty}
-                            idName="ERP ID"
+                            getID={(faculty) => faculty["ERP ID"]}
                             styles={styles}
                           ></InfoCols>
                         </tr>
@@ -212,7 +211,7 @@ const FacultiesPreferenceList = ({
 
                         <InfoCols
                           entry={faculty}
-                          idName="ERP ID"
+                          getID={(faculty) => faculty["ERP ID"]}
                           styles={styles}
                         ></InfoCols>
                       </tr>
@@ -230,7 +229,7 @@ const FacultiesPreferenceList = ({
 
                         <InfoCols
                           entry={faculty}
-                          idName="ERP ID"
+                          getID={(faculty) => faculty["ERP ID"]}
                           styles={styles}
                         ></InfoCols>
                       </tr>

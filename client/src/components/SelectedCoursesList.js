@@ -4,6 +4,7 @@ import InfoCols from "./InfoCols";
 const SelectedCoursesList = ({
   ignoreCols,
   removeCourse,
+  getCourseID,
   onSelect,
   onDeselect,
   selectedCourses,
@@ -34,23 +35,23 @@ const SelectedCoursesList = ({
               return (
                 <tr
                   className={`${styles.row} ${styles.selectedCoursesRow}`}
-                  data-coursecode={course["COURSE CODE"]}
-                  key={course["COURSE CODE"]}
+                  data-courseid={getCourseID(course)}
+                  key={getCourseID(course)}
                 >
                   <td
                     className={styles.cell + " " + styles.remove}
-                    data-coursecode={course["COURSE CODE"]}
+                    data-courseid={getCourseID(course)}
                     onClick={(event) => {
-                      removeCourse(event.target.dataset.coursecode);
+                      removeCourse(event.target.dataset.courseid);
                       onDeselect();
                     }}
-                    key={course["COURSE CODE"] + "-I"}
+                    key={getCourseID(course) + "-I"}
                   >
                     -
                   </td>
                   <InfoCols
                     entry={course}
-                    idName="COURSE CODE"
+                    getID={getCourseID}
                     styles={styles}
                     ignoreCols={ignoreCols}
                     onClick={(e) => {
@@ -60,7 +61,7 @@ const SelectedCoursesList = ({
 
                       e.target.parentNode.classList.toggle(styles.activeRow);
                       e.target.parentNode.classList.remove(styles.hoverRow);
-                      onSelect(e.target.parentNode.dataset.coursecode);
+                      onSelect(e.target.parentNode.dataset.courseid);
                     }}
                     onMouseEnter={(e) => {
                       if (

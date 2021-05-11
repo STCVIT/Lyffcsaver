@@ -9,10 +9,10 @@ export default function useDataSearch(queries, endpoint) {
 
   useEffect(() => {
     setData([]);
-  }, [queries.query, queries.courseCode]);
+  }, [queries.query, queries.courseID]);
 
   useEffect(() => {
-    if (queries.courseCode === undefined || queries.courseCode !== "") {
+    if (queries.courseID === undefined || queries.courseID !== "") {
       setLoading(true);
       setError(false);
       let cancel;
@@ -37,7 +37,7 @@ export default function useDataSearch(queries, endpoint) {
         });
       return () => cancel();
     }
-  }, [queries.query, queries.courseCode, queries.pageNumber]);
+  }, [queries.query, queries.courseID, queries.pageNumber]);
 
   return { loading, error, data, hasMore };
 }

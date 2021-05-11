@@ -1,7 +1,7 @@
 const XLSX = require("xlsx");
 const path = require("path");
 const fs = require("fs");
-const { matchesField } = require("./matchesField");
+const { matchesField, matchesFieldAll } = require("./matchesField");
 const parseAndLoadExcel = async (filePath) => {
   const courses = [];
   const faculties = [];
@@ -17,10 +17,15 @@ const parseAndLoadExcel = async (filePath) => {
       "ERP ID",
       faculties
     );
-    const matchingCourse = matchesField(
+    const matchingCourses = matchesFieldAll(
       classInfo["COURSE CODE"],
       "COURSE CODE",
       courses
+    );
+    const matchingCourse = matchesField(
+      classInfo["COURSE TYPE"],
+      "COURSE TYPE",
+      matchingCourses
     );
 
     if (matchingFaculty === null) {
@@ -51,6 +56,7 @@ const parseAndLoadExcel = async (filePath) => {
       "CLASS ID": classInfo["CLASS ID"],
       "ASSO CLASS ID": classInfo["ASSO CLASS ID"],
       SLOT: classInfo["SLOT"],
+      "COURSE TYPE": classInfo["COURSE TYPE"],
       "ROOM NUMBER": classInfo["ROOM NUMBER"],
       BATCH: classInfo["BATCH"],
       "CLASS OPTION": classInfo["CLASS OPTION"],

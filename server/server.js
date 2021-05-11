@@ -10,6 +10,9 @@ const path = require("path");
 const fs = require("fs");
 const Fuse = require("fuse.js");
 
+app.use(express.json()); // for parsing application/json
+app.use(express.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded));
+
 const { matchesField, matchesFieldAll } = require("./utils/matchesField");
 const { parseAndLoadExcel } = require("./utils/parseAndLoadExcel");
 
@@ -20,6 +23,9 @@ parseAndLoadExcel(
     "WINSEM2019-20_ALL_ALLOCATIONREPORT_22-10-2019.xlsx"
   )
 );
+const getCourseID = (course) => {
+  return `${course["COURSE CODE"]}-${course["COURSE TYPE"]}`;
+};
 
 app.get("/faculties", (req, res) => {
   const classes = JSON.parse(
@@ -28,10 +34,12 @@ app.get("/faculties", (req, res) => {
   const faculties = JSON.parse(
     fs.readFileSync(path.join(__dirname, "data", "faculties.json"), "utf-8")
   );
-  const { query, pageNumber, courseCode } = req.query;
-  console.log("searching for", courseCode, query, pageNumber);
+  const { query, pageNumber, courseID } = req.query;
+  console.log("searching for", courseID, query, pageNumber);
+  const [courseCode, courseType] = courseID.split("-");
 
-  const requiredClasses = matchesFieldAll(courseCode, "COURSE CODE", classes);
+  let requiredClasses = matchesFieldAll(courseCode, "COURSE CODE", classes);
+  requiredClasses = matchesFieldAll(courseType, "COURSE TYPE", requiredClasses);
   const facultyIds = new Set();
   const requiredFaculties = [];
 
@@ -77,14 +85,15 @@ app.get("/courses", (req, res) => {
   const courses = JSON.parse(
     fs.readFileSync(path.join(__dirname, "data", "courses.json"), "utf-8")
   );
-  const { query, pageNumber, courseCode } = req.query;
+  const { query, pageNumber, courseCode, courseID } = req.query;
   if (
+    courseID === undefined &&
     courseCode === undefined &&
     query !== undefined &&
     pageNumber !== undefined
   ) {
     const fuse = new Fuse(courses, {
-      keys: ["COURSE OWNER", "COURSE CODE", "COURSE TITLE"],
+      keys: ["COURSE OWNER", "COURSE CODE", "COURSE TYPE", "COURSE TITLE"],
       threshold: 0.2,
     });
 
@@ -113,6 +122,18 @@ app.get("/courses", (req, res) => {
     } else {
       res.json({ courses: finalResults, hasMore: false });
     }
+  } else if (courseID !== undefined) {
+    const [courseCode, courseType] = courseID.split("-");
+    const similarCourses = matchesFieldAll(courseCode, "COURSE CODE", courses);
+    const course = matchesField(courseType, "COURSE TYPE", similarCourses);
+    console.log(`looking for COURSE ID = ${courseID}`);
+    if (course === null) {
+      console.log(`no course ${courseID} found`);
+      res.status(404).json({ message: "No such course found" });
+    } else {
+      console.log(`course ${courseID} found`);
+      res.status(200).json(course);
+    }
   } else if (courseCode !== undefined) {
     const course = matchesField(courseCode, "COURSE CODE", courses);
     console.log(`looking for COURSE CODE = ${courseCode}`);
@@ -124,6 +145,27 @@ app.get("/courses", (req, res) => {
       res.status(200).json(course);
     }
   }
+});
+
+app.post("/classes", (req, res) => {
+  const classes = JSON.parse(
+    fs.readFileSync(path.join(__dirname, "data", "classes.json"), "utf-8")
+  );
+  console.log(req.body);
+  const data = req.body;
+  const requiredClasses = {};
+  classes.forEach((classToCheck) => {
+    const currentCourseID = getCourseID(classToCheck);
+    if (
+      data[currentCourseID] !== undefined &&
+      data[currentCourseID].includes(classToCheck["ERP ID"])
+    ) {
+      if (requiredClasses[currentCourseID] === undefined)
+        requiredClasses[currentCourseID] = [];
+      requiredClasses[currentCourseID].push(classToCheck);
+    }
+  });
+  res.json(requiredClasses);
 });
 
 app.get("/", (req, res) => {

@@ -4,7 +4,12 @@ import Searchbar from "./Searchbar";
 import styles from "../css/AvailableCoursesList.module.css";
 import InfoCols from "./InfoCols";
 
-const AvailableCoursesList = ({ ignoreCols, addCourse, selectedCourses }) => {
+const AvailableCoursesList = ({
+  ignoreCols,
+  addCourse,
+  getCourseID,
+  selectedCourses,
+}) => {
   // USING https://github.com/WebDevSimplified/React-Infinite-Scrolling/
 
   console.log("rerendering available");
@@ -18,7 +23,7 @@ const AvailableCoursesList = ({ ignoreCols, addCourse, selectedCourses }) => {
   );
   const isSelectedCourse = (course) => {
     const foundCourse = selectedCourses.find((courseToCheck) => {
-      return courseToCheck["COURSE CODE"] === course["COURSE CODE"];
+      return getCourseID(courseToCheck) === getCourseID(course);
     });
     return foundCourse !== undefined;
   };
@@ -82,21 +87,21 @@ const AvailableCoursesList = ({ ignoreCols, addCourse, selectedCourses }) => {
                         <tr
                           ref={lastElementRef}
                           className={styles.row}
-                          key={course["COURSE CODE"]}
+                          key={getCourseID(course)}
                         >
                           <td
                             className={styles.cell + " " + styles.add}
-                            key={course["COURSE CODE"] + "-I"}
-                            data-coursecode={course["COURSE CODE"]}
+                            key={getCourseID(course) + "-I"}
+                            data-courseid={getCourseID(course)}
                             onClick={(event) => {
-                              addCourse(event.target.dataset.coursecode);
+                              addCourse(event.target.dataset.courseid);
                             }}
                           >
                             +
                           </td>
                           <InfoCols
                             entry={course}
-                            idName="COURSE CODE"
+                            getID={getCourseID}
                             styles={styles}
                             ignoreCols={ignoreCols}
                           ></InfoCols>
@@ -104,20 +109,20 @@ const AvailableCoursesList = ({ ignoreCols, addCourse, selectedCourses }) => {
                       );
                     } else {
                       return (
-                        <tr className={styles.row} key={course["COURSE CODE"]}>
+                        <tr className={styles.row} key={getCourseID(course)}>
                           <td
                             className={styles.cell + " " + styles.add}
-                            data-coursecode={course["COURSE CODE"]}
+                            key={getCourseID(course) + "-I"}
+                            data-courseid={getCourseID(course)}
                             onClick={(event) => {
-                              addCourse(event.target.dataset.coursecode);
+                              addCourse(event.target.dataset.courseid);
                             }}
-                            key={course["COURSE CODE"] + "-I"}
                           >
                             +
                           </td>
                           <InfoCols
                             entry={course}
-                            idName="COURSE CODE"
+                            getID={getCourseID}
                             styles={styles}
                             ignoreCols={ignoreCols}
                           ></InfoCols>

@@ -5,7 +5,7 @@ import FacultiesPreferenceList from "./FacultiesPreferenceList";
 import SelectedCoursesList from "./SelectedCoursesList";
 import axios from "axios";
 
-const Options = () => {
+const Options = ({ generateTimetables, getCourseID }) => {
   const ignoreCols = [
     "LECTURE HOURS",
     "TUTORIAL HOURS",
@@ -13,32 +13,31 @@ const Options = () => {
     "PRACTICAL HOURS",
   ];
   const [selectedCourses, setSelectedCourses] = useState([]);
-  const [
-    currentlySelectedCourseCode,
-    setCurrentlySelectedCourseCode,
-  ] = useState("");
+  const [currentlySelectedCourseID, setCurrentlySelectedCourseID] = useState(
+    ""
+  );
   const [selectedFaculties, setSelectedFaculties] = useState({});
 
   useEffect(() => {
     console.log("added courses", selectedCourses);
   }, [selectedCourses]);
   useEffect(() => {
-    console.log("currently selected course", currentlySelectedCourseCode);
-  }, [currentlySelectedCourseCode]);
+    console.log("currently selected course", currentlySelectedCourseID);
+  }, [currentlySelectedCourseID]);
   useEffect(() => {
     console.log("new selected faculties", selectedFaculties);
   }, [selectedFaculties]);
 
-  const addCourse = async (courseCode) => {
-    console.log(courseCode);
+  const addCourse = async (courseID) => {
+    console.log(courseID);
     try {
-      let res = await axios.get(`/courses?courseCode=${courseCode}`);
+      let res = await axios.get(`/courses?courseID=${courseID}`);
       console.log(res.data);
       if (res.data !== undefined) {
         const course = res.data;
         setSelectedCourses((prevSelectedCourses) => [
           ...prevSelectedCourses.filter(
-            (prevCourse) => prevCourse["COURSE CODE"] !== course["COURSE CODE"]
+            (prevCourse) => getCourseID(prevCourse) !== getCourseID(course)
           ),
           course,
         ]);
@@ -48,24 +47,22 @@ const Options = () => {
     }
   };
 
-  const removeCourse = (courseCode) => {
+  const removeCourse = (courseID) => {
     setSelectedCourses((prevSelectedCourses) =>
-      prevSelectedCourses.filter(
-        (course) => courseCode !== course["COURSE CODE"]
-      )
+      prevSelectedCourses.filter((course) => courseID !== getCourseID(course))
     );
 
     const newSelectedFaculties = selectedFaculties;
-    delete newSelectedFaculties[courseCode];
+    delete newSelectedFaculties[courseID];
     setSelectedFaculties(newSelectedFaculties);
   };
 
-  const selectCourse = (courseCode) => {
-    setCurrentlySelectedCourseCode(courseCode);
+  const selectCourse = (courseID) => {
+    setCurrentlySelectedCourseID(courseID);
   };
 
   const deselectCourse = () => {
-    setCurrentlySelectedCourseCode("");
+    setCurrentlySelectedCourseID("");
   };
   return (
     <div className={styles.screen}>
@@ -121,23 +118,33 @@ const Options = () => {
           ignoreCols={ignoreCols}
           addCourse={addCourse}
           selectedCourses={selectedCourses}
+          getCourseID={getCourseID}
         ></AvailableCoursesList>
         <SelectedCoursesList
           ignoreCols={ignoreCols}
           removeCourse={removeCourse}
           onSelect={selectCourse}
           onDeselect={deselectCourse}
+          getCourseID={getCourseID}
           selectedCourses={selectedCourses}
         ></SelectedCoursesList>
         <FacultiesPreferenceList
-          currentlySelectedCourseCode={currentlySelectedCourseCode}
+          currentlySelectedCourseID={currentlySelectedCourseID}
           selectedFaculties={selectedFaculties}
           setSelectedFaculties={setSelectedFaculties}
+          getCourseID={getCourseID}
           ignoreCols={ignoreCols}
         ></FacultiesPreferenceList>
       </div>
       <div className={styles.row}>
-        <button className={styles.submitBtn}>Generate Timetables</button>
+        <button
+          className={styles.submitBtn}
+          onClick={() => {
+            generateTimetables(selectedCourses, selectedFaculties);
+          }}
+        >
+          Generate Timetables
+        </button>
       </div>
     </div>
   );
