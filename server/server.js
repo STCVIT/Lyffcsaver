@@ -28,10 +28,10 @@ app.get("/faculties", (req, res) => {
   const faculties = JSON.parse(
     fs.readFileSync(path.join(__dirname, "data", "faculties.json"), "utf-8")
   );
-  const { query, pageNumber, course } = req.query;
-  console.log("searching for", course, query, pageNumber);
+  const { query, pageNumber, courseCode } = req.query;
+  console.log("searching for", courseCode, query, pageNumber);
 
-  const requiredClasses = matchesFieldAll(course, "COURSE CODE", classes);
+  const requiredClasses = matchesFieldAll(courseCode, "COURSE CODE", classes);
   const facultyIds = new Set();
   const requiredFaculties = [];
 

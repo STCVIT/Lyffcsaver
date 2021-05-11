@@ -90,7 +90,10 @@ const Options = () => {
     "PRACTICAL HOURS",
   ];
   const [selectedCourses, setSelectedCourses] = useState([]);
-  const [currentlySelectedCourse, setCurrentlySelectedCourse] = useState("");
+  const [
+    currentlySelectedCourseCode,
+    setCurrentlySelectedCourseCode,
+  ] = useState("");
   const [availableCourses, setAvailableCourses] = useState([]);
   const [facultyList, setFacultyList] = useState([]);
 
@@ -98,8 +101,8 @@ const Options = () => {
     console.log(selectedCourses);
   }, [selectedCourses]);
   useEffect(() => {
-    console.log(currentlySelectedCourse);
-  }, [currentlySelectedCourse]);
+    console.log(currentlySelectedCourseCode);
+  }, [currentlySelectedCourseCode]);
 
   const addCourse = async (courseCode) => {
     console.log(courseCode);
@@ -129,11 +132,11 @@ const Options = () => {
   };
 
   const selectCourse = (courseCode) => {
-    setCurrentlySelectedCourse(courseCode);
+    setCurrentlySelectedCourseCode(courseCode);
   };
 
   const deselectCourse = () => {
-    setCurrentlySelectedCourse("");
+    setCurrentlySelectedCourseCode("");
   };
   return (
     <div className={styles.screen}>
@@ -198,7 +201,7 @@ const Options = () => {
           selectedCourses={selectedCourses}
         ></SelectedCoursesList>
         <FacultiesPreferenceList
-          currentlySelectedCourse={currentlySelectedCourse}
+          currentlySelectedCourseCode={currentlySelectedCourseCode}
           ignoreCols={ignoreCols}
         ></FacultiesPreferenceList>
         {/* <SearchableList

@@ -4,25 +4,28 @@ import useDataSearch from "../utils/useDataSearch";
 import Searchbar from "./Searchbar";
 import InfoCols from "./InfoCols";
 
-const FacultiesPreferenceList = ({ currentlySelectedCourse, ignoreCols }) => {
-  const [facultyPreferenceInfo, setFacultyPreferenceInfo] = useState({});
+const FacultiesPreferenceList = ({
+  currentlySelectedCourseCode,
+  ignoreCols,
+}) => {
+  const [selectedFaculties, setSelectedFaculties] = useState({});
 
   const [query, setQuery] = useState("");
   const [pageNumber, setPageNumber] = useState(1);
 
   const { data: faculties, hasMore, loading, error } = useDataSearch(
-    { course: currentlySelectedCourse, query, pageNumber },
+    { courseCode: currentlySelectedCourseCode, query, pageNumber },
     "faculties"
   );
 
   useEffect(() => {
-    if (currentlySelectedCourse === "") return;
-    const newFacultyPreferenceInfo = facultyPreferenceInfo;
-    newFacultyPreferenceInfo[currentlySelectedCourse] = faculties;
+    if (currentlySelectedCourseCode === "") return;
     setQuery("");
     setPageNumber(1);
-    setFacultyPreferenceInfo(newFacultyPreferenceInfo);
-  }, [currentlySelectedCourse]);
+  }, [currentlySelectedCourseCode]);
+  useEffect(() => {
+    console.log("new selected faculties", selectedFaculties);
+  }, [selectedFaculties]);
 
   const observer = useRef();
   const lastElementRef = useCallback(
@@ -44,17 +47,73 @@ const FacultiesPreferenceList = ({ currentlySelectedCourse, ignoreCols }) => {
     setPageNumber(1);
   };
 
-  console.log(
-    "rerendering faculties",
-    facultyPreferenceInfo,
-    query,
-    pageNumber,
-    faculties,
-    hasMore,
-    loading,
-    error
-  );
-  return currentlySelectedCourse !== "" ? (
+  console.log("rerendering faculties");
+  const isSelectedFaculty = (facultyToBeChecked) => {
+    return (
+      selectedFaculties[currentlySelectedCourseCode]?.find(
+        (selectedFaculty) => {
+          return selectedFaculty["ERP ID"] === facultyToBeChecked["ERP ID"];
+        }
+      ) !== undefined
+    );
+  };
+
+  // start code from https://stackoverflow.com/a/53837442/13378825
+  const [forcingValue, setForcingValue] = useState(0); // integer state
+  function useForceUpdate() {
+    setForcingValue((prevforcingValue) => prevforcingValue + 1); // update the state to force render
+  }
+  // end code from https://stackoverflow.com/a/53837442/13378825
+
+  const InteractionElement = ({ faculty }) => {
+    return (
+      <td className={styles.cell}>
+        <input
+          type="checkbox"
+          name="selected"
+          id={`${faculty["ERP ID"]}-selected`}
+          onClick={(e) => {
+            let newSelectedFaculties = selectedFaculties;
+            console.log(selectedFaculties);
+            if (newSelectedFaculties[currentlySelectedCourseCode] === undefined)
+              newSelectedFaculties[currentlySelectedCourseCode] = [];
+            if (e.target.checked) {
+              console.log("selecting", e.target.parentNode.parentNode.id);
+              if (!isSelectedFaculty(faculty))
+                newSelectedFaculties[currentlySelectedCourseCode].push(faculty);
+            } else {
+              console.log("deselecting", e.target.parentNode.parentNode.id);
+              newSelectedFaculties[
+                currentlySelectedCourseCode
+              ] = newSelectedFaculties[currentlySelectedCourseCode].filter(
+                (selectedFaculty) => {
+                  console.log(
+                    selectedFaculty,
+                    e.target.parentNode.parentNode.id,
+                    selectedFaculty["ERP ID"] !==
+                      e.target.parentNode.parentNode.id
+                  );
+                  return (
+                    selectedFaculty["ERP ID"] !==
+                    e.target.parentNode.parentNode.id
+                  );
+                }
+              );
+            }
+            setSelectedFaculties(newSelectedFaculties);
+
+            // Forcing Update is necessary here as changes to selectedFaculties
+            // happen at a nested level, and therefore react doesn't notice the
+            // change.
+            useForceUpdate();
+          }}
+          defaultChecked={isSelectedFaculty(faculty)}
+        />
+      </td>
+    );
+  };
+
+  return currentlySelectedCourseCode !== "" ? (
     <div className={styles.container}>
       <label className={styles.label}>
         <h2>Faculties</h2>
@@ -64,11 +123,17 @@ const FacultiesPreferenceList = ({ currentlySelectedCourse, ignoreCols }) => {
       <div className={styles.error}>{error && "Error..."}</div>
       <div className={styles.tableWrapper}>
         <table className={styles.facultyTable}>
-          {faculties.length > 0 ? (
+          {faculties.length === 0 ? (
+            <tbody>
+              <tr>
+                <td>{!loading && !error && "No Results"}</td>
+              </tr>
+            </tbody>
+          ) : (
             <>
               <thead>
                 <tr className={styles.headRow}>
-                  {/* <th className={styles.cell} key="available-head-select"></th> */}
+                  <th className={styles.cell} key="faculty-head-select"></th>
                   {Object.keys(faculties[0]).map((key) => {
                     if (
                       // eslint-disable-next-line no-undef
@@ -90,13 +155,20 @@ const FacultiesPreferenceList = ({ currentlySelectedCourse, ignoreCols }) => {
 
               <tbody>
                 {faculties.map((faculty, index) => {
+                  if (!isSelectedFaculty(faculty)) return <></>;
+                  // Rendering selected faculties
                   if (faculties.length === index + 1) {
                     return (
                       <tr
                         ref={lastElementRef}
                         className={styles.row}
+                        id={faculty["ERP ID"]}
                         key={faculty["ERP ID"]}
                       >
+                        <InteractionElement
+                          faculty={faculty}
+                        ></InteractionElement>
+
                         <InfoCols
                           entry={faculty}
                           idName="ERP ID"
@@ -106,7 +178,57 @@ const FacultiesPreferenceList = ({ currentlySelectedCourse, ignoreCols }) => {
                     );
                   } else {
                     return (
-                      <tr className={styles.row} key={faculty["ERP ID"]}>
+                      <tr
+                        className={styles.row}
+                        id={faculty["ERP ID"]}
+                        key={faculty["ERP ID"]}
+                      >
+                        <InteractionElement
+                          faculty={faculty}
+                        ></InteractionElement>
+
+                        <InfoCols
+                          entry={faculty}
+                          idName="ERP ID"
+                          styles={styles}
+                        ></InfoCols>
+                      </tr>
+                    );
+                  }
+                })}
+                {faculties.map((faculty, index) => {
+                  if (isSelectedFaculty(faculty)) return <></>;
+                  // Rendering unselected faculties
+                  if (faculties.length === index + 1) {
+                    return (
+                      <tr
+                        ref={lastElementRef}
+                        className={styles.row}
+                        id={faculty["ERP ID"]}
+                        key={faculty["ERP ID"]}
+                      >
+                        <InteractionElement
+                          faculty={faculty}
+                        ></InteractionElement>
+
+                        <InfoCols
+                          entry={faculty}
+                          idName="ERP ID"
+                          styles={styles}
+                        ></InfoCols>
+                      </tr>
+                    );
+                  } else {
+                    return (
+                      <tr
+                        className={styles.row}
+                        id={faculty["ERP ID"]}
+                        key={faculty["ERP ID"]}
+                      >
+                        <InteractionElement
+                          faculty={faculty}
+                        ></InteractionElement>
+
                         <InfoCols
                           entry={faculty}
                           idName="ERP ID"
@@ -118,12 +240,6 @@ const FacultiesPreferenceList = ({ currentlySelectedCourse, ignoreCols }) => {
                 })}
               </tbody>
             </>
-          ) : (
-            <tbody>
-              <tr>
-                <td>No Results</td>
-              </tr>
-            </tbody>
           )}
         </table>
       </div>
