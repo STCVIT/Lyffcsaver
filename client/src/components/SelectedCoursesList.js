@@ -1,6 +1,6 @@
 import styles from "../css/SelectedCoursesList.module.css";
 import InfoCols from "./InfoCols";
-// import Searchbar from './Searchbar'
+
 const SelectedCoursesList = ({
   ignoreCols,
   removeCourse,
@@ -79,9 +79,6 @@ const SelectedCoursesList = ({
           </tbody>
         </table>
       </div>
-      {/* <Searchbar handleSearch={handleSearch}></Searchbar> */}
-      {/* <div className={styles.loading}>{loading && "Loading..."}</div> */}
-      {/* <div className={styles.error}>{error && "Error..."}</div> */}
     </div>
   ) : (
     <></>

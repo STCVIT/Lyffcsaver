@@ -6,7 +6,7 @@ import InfoCols from "./InfoCols";
 
 const AvailableCoursesList = ({ ignoreCols, addCourse, selectedCourses }) => {
   // USING https://github.com/WebDevSimplified/React-Infinite-Scrolling/
-  // const [availableCourses, setAvailableCourses] = useState([])
+
   console.log("rerendering available");
 
   const [query, setQuery] = useState("");

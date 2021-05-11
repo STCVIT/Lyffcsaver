@@ -154,48 +154,50 @@ const FacultiesPreferenceList = ({
               </thead>
 
               <tbody>
-                {faculties.map((faculty, index) => {
-                  if (!isSelectedFaculty(faculty)) return <></>;
-                  // Rendering selected faculties
-                  if (faculties.length === index + 1) {
-                    return (
-                      <tr
-                        ref={lastElementRef}
-                        className={styles.row}
-                        id={faculty["ERP ID"]}
-                        key={faculty["ERP ID"]}
-                      >
-                        <InteractionElement
-                          faculty={faculty}
-                        ></InteractionElement>
+                {selectedFaculties[currentlySelectedCourseCode]?.map(
+                  (faculty, index) => {
+                    // if (!isSelectedFaculty(faculty)) return <></>;
+                    // Rendering selected faculties
+                    if (faculties.length === index + 1) {
+                      return (
+                        <tr
+                          ref={lastElementRef}
+                          className={styles.row}
+                          id={faculty["ERP ID"]}
+                          key={faculty["ERP ID"]}
+                        >
+                          <InteractionElement
+                            faculty={faculty}
+                          ></InteractionElement>
 
-                        <InfoCols
-                          entry={faculty}
-                          idName="ERP ID"
-                          styles={styles}
-                        ></InfoCols>
-                      </tr>
-                    );
-                  } else {
-                    return (
-                      <tr
-                        className={styles.row}
-                        id={faculty["ERP ID"]}
-                        key={faculty["ERP ID"]}
-                      >
-                        <InteractionElement
-                          faculty={faculty}
-                        ></InteractionElement>
+                          <InfoCols
+                            entry={faculty}
+                            idName="ERP ID"
+                            styles={styles}
+                          ></InfoCols>
+                        </tr>
+                      );
+                    } else {
+                      return (
+                        <tr
+                          className={styles.row}
+                          id={faculty["ERP ID"]}
+                          key={faculty["ERP ID"]}
+                        >
+                          <InteractionElement
+                            faculty={faculty}
+                          ></InteractionElement>
 
-                        <InfoCols
-                          entry={faculty}
-                          idName="ERP ID"
-                          styles={styles}
-                        ></InfoCols>
-                      </tr>
-                    );
+                          <InfoCols
+                            entry={faculty}
+                            idName="ERP ID"
+                            styles={styles}
+                          ></InfoCols>
+                        </tr>
+                      );
+                    }
                   }
-                })}
+                )}
                 {faculties.map((faculty, index) => {
                   if (isSelectedFaculty(faculty)) return <></>;
                   // Rendering unselected faculties
