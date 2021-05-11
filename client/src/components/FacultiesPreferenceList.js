@@ -6,10 +6,10 @@ import InfoCols from "./InfoCols";
 
 const FacultiesPreferenceList = ({
   currentlySelectedCourseCode,
+  selectedFaculties,
+  setSelectedFaculties,
   ignoreCols,
 }) => {
-  const [selectedFaculties, setSelectedFaculties] = useState({});
-
   const [query, setQuery] = useState("");
   const [pageNumber, setPageNumber] = useState(1);
 
@@ -23,9 +23,6 @@ const FacultiesPreferenceList = ({
     setQuery("");
     setPageNumber(1);
   }, [currentlySelectedCourseCode]);
-  useEffect(() => {
-    console.log("new selected faculties", selectedFaculties);
-  }, [selectedFaculties]);
 
   const observer = useRef();
   const lastElementRef = useCallback(

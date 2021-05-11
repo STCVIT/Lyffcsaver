@@ -17,13 +17,17 @@ const Options = () => {
     currentlySelectedCourseCode,
     setCurrentlySelectedCourseCode,
   ] = useState("");
+  const [selectedFaculties, setSelectedFaculties] = useState({});
 
   useEffect(() => {
-    console.log(selectedCourses);
+    console.log("added courses", selectedCourses);
   }, [selectedCourses]);
   useEffect(() => {
-    console.log(currentlySelectedCourseCode);
+    console.log("currently selected course", currentlySelectedCourseCode);
   }, [currentlySelectedCourseCode]);
+  useEffect(() => {
+    console.log("new selected faculties", selectedFaculties);
+  }, [selectedFaculties]);
 
   const addCourse = async (courseCode) => {
     console.log(courseCode);
@@ -50,6 +54,10 @@ const Options = () => {
         (course) => courseCode !== course["COURSE CODE"]
       )
     );
+
+    const newSelectedFaculties = selectedFaculties;
+    delete newSelectedFaculties[courseCode];
+    setSelectedFaculties(newSelectedFaculties);
   };
 
   const selectCourse = (courseCode) => {
@@ -123,6 +131,8 @@ const Options = () => {
         ></SelectedCoursesList>
         <FacultiesPreferenceList
           currentlySelectedCourseCode={currentlySelectedCourseCode}
+          selectedFaculties={selectedFaculties}
+          setSelectedFaculties={setSelectedFaculties}
           ignoreCols={ignoreCols}
         ></FacultiesPreferenceList>
       </div>
