@@ -4,8 +4,9 @@ import AvailableCoursesList from "./AvailableCoursesList";
 import FacultiesPreferenceList from "./FacultiesPreferenceList";
 import SelectedCoursesList from "./SelectedCoursesList";
 import axios from "axios";
+import { getCourseID } from "../utils/generalUtils";
 
-const Options = ({ generateTimetables, getCourseID }) => {
+const Options = ({ generateTimetables }) => {
   const ignoreCols = [
     "LECTURE HOURS",
     "TUTORIAL HOURS",

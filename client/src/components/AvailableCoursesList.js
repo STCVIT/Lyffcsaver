@@ -3,13 +3,8 @@ import useDataSearch from "../utils/useDataSearch";
 import Searchbar from "./Searchbar";
 import styles from "../css/AvailableCoursesList.module.css";
 import InfoCols from "./InfoCols";
-
-const AvailableCoursesList = ({
-  ignoreCols,
-  addCourse,
-  getCourseID,
-  selectedCourses,
-}) => {
+import { getCourseID } from "../utils/generalUtils";
+const AvailableCoursesList = ({ ignoreCols, addCourse, selectedCourses }) => {
   // USING https://github.com/WebDevSimplified/React-Infinite-Scrolling/
 
   console.log("rerendering available");

@@ -1,10 +1,10 @@
 import styles from "../css/SelectedCoursesList.module.css";
 import InfoCols from "./InfoCols";
+import { getCourseID } from "../utils/generalUtils";
 
 const SelectedCoursesList = ({
   ignoreCols,
   removeCourse,
-  getCourseID,
   onSelect,
   onDeselect,
   selectedCourses,

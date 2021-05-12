@@ -9,7 +9,6 @@ const FacultiesPreferenceList = ({
   selectedFaculties,
   setSelectedFaculties,
   ignoreCols,
-  getCourseID,
 }) => {
   const [query, setQuery] = useState("");
   const [pageNumber, setPageNumber] = useState(1);

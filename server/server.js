@@ -168,6 +168,16 @@ app.post("/classes", (req, res) => {
   res.json(requiredClasses);
 });
 
+app.get("/slots", (req, res) => {
+  const slotsFileData = JSON.parse(
+    fs.readFileSync(
+      path.join(__dirname, "data", "timetableTemplate.json"),
+      "utf-8"
+    )
+  );
+  res.json(slotsFileData);
+});
+
 app.get("/", (req, res) => {
   res.send("Hello World!");
 });
