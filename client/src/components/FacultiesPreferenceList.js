@@ -82,12 +82,12 @@ const FacultiesPreferenceList = ({
                 currentlySelectedCourseID
               ] = newSelectedFaculties[currentlySelectedCourseID].filter(
                 (selectedFaculty) => {
-                  console.log(
-                    selectedFaculty,
-                    e.target.parentNode.parentNode.id,
-                    selectedFaculty["ERP ID"] !==
-                      e.target.parentNode.parentNode.id
-                  );
+                  // console.log(
+                  //   selectedFaculty,
+                  //   e.target.parentNode.parentNode.id,
+                  //   selectedFaculty["ERP ID"] !==
+                  //     e.target.parentNode.parentNode.id
+                  // );
                   return (
                     selectedFaculty["ERP ID"] !==
                     e.target.parentNode.parentNode.id

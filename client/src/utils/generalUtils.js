@@ -30,7 +30,6 @@ const getClasses = async (faculties) => {
       requestObject[courseID].push(faculty["ERP ID"]);
     });
   });
-  console.log(requestObject);
   try {
     const res = await axios.post("/classes", requestObject);
     return res.data;
@@ -55,11 +54,8 @@ const getSlotMapping = async () => {
     }
   }
 };
-const isValidResult = (result, courseIDs) => {
-  courseIDs.forEach((courseID) => {
-    if (result[courseID] === undefined || result[courseID].length === 0)
-      return false;
-  });
+
+const getSlots = (result) => {
   const classes = Object.values(result);
   const slots = [];
   classes
@@ -68,34 +64,56 @@ const isValidResult = (result, courseIDs) => {
       slots.push(...classSlots);
     });
 
-  const slotsSet = new Set(slots);
-  if (slots.length > slotsSet.size) return false;
+  return slots;
+};
 
-  for (const slot of slots) {
+const isPossible = (selection, courseID) => {
+  const allSlots = getSlots(selection);
+  const allSlotsSet = new Set(allSlots);
+  if (allSlots.length > allSlotsSet.size) return false;
+
+  const slotsToBeChecked = getSlots({ courseID: selection[courseID] });
+  for (const slot of slotsToBeChecked) {
     const equivalentSlots = mapping[slot];
     if (equivalentSlots === undefined) continue;
     for (const equivalentSlot of equivalentSlots) {
-      if (slots.includes(equivalentSlot)) return false;
+      if (allSlots.includes(equivalentSlot)) return false;
     }
   }
   return true;
 };
 
 const selectClasses = (courseIDs, classes, selection = {}) => {
-  if (courseIDs.length === 0) return [selection];
+  if (courseIDs.length === 0) {
+    const slots = [...new Set(getSlots(selection))];
+    slots.sort();
+    const key = slots.join("+");
+    return { [key]: [selection] };
+  }
+
   const courseID = courseIDs[0];
   if (selection[courseID] !== undefined) return [];
-  const allResults = [];
+  const allResults = {};
   for (const currentClass of classes[courseID]) {
     selection[courseID] = currentClass;
+
+    // only checking if the change that was made
+    // is possible.
+    if (!isPossible(selection, courseID)) continue;
     const results = selectClasses(
       courseIDs.slice(1),
       classes,
       Object.assign({}, selection)
     );
-    results.forEach((result) => {
-      if (isValidResult(result, courseIDs)) allResults.push(result);
-    });
+    Object.values(results).forEach((resultArray) =>
+      resultArray.forEach((result) => {
+        const slots = [...new Set(getSlots(result))];
+        slots.sort();
+        const key = slots.join("+");
+        if (allResults[key] === undefined) allResults[key] = [];
+        allResults[key].push(result);
+      })
+    );
   }
   return allResults;
 };
@@ -110,13 +128,45 @@ const generateTimetables = async (courses, faculties) => {
   const classes = await getClasses(faculties);
   console.log(classes);
 
+  // sorting courseIDs in ascending order of the number of classes
+  // with that courseID.
+  // This is done so that backtracking algorithm will terminate quicker
+  // in case some mistake is found.
   courseIDs.sort((courseIDa, courseIDb) => {
     return classes[courseIDa].length - classes[courseIDb].length;
   });
   console.log(courseIDs);
 
+  console.time("selectClasses");
   const possibleClassSelections = selectClasses(courseIDs, classes);
-  console.log("all possible class selections", possibleClassSelections);
+  console.timeEnd("selectClasses");
+  let firstA = true;
+  let firstB = true;
+  console.log(
+    "all possible class selections",
+    possibleClassSelections,
+    "Groups:",
+    Object.keys(possibleClassSelections).length,
+    "Possible Schedules:",
+    Object.keys(possibleClassSelections).reduce((total, key) => {
+      if (firstA) {
+        firstA = false;
+        return (
+          possibleClassSelections[Object.keys(possibleClassSelections)[0]]
+            .length + possibleClassSelections[key].length
+        );
+      }
+      return total + possibleClassSelections[key].length;
+    }),
+    "All Possible Selections:",
+    Object.keys(classes).reduce((total, key) => {
+      if (firstB) {
+        firstB = false;
+        return classes[Object.keys(classes)[0]].length * classes[key].length;
+      }
+      return total * classes[key].length;
+    })
+  );
 };
 
 export { generateTimetables, getCourseID };
