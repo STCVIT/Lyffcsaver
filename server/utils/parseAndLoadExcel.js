@@ -28,28 +28,6 @@ const parseAndLoadExcel = async (filePath) => {
       matchingCourses
     );
 
-    if (matchingFaculty === null) {
-      const newFaculty = {
-        "ERP ID": classInfo["ERP ID"],
-        "EMPLOYEE NAME": classInfo["EMPLOYEE NAME"],
-        "EMPLOYEE SCHOOL": classInfo["EMPLOYEE SCHOOL"],
-      };
-      faculties.push(newFaculty);
-    }
-    if (matchingCourse === null) {
-      const newCourse = {
-        "COURSE OWNER": classInfo["COURSE OWNER"],
-        "COURSE CODE": classInfo["COURSE CODE"],
-        "COURSE TITLE": classInfo["COURSE TITLE"],
-        "COURSE TYPE": classInfo["COURSE TYPE"],
-        "LECTURE HOURS": classInfo["LECTURE HOURS"],
-        "PROJECT HOURS": classInfo["PROJECT HOURS"],
-        "TUTORIAL HOURS": classInfo["TUTORIAL HOURS"],
-        "PRACTICAL HOURS": classInfo["PRACTICAL HOURS"],
-        CREDITS: classInfo["CREDITS"],
-      };
-      courses.push(newCourse);
-    }
     const newClass = {
       "ERP ID": classInfo["ERP ID"],
       "COURSE CODE": classInfo["COURSE CODE"],
@@ -67,7 +45,31 @@ const parseAndLoadExcel = async (filePath) => {
       "WAITING SEATS": classInfo["WAITING SEATS"],
       "COURSE STATUS": classInfo["COURSE STATUS"],
     };
-    classes.push(newClass);
+    if (classInfo["SLOT"] !== "NIL") {
+      classes.push(newClass);
+      if (matchingFaculty === null) {
+        const newFaculty = {
+          "ERP ID": classInfo["ERP ID"],
+          "EMPLOYEE NAME": classInfo["EMPLOYEE NAME"],
+          "EMPLOYEE SCHOOL": classInfo["EMPLOYEE SCHOOL"],
+        };
+        faculties.push(newFaculty);
+      }
+      if (matchingCourse === null) {
+        const newCourse = {
+          "COURSE OWNER": classInfo["COURSE OWNER"],
+          "COURSE CODE": classInfo["COURSE CODE"],
+          "COURSE TITLE": classInfo["COURSE TITLE"],
+          "COURSE TYPE": classInfo["COURSE TYPE"],
+          "LECTURE HOURS": classInfo["LECTURE HOURS"],
+          "PROJECT HOURS": classInfo["PROJECT HOURS"],
+          "TUTORIAL HOURS": classInfo["TUTORIAL HOURS"],
+          "PRACTICAL HOURS": classInfo["PRACTICAL HOURS"],
+          CREDITS: classInfo["CREDITS"],
+        };
+        courses.push(newCourse);
+      }
+    }
   }
   fs.writeFile(
     path.join("data", "faculties.json"),
