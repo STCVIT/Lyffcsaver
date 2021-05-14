@@ -1,7 +1,7 @@
 // includes code from
 // https://medium.com/stackfame/get-list-of-all-files-in-a-directory-in-node-js-befd31677ec5
 
-// TODO: Clean data. Remove data with important fields as NIL.
+// // TODO: Clean data. Remove data with important fields as NIL.
 // TODO: better error handling
 
 const express = require("express");
@@ -169,15 +169,15 @@ app.post("/classes", (req, res) => {
   res.json(requiredClasses);
 });
 
-app.get("/slots", (req, res) => {
-  const slotsFileData = JSON.parse(
-    fs.readFileSync(
-      path.join(__dirname, "data", "timetableTemplate.json"),
-      "utf-8"
-    )
-  );
-  res.json(slotsFileData);
-});
+// app.get("/slots", (req, res) => {
+//   const slotsFileData = JSON.parse(
+//     fs.readFileSync(
+//       path.join(__dirname, "data", "timetableTemplate.json"),
+//       "utf-8"
+//     )
+//   );
+//   res.json(slotsFileData);
+// });
 
 app.get("/", (req, res) => {
   res.send("Hello World!");

@@ -60,13 +60,14 @@ const FacultiesPreferenceList = ({
   }
   // end code from https://stackoverflow.com/a/53837442/13378825
 
-  const InteractionElement = ({ faculty }) => {
+  const InteractionElement = ({ faculty, customKey }) => {
     return (
       <td className={styles.cell}>
         <input
           type="checkbox"
           name="selected"
           id={`${faculty["ERP ID"]}-selected`}
+          key={customKey}
           onClick={(e) => {
             let newSelectedFaculties = selectedFaculties;
             console.log(selectedFaculties);
@@ -159,15 +160,16 @@ const FacultiesPreferenceList = ({
                           ref={lastElementRef}
                           className={styles.row}
                           id={faculty["ERP ID"]}
-                          key={faculty["ERP ID"]}
+                          key={`${faculty["ERP ID"]}-s`}
                         >
                           <InteractionElement
                             faculty={faculty}
+                            customKey={`${faculty["ERP ID"]}-s-i`}
                           ></InteractionElement>
 
                           <InfoCols
                             entry={faculty}
-                            getID={(faculty) => faculty["ERP ID"]}
+                            getID={(faculty) => faculty["ERP ID"] + "s"}
                             styles={styles}
                           ></InfoCols>
                         </tr>
@@ -177,15 +179,16 @@ const FacultiesPreferenceList = ({
                         <tr
                           className={styles.row}
                           id={faculty["ERP ID"]}
-                          key={faculty["ERP ID"]}
+                          key={`${faculty["ERP ID"]}-s`}
                         >
                           <InteractionElement
                             faculty={faculty}
+                            customKey={`${faculty["ERP ID"]}-s-i`}
                           ></InteractionElement>
 
                           <InfoCols
                             entry={faculty}
-                            getID={(faculty) => faculty["ERP ID"]}
+                            getID={(faculty) => faculty["ERP ID"] + "s"}
                             styles={styles}
                           ></InfoCols>
                         </tr>
@@ -202,15 +205,16 @@ const FacultiesPreferenceList = ({
                         ref={lastElementRef}
                         className={styles.row}
                         id={faculty["ERP ID"]}
-                        key={faculty["ERP ID"]}
+                        key={`${faculty["ERP ID"]}-u`}
                       >
                         <InteractionElement
                           faculty={faculty}
+                          customKey={`${faculty["ERP ID"]}-u-i`}
                         ></InteractionElement>
 
                         <InfoCols
                           entry={faculty}
-                          getID={(faculty) => faculty["ERP ID"]}
+                          getID={(faculty) => faculty["ERP ID"] + "u"}
                           styles={styles}
                         ></InfoCols>
                       </tr>
@@ -220,15 +224,16 @@ const FacultiesPreferenceList = ({
                       <tr
                         className={styles.row}
                         id={faculty["ERP ID"]}
-                        key={faculty["ERP ID"]}
+                        key={`${faculty["ERP ID"]}-u`}
                       >
                         <InteractionElement
                           faculty={faculty}
+                          customKey={`${faculty["ERP ID"]}-u-i`}
                         ></InteractionElement>
 
                         <InfoCols
                           entry={faculty}
-                          getID={(faculty) => faculty["ERP ID"]}
+                          getID={(faculty) => faculty["ERP ID"] + "u"}
                           styles={styles}
                         ></InfoCols>
                       </tr>

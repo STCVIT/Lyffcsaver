@@ -1,0 +1,26 @@
+.cell {
+  width: 10px;
+  height: 10px;
+  overflow: hidden;
+}
+.headTime {
+  background-color: #9cf;
+}
+.headDay {
+  background-color: #ccf;
+}
+.lunch {
+  background-color: #e2e2e2;
+}
+.oddDay {
+  background-color: #ffc;
+}
+.evenDay {
+  background-color: #f9efa4;
+}
+.theory {
+  background-color: #cf3;
+}
+.lab {
+  background-color: #5f7716;
+}

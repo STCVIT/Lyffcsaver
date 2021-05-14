@@ -1,7 +1,13 @@
 import axios from "axios";
+import timetableTemplateData from "./timetableTemplateData";
 
 const mapping = {};
 
+/**
+ *
+ * @param {object} course Preferably object containing course info, but any object with "COURSE CODE" and "COURSE TYPE" fields should work.
+ * @returns {string} Unique identifier for object passed in by joining courseCode and courseType with a hyphen, eg:- CHY1701-ETH
+ */
 const getCourseID = (course) => {
   return `${course["COURSE CODE"]}-${course["COURSE TYPE"]}`;
 };
@@ -38,8 +44,8 @@ const getClasses = async (faculties) => {
   }
 };
 
-const getSlotMapping = async () => {
-  const data = (await axios.get("/slots")).data;
+const getSlotMapping = () => {
+  const data = timetableTemplateData;
   for (let rowNo = 4; rowNo + 1 < data.length; rowNo += 2) {
     for (let colNo = 2; colNo < data[rowNo].length; colNo++) {
       const pattern = /[A-Z]+\d+/;
@@ -118,8 +124,14 @@ const selectClasses = (courseIDs, classes, selection = {}) => {
   return allResults;
 };
 
-const generateTimetables = async (courses, faculties) => {
-  await getSlotMapping();
+/**
+ *
+ * @param {Object} courses Object of type {courseID: [Array of classes with this courseID]}
+ * @param {Object} faculties Object of type {courseID: [Faculties teaching this course sorted by preference]}
+ * @returns {Object} Object in the format {slots: [All schedules occupying those slots]}
+ */
+const getTimetables = async (courses, faculties) => {
+  getSlotMapping();
   console.log(courses, faculties);
   if (!verifyPreferencesSet(courses, faculties)) return;
 
@@ -137,11 +149,21 @@ const generateTimetables = async (courses, faculties) => {
   });
   console.log(courseIDs);
 
+  let firstB = true;
+  console.log(
+    "All Possible Selections:",
+    Object.keys(classes).reduce((total, key) => {
+      if (firstB) {
+        firstB = false;
+        return classes[Object.keys(classes)[0]].length * classes[key].length;
+      }
+      return total * classes[key].length;
+    })
+  );
   console.time("selectClasses");
   const possibleClassSelections = selectClasses(courseIDs, classes);
   console.timeEnd("selectClasses");
   let firstA = true;
-  let firstB = true;
   console.log(
     "all possible class selections",
     possibleClassSelections,
@@ -157,16 +179,9 @@ const generateTimetables = async (courses, faculties) => {
         );
       }
       return total + possibleClassSelections[key].length;
-    }),
-    "All Possible Selections:",
-    Object.keys(classes).reduce((total, key) => {
-      if (firstB) {
-        firstB = false;
-        return classes[Object.keys(classes)[0]].length * classes[key].length;
-      }
-      return total * classes[key].length;
     })
   );
+  return possibleClassSelections;
 };
 
-export { generateTimetables, getCourseID };
+export { getTimetables, getCourseID };

@@ -1,0 +1,14 @@
+.screen {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 20px;
+}
+.disableScreen {
+  display: none;
+}
+.title {
+  font-weight: 300;
+  margin-bottom: 20px;
+}
