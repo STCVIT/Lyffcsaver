@@ -1,43 +1,40 @@
-import styles from "../css/Timetable.module.css";
+import timetableStyles from "../css/Timetable.module.css";
 import timetableTemplateData from "../utils/timetableTemplateData";
-const TimetablePreview = ({ slots, id, select }) => {
+
+const Timetable = ({ slots, classes }) => {
+  console.log("timetable", slots, classes);
   let dayCount = 0;
+  const id = "final-display";
   const getClassName = (cellContent, rowIndex, cellIndex) => {
-    let className = `${styles.cell} `;
+    let className = `${timetableStyles.cell} `;
     if (cellIndex < 2) {
-      className += `${styles.headDay}`;
+      className += `${timetableStyles.headDay}`;
       return className;
     }
     if (cellContent === "Lunch") {
-      className += `${styles.lunch}`;
+      className += `${timetableStyles.lunch}`;
       return className;
     }
     if (slots.includes(cellContent)) {
       if (rowIndex % 2 === 0) {
-        className += `${styles.theory}`;
+        className += `${timetableStyles.theory}`;
         return className;
       } else {
-        className += `${styles.lab}`;
+        className += `${timetableStyles.lab}`;
         return className;
       }
     }
     if (dayCount % 2 === 0) {
-      className += `${styles.evenDay}`;
+      className += `${timetableStyles.evenDay}`;
       return className;
     } else {
-      className += `${styles.oddDay}`;
+      className += `${timetableStyles.oddDay}`;
       return className;
     }
   };
   return (
     <>
-      {/* <h3>{slots.join("+")}</h3> */}
-      <table
-        className={styles.timetablePreview}
-        onClick={() => {
-          select(slots);
-        }}
-      >
+      <table className={timetableStyles.timetable}>
         <thead>
           {timetableTemplateData.slice(0, 4).map((row, rowIndex) => {
             return (
@@ -48,10 +45,10 @@ const TimetablePreview = ({ slots, id, select }) => {
                   ) : (
                     <th
                       key={`${id}-${rowIndex}-${index}`}
-                      className={`${styles.cell} ${styles.headTime}`}
+                      className={`${timetableStyles.cell} ${timetableStyles.headTime}`}
                       rowSpan={index === 0 ? 2 : 1}
                     >
-                      {/* {cell} */}
+                      {cell}
                     </th>
                   );
                 })}
@@ -73,7 +70,7 @@ const TimetablePreview = ({ slots, id, select }) => {
                       className={`${getClassName(cell, rowIndex, cellIndex)}`}
                       rowSpan={cellIndex === 0 ? 2 : 1}
                     >
-                      {/* {cell} */}
+                      {cell}
                     </td>
                   );
                 })}
@@ -86,4 +83,4 @@ const TimetablePreview = ({ slots, id, select }) => {
   );
 };
 
-export default TimetablePreview;
+export default Timetable;

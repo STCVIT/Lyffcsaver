@@ -1,14 +1,8 @@
-.screen {
-  height: 100vh;
+.timetablesScreen {
+  /* width: 100%; */
+  flex: 2;
+  padding: 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-top: 20px;
-}
-.disableScreen {
-  display: none;
-}
-.title {
-  font-weight: 300;
-  margin-bottom: 20px;
 }

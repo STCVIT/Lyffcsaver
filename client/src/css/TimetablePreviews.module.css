@@ -1,10 +1,9 @@
 .container {
-  width: 80%;
   max-height: 80vh;
   overflow: auto;
   display: flex;
   flex-wrap: wrap;
-  /* align-items: flex-start; */
   justify-content: center;
   gap: 10px;
+  flex: 1;
 }

@@ -1,6 +1,6 @@
 import TimetablePreview from "./TimetablePreview";
 import styles from "../css/TimetablePreviews.module.css";
-const TimetablePreviews = ({ schedulesSlots }) => {
+const TimetablePreviews = ({ schedulesSlots, select }) => {
   console.log("in timetable previews", schedulesSlots);
   return (
     <div className={styles.container}>
@@ -11,6 +11,7 @@ const TimetablePreviews = ({ schedulesSlots }) => {
             key={`${slotsString}-timetable`}
             id={`${slotsString}-timetable`}
             slots={slots}
+            select={select}
           ></TimetablePreview>
         );
       })}

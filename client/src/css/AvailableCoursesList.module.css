@@ -14,7 +14,7 @@
 .tableWrapper {
   margin-top: 20px;
   max-width: 40vw;
-  min-width: 500px;
+  min-width: fit-content(500px);
   max-height: 40vh;
   overflow: auto;
 }

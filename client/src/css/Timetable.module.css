@@ -1,0 +1,42 @@
+.timetablePreview {
+  cursor: pointer;
+}
+.timetablePreview:hover {
+  /* background-color: grey; */
+  border: 2px blue solid;
+}
+.timetable {
+  text-align: center;
+  /* border-spacing: 0; */
+  font-size: 10px;
+  width: 40%;
+}
+.cell {
+  width: 5px;
+  height: 5px;
+  padding: 2px;
+  overflow: hidden;
+  /* border: 1px solid black; */
+}
+.headTime {
+  background-color: #9cf;
+}
+.headDay {
+  background-color: #ccf;
+}
+.lunch {
+  background-color: #e2e2e2;
+}
+.oddDay {
+  background-color: #ffc;
+}
+.evenDay {
+  background-color: #f9efa4;
+}
+.theory {
+  background-color: #cf3;
+}
+.lab {
+  background-color: #5f7716;
+  color: white;
+}

@@ -1,7 +1,7 @@
 import styles from "./css/App.module.css";
 import Header from "./components/Header";
 import Options from "./components/Options";
-import Timetables from "./components/Timetables";
+import TimetablesSection from "./components/TimetablesSection";
 import { getTimetables, getCourseID } from "./utils/generalUtils";
 import { useEffect, useState } from "react";
 
@@ -24,6 +24,7 @@ function App() {
     setAllSchedules([]);
     setAllSchedules(await getTimetables(courses, faculties));
   };
+
   useEffect(() => {
     console.log("all schedules", allSchedules);
     if (Object.keys(allSchedules).length > 0) {
@@ -58,11 +59,11 @@ function App() {
         getCourseID={getCourseID}
         generateTimetables={populateAllSchedules}
       />
-      <Timetables
+      <TimetablesSection
         schedules={allSchedules}
         slotCollectionsToBeRendered={slotCollectionsToBeRendered}
         renderMore={renderMore}
-      ></Timetables>
+      ></TimetablesSection>
     </>
   );
 }
