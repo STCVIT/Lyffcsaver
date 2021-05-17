@@ -13,12 +13,12 @@ import { useEffect, useState } from "react";
 // TODO: Reorder faculty list by dragging (react-beautiful-dnd)
 
 function App() {
-  const [startIndex, setStartIndex] = useState(0);
-  const size = 50;
-  const [
-    slotCollectionsToBeRendered,
-    setSlotCollectionsToBeRendered,
-  ] = useState([]);
+  // const [startIndex, setStartIndex] = useState(0);
+  // const size = 50;
+  // const [
+  //   slotCollectionsToBeRendered,
+  //   setSlotCollectionsToBeRendered,
+  // ] = useState([]);
   const [allSchedules, setAllSchedules] = useState([]);
   const populateAllSchedules = async (courses, faculties) => {
     setAllSchedules([]);
@@ -34,23 +34,23 @@ function App() {
     }
   }, [allSchedules]);
 
-  const addSlotCollectionsToBeRendered = () => {
-    if (allSchedules.length > 0) {
-      let schedules = Object.keys(allSchedules).slice(
-        startIndex,
-        startIndex + size
-      );
-      setSlotCollectionsToBeRendered((prevSlotCollectionsToBeRendered) => [
-        ...prevSlotCollectionsToBeRendered,
-        ...schedules,
-      ]);
-    }
-  };
-  addSlotCollectionsToBeRendered();
+  // const addSlotCollectionsToBeRendered = () => {
+  //   if (allSchedules.length > 0) {
+  //     let schedules = Object.keys(allSchedules).slice(
+  //       startIndex,
+  //       startIndex + size
+  //     );
+  //     setSlotCollectionsToBeRendered((prevSlotCollectionsToBeRendered) => [
+  //       ...prevSlotCollectionsToBeRendered,
+  //       ...schedules,
+  //     ]);
+  //   }
+  // };
+  // addSlotCollectionsToBeRendered();
 
-  const renderMore = () => {
-    setStartIndex((prevStartIndex) => prevStartIndex + size);
-  };
+  // const renderMore = () => {
+  //   setStartIndex((prevStartIndex) => prevStartIndex + size);
+  // };
 
   return (
     <>
@@ -59,11 +59,7 @@ function App() {
         getCourseID={getCourseID}
         generateTimetables={populateAllSchedules}
       />
-      <TimetablesSection
-        schedules={allSchedules}
-        slotCollectionsToBeRendered={slotCollectionsToBeRendered}
-        renderMore={renderMore}
-      ></TimetablesSection>
+      <TimetablesSection schedules={allSchedules}></TimetablesSection>
     </>
   );
 }

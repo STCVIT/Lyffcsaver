@@ -44,7 +44,7 @@ const FacultiesPreferenceList = ({
     setPageNumber(1);
   };
 
-  console.log("rerendering faculties");
+  // console.log("rerendering faculties");
   const isSelectedFaculty = (facultyToBeChecked) => {
     return (
       selectedFaculties[currentlySelectedCourseID]?.find((selectedFaculty) => {

@@ -1,9 +1,35 @@
 .container {
-  max-height: 80vh;
   overflow: auto;
   display: flex;
   flex-wrap: wrap;
+  margin-left: 30px;
   justify-content: center;
   gap: 10px;
+}
+.panel {
+  display: flex;
+  flex-direction: column;
   flex: 1;
+}
+.paginatedPreviews {
+  margin-top: 20px;
+  display: flex;
+
+  width: 100%;
+  gap: 10px;
+  list-style: none;
+  justify-content: center;
+}
+.paginatedPreviews a {
+  padding: 5px;
+  border-radius: 3px;
+  border: 1px solid #6c7ac9;
+  color: #6c7ac9;
+  cursor: pointer;
+}
+.paginatedPreviews a:hover {
+  background-color: khaki;
+}
+.active > a {
+  background-color: #ccf !important;
 }

@@ -132,13 +132,13 @@ const selectClasses = (courseIDs, classes, selection = {}) => {
  */
 const getTimetables = async (courses, faculties) => {
   getSlotMapping();
-  console.log(courses, faculties);
+  // console.log(courses, faculties);
   if (!verifyPreferencesSet(courses, faculties)) return;
 
   const courseIDs = Object.keys(faculties);
 
   const classes = await getClasses(faculties);
-  console.log(classes);
+  // console.log(classes);
 
   // sorting courseIDs in ascending order of the number of classes
   // with that courseID.
@@ -147,7 +147,7 @@ const getTimetables = async (courses, faculties) => {
   courseIDs.sort((courseIDa, courseIDb) => {
     return classes[courseIDa].length - classes[courseIDb].length;
   });
-  console.log(courseIDs);
+  // console.log(courseIDs);
 
   let firstB = true;
   console.log(

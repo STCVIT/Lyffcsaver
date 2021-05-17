@@ -9,7 +9,7 @@ const SelectedCoursesList = ({
   onDeselect,
   selectedCourses,
 }) => {
-  console.log("rerendering selected");
+  // console.log("rerendering selected");
   return selectedCourses && selectedCourses.length > 0 ? (
     <div className={styles.container}>
       <label className={styles.label}>

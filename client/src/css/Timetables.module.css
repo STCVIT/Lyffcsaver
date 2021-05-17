@@ -1,8 +1,14 @@
 .timetablesScreen {
   /* width: 100%; */
   flex: 2;
-  padding: 20px;
+  padding-left: 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+.slotTitle {
+  max-width: 60%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }

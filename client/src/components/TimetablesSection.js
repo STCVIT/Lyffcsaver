@@ -3,7 +3,7 @@ import styles from "../css/TimetablesSection.module.css";
 import TimetablePreviews from "./TimetablePreviews";
 import Timetables from "./Timetables";
 
-const TimetablesSection = ({ schedules, renderMore }) => {
+const TimetablesSection = ({ schedules }) => {
   /**
    * Array containing slots of each schedule type
    */
@@ -12,7 +12,7 @@ const TimetablesSection = ({ schedules, renderMore }) => {
   useEffect(() => {
     setCurrentlySelectedSlots([]);
   }, [schedules]);
-  console.log("in timetables section", schedules, currentlySelectedSlots);
+  // console.log("in timetables section", schedules, currentlySelectedSlots);
 
   return (
     <div
@@ -27,14 +27,18 @@ const TimetablesSection = ({ schedules, renderMore }) => {
           schedulesSlots={schedulesSlots}
           select={setCurrentlySelectedSlots}
         ></TimetablePreviews>
-        {currentlySelectedSlots.length === 0 ? (
+        <Timetables
+          schedules={schedules}
+          slots={currentlySelectedSlots}
+        ></Timetables>
+        {/* {currentlySelectedSlots.length === 0 ? (
           <></>
         ) : (
           <Timetables
             schedules={schedules}
             slots={currentlySelectedSlots}
           ></Timetables>
-        )}
+        )} */}
       </div>
     </div>
   );

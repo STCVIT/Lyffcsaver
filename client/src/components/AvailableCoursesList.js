@@ -7,7 +7,7 @@ import { getCourseID } from "../utils/generalUtils";
 const AvailableCoursesList = ({ ignoreCols, addCourse, selectedCourses }) => {
   // USING https://github.com/WebDevSimplified/React-Infinite-Scrolling/
 
-  console.log("rerendering available");
+  // console.log("rerendering available");
 
   const [query, setQuery] = useState("");
   const [pageNumber, setPageNumber] = useState(1);

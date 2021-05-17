@@ -30,10 +30,10 @@ const Options = ({ generateTimetables }) => {
   }, [selectedFaculties]);
 
   const addCourse = async (courseID) => {
-    console.log(courseID);
+    // console.log(courseID);
     try {
       let res = await axios.get(`/courses?courseID=${courseID}`);
-      console.log(res.data);
+      // console.log(res.data);
       if (res.data !== undefined) {
         const course = res.data;
         setSelectedCourses((prevSelectedCourses) => [
