@@ -1,10 +1,23 @@
 import timetableStyles from "../css/Timetable.module.css";
 import timetableTemplateData from "../utils/timetableTemplateData";
 
-const Timetable = ({ slots, classes }) => {
-  console.log("timetable", slots, classes);
+const Timetable = ({ slots, schedule }) => {
+  console.log("timetable", slots);
   let dayCount = 0;
   const id = "final-display";
+  const getCellContent = (schedule, cell) => {
+    const courseIDs = Object.keys(schedule);
+    const courseID = courseIDs.find((courseID) =>
+      schedule[courseID]["SLOT"].split("+").includes(cell)
+    );
+    if (
+      schedule === undefined ||
+      courseIDs.length === 0 ||
+      courseID === undefined
+    )
+      return cell;
+    return `${cell}-${courseID}`;
+  };
   const getClassName = (cellContent, rowIndex, cellIndex) => {
     let className = `${timetableStyles.cell} `;
     if (cellIndex < 2) {
@@ -70,7 +83,7 @@ const Timetable = ({ slots, classes }) => {
                       className={`${getClassName(cell, rowIndex, cellIndex)}`}
                       rowSpan={cellIndex === 0 ? 2 : 1}
                     >
-                      {cell}
+                      {getCellContent(schedule, cell)}
                     </td>
                   );
                 })}
