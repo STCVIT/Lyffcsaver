@@ -34,8 +34,23 @@ const TimetablePreview = ({ slots, id, select }) => {
       {/* <h3>{slots.join("+")}</h3> */}
       <table
         className={styles.timetablePreview}
-        onClick={() => {
+        onClick={(e) => {
           select(slots);
+
+          document
+            .querySelectorAll(`.${styles.selectedTimetablePreview}`)
+            ?.forEach((element) =>
+              element.classList.remove(styles.selectedTimetablePreview)
+            );
+
+          let element = e.target;
+          while (element !== null && element !== undefined) {
+            if (element.classList.contains(styles.timetablePreview)) {
+              element.classList.add(styles.selectedTimetablePreview);
+              break;
+            }
+            element = element.parentNode;
+          }
         }}
       >
         <thead>

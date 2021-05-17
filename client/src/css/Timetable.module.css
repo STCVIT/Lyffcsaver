@@ -1,8 +1,11 @@
 .timetablePreview {
   cursor: pointer;
 }
-.timetablePreview:hover {
+.timetablePreview:hover:not(.selectedTimetablePreview) {
   /* background-color: grey; */
+  border: 2px blue dashed;
+}
+.selectedTimetablePreview {
   border: 2px blue solid;
 }
 .timetable {

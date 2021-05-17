@@ -8,12 +8,20 @@
   position: relative;
   max-height: 300px;
   overflow: auto;
+  width: min-content;
 }
 .label {
   margin-bottom: 10px;
 }
 .table {
   border-spacing: 0;
+  cursor: pointer;
+}
+.table:hover {
+  background-color: var(--selectable-row-hover-bg);
+}
+.selectedSchedule {
+  border: 2px blue solid;
 }
 .tableWrapper {
   margin-top: 20px;

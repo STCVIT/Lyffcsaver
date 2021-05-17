@@ -46,25 +46,22 @@ const Classes = ({ schedules, select, slots }) => {
                         getID={() => `${slots.join("")}-${index}}-${courseID}`}
                         styles={styles}
                         ignoreCols={ignoreCols}
-                        // onClick={(e) => {
-                        //   document
-                        //     .querySelector(`.${styles.activeRow}`)
-                        //     ?.classList.remove(styles.activeRow);
+                        onClick={(e) => {
+                          document
+                            .querySelectorAll(`.${styles.selectedSchedule}`)
+                            ?.forEach((element) =>
+                              element.classList.remove(styles.selectedSchedule)
+                            );
 
-                        //   e.target.parentNode.classList.toggle(styles.activeRow);
-                        //   e.target.parentNode.classList.remove(styles.hoverRow);
-                        //   onSelect(e.target.parentNode.dataset.courseid);
-                        // }}
-                        // onMouseEnter={(e) => {
-                        //   if (
-                        //     e.target.parentNode.classList.contains(styles.activeRow)
-                        //   )
-                        //     return;
-                        //   e.target.parentNode.classList.add(styles.hoverRow);
-                        // }}
-                        // onMouseLeave={(e) => {
-                        //   e.target.parentNode.classList.remove(styles.hoverRow);
-                        // }}
+                          let element = e.target;
+                          while (element !== null && element !== undefined) {
+                            if (element.classList.contains(styles.table)) {
+                              element.classList.add(styles.selectedSchedule);
+                              break;
+                            }
+                            element = element.parentNode;
+                          }
+                        }}
                       ></InfoCols>
                     </tr>
                   );

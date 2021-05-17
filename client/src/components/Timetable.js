@@ -16,7 +16,7 @@ const Timetable = ({ slots, schedule }) => {
       courseID === undefined
     )
       return cell;
-    return `${cell}-${courseID}`;
+    return `${cell}-${courseID}-${schedule[courseID]["ROOM NUMBER"]}`;
   };
   const getClassName = (cellContent, rowIndex, cellIndex) => {
     let className = `${timetableStyles.cell} `;
