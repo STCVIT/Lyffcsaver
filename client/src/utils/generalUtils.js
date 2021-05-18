@@ -1,6 +1,8 @@
 import axios from "axios";
 import timetableTemplateData from "./timetableTemplateData";
 
+// TODO: Find a better method to approximate time taken in finding valid timetables (verifyNotTooManyClasses())
+
 const mapping = {};
 
 /**
@@ -124,6 +126,27 @@ const selectClasses = (courseIDs, classes, selection = {}) => {
   return allResults;
 };
 
+const verifyNotTooManyClasses = (classes) => {
+  let first = true;
+  const numberOfPossibilities = Object.keys(classes).reduce((total, key) => {
+    if (first) {
+      first = false;
+      return classes[Object.keys(classes)[0]].length * classes[key].length;
+    }
+    return total * classes[key].length;
+  });
+  if (numberOfPossibilities > 2000000) {
+    const minutes = (numberOfPossibilities * 0.5) / 1000000;
+    return confirm(
+      `Number of Possibilities: ${numberOfPossibilities.toLocaleString()}\n` +
+        `Time required: (approx) ${minutes.toLocaleString()} minutes\n` +
+        `If you get a message saying "Page Unresponsive" after choosing to proceed, please choose to wait.\n` +
+        `Proceed?`
+    );
+  }
+  return;
+};
+
 /**
  *
  * @param {Object} courses Object of type {courseID: [Array of classes with this courseID]}
@@ -131,13 +154,15 @@ const selectClasses = (courseIDs, classes, selection = {}) => {
  * @returns {Object} Object in the format {slots: [All schedules occupying those slots]}
  */
 const getTimetables = async (courses, faculties) => {
+  Object.keys(mapping).forEach((key) => delete mapping[key]);
   getSlotMapping();
   // console.log(courses, faculties);
-  if (!verifyPreferencesSet(courses, faculties)) return;
+  if (!verifyPreferencesSet(courses, faculties)) return [];
 
   const courseIDs = Object.keys(faculties);
 
   const classes = await getClasses(faculties);
+  if (verifyNotTooManyClasses(classes)) return [];
   // console.log(classes);
 
   // sorting courseIDs in ascending order of the number of classes
