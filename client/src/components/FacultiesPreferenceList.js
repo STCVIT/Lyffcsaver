@@ -158,7 +158,7 @@ const FacultiesPreferenceList = ({
                       return (
                         <tr
                           ref={lastElementRef}
-                          className={styles.row}
+                          className={`${styles.row} ${styles.selectedRow}`}
                           id={faculty["ERP ID"]}
                           key={`${faculty["ERP ID"]}-s`}
                         >
@@ -177,7 +177,7 @@ const FacultiesPreferenceList = ({
                     } else {
                       return (
                         <tr
-                          className={styles.row}
+                          className={`${styles.row} ${styles.selectedRow}`}
                           id={faculty["ERP ID"]}
                           key={`${faculty["ERP ID"]}-s`}
                         >
@@ -203,7 +203,7 @@ const FacultiesPreferenceList = ({
                     return (
                       <tr
                         ref={lastElementRef}
-                        className={styles.row}
+                        className={`${styles.row} ${styles.notSelectedRow}`}
                         id={faculty["ERP ID"]}
                         key={`${faculty["ERP ID"]}-u`}
                       >
@@ -222,8 +222,8 @@ const FacultiesPreferenceList = ({
                   } else {
                     return (
                       <tr
-                        className={styles.row}
                         id={faculty["ERP ID"]}
+                        className={`${styles.row} ${styles.notSelectedRow}`}
                         key={`${faculty["ERP ID"]}-u`}
                       >
                         <InteractionElement

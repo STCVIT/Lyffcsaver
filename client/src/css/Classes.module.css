@@ -9,6 +9,8 @@
   max-height: 300px;
   overflow: auto;
   width: min-content;
+
+  margin-bottom: 10px;
 }
 .label {
   margin-bottom: 10px;
@@ -76,7 +78,7 @@
   flex: 1;
 }
 .schedules {
-  margin-top: 20px;
+  margin: 10px 0;
   display: flex;
 
   width: 100%;

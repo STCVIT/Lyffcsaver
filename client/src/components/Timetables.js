@@ -13,12 +13,12 @@ const Timetables = ({ schedules, slots }) => {
   return (
     <div id="#timetables-screen" className={styles.timetablesScreen}>
       <h3 className={styles.slotTitle}>{slots.join("+")}</h3>
-      <Timetable schedule={currentlySelectedSchedule} slots={slots}></Timetable>
       <Classes
         schedules={schedules[slots.join("+")]}
         slots={slots}
         select={setCurrentlySelectedSchedule}
       ></Classes>
+      <Timetable schedule={currentlySelectedSchedule} slots={slots}></Timetable>
     </div>
   );
 };

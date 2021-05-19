@@ -3,10 +3,11 @@ import InfoCols from "./InfoCols";
 import styles from "../css/Classes.module.css";
 import { useState } from "react";
 const Classes = ({ schedules, select, slots }) => {
+  console.log({ schedules, slots });
   const ignoreCols = [
     "REGISTERED SEATS",
     "ASSO CLASS ID",
-    "CLASS ID",
+    // "CLASS ID",
     "CLASS OPTION",
     "CLASS TYPE",
     "WAITING SEATS",
@@ -76,9 +77,10 @@ const Classes = ({ schedules, select, slots }) => {
       );
     });
   console.log("classes", schedules, slots);
-  return (
+  return schedules === undefined ? (
+    <></>
+  ) : (
     <div className={styles.panel}>
-      <div className={styles.container}>{currentPageData}</div>
       <ReactPaginate
         previousLabel="<"
         nextLabel=">"
@@ -98,6 +100,7 @@ const Classes = ({ schedules, select, slots }) => {
         disabledClassName={styles.disabled}
         activeClassName={styles.active}
       ></ReactPaginate>
+      <div className={styles.container}>{currentPageData}</div>
     </div>
   );
 };

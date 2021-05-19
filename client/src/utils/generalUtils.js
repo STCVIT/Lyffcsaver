@@ -150,11 +150,11 @@ const verifyNumberOfClasses = (classes) => {
     }
     return total * classes[key].length;
   });
-  if (numberOfPossibilities > 2000000) {
-    const minutes = (numberOfPossibilities * 0.5) / 1000000;
+  if (numberOfPossibilities > 20000000) {
+    const minutes = numberOfPossibilities / 50000000;
     return confirm(
       `Number of Possibilities: ${numberOfPossibilities.toLocaleString()}\n` +
-        `Time required: (approx) ${minutes.toLocaleString()} minutes\n` +
+        `Time required: (approx) ${minutes.toLocaleString()} minutes (Actual time required might be much less)\n` +
         `If you get a message saying "Page Unresponsive" after choosing to proceed, please choose to wait.\n` +
         `To reduce possibilities, reduce the number of faculties selected or blacklist more slots\n` +
         `Proceed?`
@@ -234,6 +234,7 @@ const getTimetables = async (courses, faculties, blacklistedSlots) => {
         return total + possibleClassSelections[key].length;
       })
     );
+  else alert("No valid schedules found.");
   return possibleClassSelections;
 };
 
