@@ -1,7 +1,7 @@
 import axios from "axios";
 import timetableTemplateData from "./timetableTemplateData";
 
-// TODO: Find a better method to approximate time taken in finding valid timetables (verifyNotTooManyClasses())
+// TODO: Find a better method to approximate time taken in finding valid timetables (verifyNumberOfClasses())
 
 const mapping = {};
 
@@ -126,8 +126,23 @@ const selectClasses = (courseIDs, classes, selection = {}) => {
   return allResults;
 };
 
-const verifyNotTooManyClasses = (classes) => {
+const verifyNumberOfClasses = (classes) => {
   let first = true;
+  let courseIDWithTooFewClasses;
+
+  if (
+    Object.keys(classes).find((courseID) => {
+      courseIDWithTooFewClasses = courseID;
+      return classes[courseID].length === 0;
+    })
+  ) {
+    alert(
+      `No valid classes found for ${courseIDWithTooFewClasses}\n` +
+        `Please either reduce blacklisted slots or add more faculties from this course`
+    );
+    return false;
+  }
+
   const numberOfPossibilities = Object.keys(classes).reduce((total, key) => {
     if (first) {
       first = false;
@@ -141,19 +156,21 @@ const verifyNotTooManyClasses = (classes) => {
       `Number of Possibilities: ${numberOfPossibilities.toLocaleString()}\n` +
         `Time required: (approx) ${minutes.toLocaleString()} minutes\n` +
         `If you get a message saying "Page Unresponsive" after choosing to proceed, please choose to wait.\n` +
+        `To reduce possibilities, reduce the number of faculties selected or blacklist more slots\n` +
         `Proceed?`
     );
   }
-  return;
+  return true;
 };
 
 /**
  *
  * @param {Object} courses Object of type {courseID: [Array of classes with this courseID]}
  * @param {Object} faculties Object of type {courseID: [Faculties teaching this course sorted by preference]}
+ * @param {Array} blacklistedSlots Contains slots to be excluded while making timetables
  * @returns {Object} Object in the format {slots: [All schedules occupying those slots]}
  */
-const getTimetables = async (courses, faculties) => {
+const getTimetables = async (courses, faculties, blacklistedSlots) => {
   Object.keys(mapping).forEach((key) => delete mapping[key]);
   getSlotMapping();
   // console.log(courses, faculties);
@@ -162,7 +179,17 @@ const getTimetables = async (courses, faculties) => {
   const courseIDs = Object.keys(faculties);
 
   const classes = await getClasses(faculties);
-  if (verifyNotTooManyClasses(classes)) return [];
+  Object.keys(classes).forEach((courseID) => {
+    classes[courseID] = classes[courseID].filter((classToBeChecked) => {
+      return (
+        classToBeChecked["SLOT"].split("+").find((slot) => {
+          if (blacklistedSlots.includes(slot))
+            return blacklistedSlots.includes(slot);
+        }) === undefined
+      );
+    });
+  });
+  if (!verifyNumberOfClasses(classes)) return [];
   // console.log(classes);
 
   // sorting courseIDs in ascending order of the number of classes
@@ -189,23 +216,24 @@ const getTimetables = async (courses, faculties) => {
   const possibleClassSelections = selectClasses(courseIDs, classes);
   console.timeEnd("selectClasses");
   let firstA = true;
-  console.log(
-    "all possible class selections",
-    possibleClassSelections,
-    "Groups:",
-    Object.keys(possibleClassSelections).length,
-    "Possible Schedules:",
-    Object.keys(possibleClassSelections).reduce((total, key) => {
-      if (firstA) {
-        firstA = false;
-        return (
-          possibleClassSelections[Object.keys(possibleClassSelections)[0]]
-            .length + possibleClassSelections[key].length
-        );
-      }
-      return total + possibleClassSelections[key].length;
-    })
-  );
+  if (Object.keys(possibleClassSelections).length > 0)
+    console.log(
+      "all possible class selections",
+      possibleClassSelections,
+      "Groups:",
+      Object.keys(possibleClassSelections).length,
+      "Possible Schedules:",
+      Object.keys(possibleClassSelections).reduce((total, key) => {
+        if (firstA) {
+          firstA = false;
+          return (
+            possibleClassSelections[Object.keys(possibleClassSelections)[0]]
+              .length + possibleClassSelections[key].length
+          );
+        }
+        return total + possibleClassSelections[key].length;
+      })
+    );
   return possibleClassSelections;
 };
 

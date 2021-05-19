@@ -20,9 +20,9 @@ function App() {
   //   setSlotCollectionsToBeRendered,
   // ] = useState([]);
   const [allSchedules, setAllSchedules] = useState([]);
-  const populateAllSchedules = async (courses, faculties) => {
+  const populateAllSchedules = async (courses, faculties, blacklistedSlots) => {
     setAllSchedules([]);
-    setAllSchedules(await getTimetables(courses, faculties));
+    setAllSchedules(await getTimetables(courses, faculties, blacklistedSlots));
   };
 
   useEffect(() => {

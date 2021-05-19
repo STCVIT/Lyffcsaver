@@ -43,3 +43,6 @@
   background-color: #5f7716;
   color: white;
 }
+.blacklisted {
+  background-color: red;
+}

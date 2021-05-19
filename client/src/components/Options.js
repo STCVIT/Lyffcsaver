@@ -3,6 +3,7 @@ import styles from "../css/Options.module.css";
 import AvailableCoursesList from "./AvailableCoursesList";
 import FacultiesPreferenceList from "./FacultiesPreferenceList";
 import SelectedCoursesList from "./SelectedCoursesList";
+import BlacklistSlots from "./BlacklistSlots";
 import axios from "axios";
 import { getCourseID } from "../utils/generalUtils";
 
@@ -18,6 +19,7 @@ const Options = ({ generateTimetables }) => {
     ""
   );
   const [selectedFaculties, setSelectedFaculties] = useState({});
+  const [blacklistedSlots, setBlacklistedSlots] = useState([]);
 
   useEffect(() => {
     console.log("added courses", selectedCourses);
@@ -28,7 +30,29 @@ const Options = ({ generateTimetables }) => {
   useEffect(() => {
     console.log("new selected faculties", selectedFaculties);
   }, [selectedFaculties]);
+  useEffect(() => {
+    console.log("new blacklisted slots", blacklistedSlots);
+  }, [blacklistedSlots]);
 
+  const toggleBlacklist = (slot) => {
+    const pattern = /[A-Z]+\d+/;
+    if (pattern.test(slot)) {
+      if (blacklistedSlots.includes(slot)) {
+        console.log("deleting", blacklistedSlots, slot);
+        setBlacklistedSlots((prevBlacklistedSlots) =>
+          prevBlacklistedSlots.filter(
+            (slotToBeChecked) => slotToBeChecked !== slot
+          )
+        );
+      } else {
+        console.log("adding", blacklistedSlots, slot);
+        setBlacklistedSlots((prevBlacklistedSlots) => [
+          ...prevBlacklistedSlots,
+          slot,
+        ]);
+      }
+    }
+  };
   const addCourse = async (courseID) => {
     // console.log(courseID);
     try {
@@ -115,6 +139,10 @@ const Options = ({ generateTimetables }) => {
         </div>
       </div>
       <div className={styles.row}>
+        <BlacklistSlots
+          blacklistedSlots={blacklistedSlots}
+          toggleBlacklist={toggleBlacklist}
+        ></BlacklistSlots>
         <AvailableCoursesList
           ignoreCols={ignoreCols}
           addCourse={addCourse}
@@ -141,7 +169,11 @@ const Options = ({ generateTimetables }) => {
         <button
           className={styles.submitBtn}
           onClick={() => {
-            generateTimetables(selectedCourses, selectedFaculties);
+            generateTimetables(
+              selectedCourses,
+              selectedFaculties,
+              blacklistedSlots
+            );
           }}
         >
           Generate Timetables
