@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react";
+import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import styles from "../css/FacultiesPreferenceList.module.css";
 import useDataSearch from "../utils/useDataSearch";
 import Searchbar from "./Searchbar";
@@ -108,6 +109,136 @@ const FacultiesPreferenceList = ({
       </td>
     );
   };
+  const facultyRows = (provided) => {
+    return (
+      <>
+        {selectedFaculties[currentlySelectedCourseID]?.map((faculty, index) => {
+          // if (!isSelectedFaculty(faculty)) return <></>;
+          // Rendering selected faculties
+          if (faculties.length === index + 1) {
+            return (
+              <Draggable
+                draggableId={`${faculty["ERP ID"]}-s`}
+                key={`${faculty["ERP ID"]}-s`}
+                index={index}
+              >
+                {(provided) => (
+                  <tr
+                    ref={(node) => {
+                      lastElementRef(node);
+                      provided.innerRef(node);
+                    }}
+                    className={`${styles.row} ${styles.selectedRow}`}
+                    id={faculty["ERP ID"]}
+                    {...provided.draggableProps}
+                    {...provided.dragHandleProps}
+                  >
+                    <InteractionElement
+                      faculty={faculty}
+                      customKey={`${faculty["ERP ID"]}-s-i`}
+                    ></InteractionElement>
+
+                    <InfoCols
+                      entry={faculty}
+                      getID={(faculty) => faculty["ERP ID"] + "s"}
+                      styles={styles}
+                    ></InfoCols>
+                  </tr>
+                )}
+              </Draggable>
+            );
+          } else {
+            return (
+              <Draggable
+                draggableId={`${faculty["ERP ID"]}-s`}
+                key={`${faculty["ERP ID"]}-s`}
+                index={index}
+              >
+                {(provided) => (
+                  <tr
+                    className={`${styles.row} ${styles.selectedRow}`}
+                    id={faculty["ERP ID"]}
+                    ref={provided.innerRef}
+                    {...provided.draggableProps}
+                    {...provided.dragHandleProps}
+                  >
+                    <InteractionElement
+                      faculty={faculty}
+                      customKey={`${faculty["ERP ID"]}-s-i`}
+                    ></InteractionElement>
+
+                    <InfoCols
+                      entry={faculty}
+                      getID={(faculty) => faculty["ERP ID"] + "s"}
+                      styles={styles}
+                    ></InfoCols>
+                  </tr>
+                )}
+              </Draggable>
+            );
+          }
+        })}
+        {provided.placeholder}
+        {faculties.map((faculty, index) => {
+          if (isSelectedFaculty(faculty)) return <></>;
+          // Rendering unselected faculties
+          if (faculties.length === index + 1) {
+            return (
+              <tr
+                ref={lastElementRef}
+                className={`${styles.row} ${styles.notSelectedRow}`}
+                id={faculty["ERP ID"]}
+                key={`${faculty["ERP ID"]}-u`}
+              >
+                <InteractionElement
+                  faculty={faculty}
+                  customKey={`${faculty["ERP ID"]}-u-i`}
+                ></InteractionElement>
+
+                <InfoCols
+                  entry={faculty}
+                  getID={(faculty) => faculty["ERP ID"] + "u"}
+                  styles={styles}
+                ></InfoCols>
+              </tr>
+            );
+          } else {
+            return (
+              <tr
+                id={faculty["ERP ID"]}
+                className={`${styles.row} ${styles.notSelectedRow}`}
+                key={`${faculty["ERP ID"]}-u`}
+              >
+                <InteractionElement
+                  faculty={faculty}
+                  customKey={`${faculty["ERP ID"]}-u-i`}
+                ></InteractionElement>
+
+                <InfoCols
+                  entry={faculty}
+                  getID={(faculty) => faculty["ERP ID"] + "u"}
+                  styles={styles}
+                ></InfoCols>
+              </tr>
+            );
+          }
+        })}
+      </>
+    );
+  };
+  const handleOnDragEnd = (result) => {
+    if (!result.destination) return;
+    const newSelectedFaculties = Object.assign({}, selectedFaculties);
+    const [reorderedItem] = newSelectedFaculties[
+      currentlySelectedCourseID
+    ].splice(result.source.index, 1);
+    newSelectedFaculties[currentlySelectedCourseID].splice(
+      result.destination.index,
+      0,
+      reorderedItem
+    );
+    setSelectedFaculties(newSelectedFaculties);
+  };
 
   return currentlySelectedCourseID !== "" ? (
     <div className={styles.container}>
@@ -149,98 +280,15 @@ const FacultiesPreferenceList = ({
                 </tr>
               </thead>
 
-              <tbody>
-                {selectedFaculties[currentlySelectedCourseID]?.map(
-                  (faculty, index) => {
-                    // if (!isSelectedFaculty(faculty)) return <></>;
-                    // Rendering selected faculties
-                    if (faculties.length === index + 1) {
-                      return (
-                        <tr
-                          ref={lastElementRef}
-                          className={`${styles.row} ${styles.selectedRow}`}
-                          id={faculty["ERP ID"]}
-                          key={`${faculty["ERP ID"]}-s`}
-                        >
-                          <InteractionElement
-                            faculty={faculty}
-                            customKey={`${faculty["ERP ID"]}-s-i`}
-                          ></InteractionElement>
-
-                          <InfoCols
-                            entry={faculty}
-                            getID={(faculty) => faculty["ERP ID"] + "s"}
-                            styles={styles}
-                          ></InfoCols>
-                        </tr>
-                      );
-                    } else {
-                      return (
-                        <tr
-                          className={`${styles.row} ${styles.selectedRow}`}
-                          id={faculty["ERP ID"]}
-                          key={`${faculty["ERP ID"]}-s`}
-                        >
-                          <InteractionElement
-                            faculty={faculty}
-                            customKey={`${faculty["ERP ID"]}-s-i`}
-                          ></InteractionElement>
-
-                          <InfoCols
-                            entry={faculty}
-                            getID={(faculty) => faculty["ERP ID"] + "s"}
-                            styles={styles}
-                          ></InfoCols>
-                        </tr>
-                      );
-                    }
-                  }
-                )}
-                {faculties.map((faculty, index) => {
-                  if (isSelectedFaculty(faculty)) return <></>;
-                  // Rendering unselected faculties
-                  if (faculties.length === index + 1) {
-                    return (
-                      <tr
-                        ref={lastElementRef}
-                        className={`${styles.row} ${styles.notSelectedRow}`}
-                        id={faculty["ERP ID"]}
-                        key={`${faculty["ERP ID"]}-u`}
-                      >
-                        <InteractionElement
-                          faculty={faculty}
-                          customKey={`${faculty["ERP ID"]}-u-i`}
-                        ></InteractionElement>
-
-                        <InfoCols
-                          entry={faculty}
-                          getID={(faculty) => faculty["ERP ID"] + "u"}
-                          styles={styles}
-                        ></InfoCols>
-                      </tr>
-                    );
-                  } else {
-                    return (
-                      <tr
-                        id={faculty["ERP ID"]}
-                        className={`${styles.row} ${styles.notSelectedRow}`}
-                        key={`${faculty["ERP ID"]}-u`}
-                      >
-                        <InteractionElement
-                          faculty={faculty}
-                          customKey={`${faculty["ERP ID"]}-u-i`}
-                        ></InteractionElement>
-
-                        <InfoCols
-                          entry={faculty}
-                          getID={(faculty) => faculty["ERP ID"] + "u"}
-                          styles={styles}
-                        ></InfoCols>
-                      </tr>
-                    );
-                  }
-                })}
-              </tbody>
+              <DragDropContext onDragEnd={handleOnDragEnd}>
+                <Droppable droppableId="faculties">
+                  {(provided) => (
+                    <tbody {...provided.droppableProps} ref={provided.innerRef}>
+                      {facultyRows(provided)}
+                    </tbody>
+                  )}
+                </Droppable>
+              </DragDropContext>
             </>
           )}
         </table>
