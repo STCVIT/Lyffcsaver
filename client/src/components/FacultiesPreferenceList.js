@@ -1,3 +1,4 @@
+// using code from https://www.freecodecamp.org/news/how-to-add-drag-and-drop-in-react-with-react-beautiful-dnd/
 import { useCallback, useEffect, useRef, useState } from "react";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import styles from "../css/FacultiesPreferenceList.module.css";

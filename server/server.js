@@ -6,13 +6,14 @@
 
 const express = require("express");
 const app = express();
-const port = 3001;
+const port = process.env.PORT || 3001;
 const path = require("path");
 const fs = require("fs");
 const Fuse = require("fuse.js");
 
 app.use(express.json()); // for parsing application/json
 app.use(express.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded));
+app.use(express.static(path.join(__dirname, "build")));
 
 const { matchesField, matchesFieldAll } = require("./utils/matchesField");
 const { parseAndLoadExcel } = require("./utils/parseAndLoadExcel");
@@ -180,9 +181,9 @@ app.post("/classes", (req, res) => {
 // });
 
 app.get("/", (req, res) => {
-  res.send("Hello World!");
+  res.sendFile(path.join(__dirname, "build", "index.html"));
 });
 
 app.listen(port, () => {
-  console.log(`Example app listening at http://localhost:${port}`);
+  console.log(`app listening at http://localhost:${port}`);
 });
