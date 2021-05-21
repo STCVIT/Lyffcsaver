@@ -68,69 +68,6 @@ const getSlotMapping = () => {
   }
 };
 
-const getSlots = (result) => {
-  const classes = Object.values(result);
-  const slots = [];
-  classes
-    .map((currentClass) => currentClass["SLOT"].split("+"))
-    .forEach((classSlots) => {
-      slots.push(...classSlots);
-    });
-
-  return slots;
-};
-
-const isPossible = (selection, courseID) => {
-  const allSlots = getSlots(selection);
-  const allSlotsSet = new Set(allSlots);
-  if (allSlots.length > allSlotsSet.size) return false;
-
-  const slotsToBeChecked = getSlots({ courseID: selection[courseID] });
-  for (const slot of slotsToBeChecked) {
-    const equivalentSlots = mapping[slot];
-    if (equivalentSlots === undefined) continue;
-    for (const equivalentSlot of equivalentSlots) {
-      if (allSlots.includes(equivalentSlot)) return false;
-    }
-  }
-  return true;
-};
-
-const selectClasses = (courseIDs, classes, selection = {}) => {
-  if (courseIDs.length === 0) {
-    const slots = [...new Set(getSlots(selection))];
-    slots.sort();
-    const key = slots.join("+");
-    return { [key]: [selection] };
-  }
-
-  const courseID = courseIDs[0];
-  if (selection[courseID] !== undefined) return [];
-  const allResults = {};
-  for (const currentClass of classes[courseID]) {
-    selection[courseID] = currentClass;
-
-    // only checking if the change that was made
-    // is possible.
-    if (!isPossible(selection, courseID)) continue;
-    const results = selectClasses(
-      courseIDs.slice(1),
-      classes,
-      Object.assign({}, selection)
-    );
-    Object.values(results).forEach((resultArray) =>
-      resultArray.forEach((result) => {
-        const slots = [...new Set(getSlots(result))];
-        slots.sort();
-        const key = slots.join("+");
-        if (allResults[key] === undefined) allResults[key] = [];
-        allResults[key].push(result);
-      })
-    );
-  }
-  return allResults;
-};
-
 const getNumberOfTotalPossibleSelections = (classes) => {
   let first = true;
   if (classes !== undefined) {
@@ -149,7 +86,6 @@ const getNumberOfTotalPossibleSelections = (classes) => {
 };
 
 const verifyNumberOfClasses = (classes) => {
-  let first = true;
   let courseIDWithTooFewClasses;
 
   if (
@@ -227,9 +163,35 @@ const getTimetables = async (courses, faculties, blacklistedSlots) => {
       getNumberOfTotalPossibleSelections(classes)
     );
     console.time("selectClasses");
-    const possibleClassSelections = selectClasses(courseIDs, classes);
+    // using code from https://advancedweb.hu/how-to-use-async-await-with-postmessage/
+    // to use async await with worker.
+    const selectClasses = (mapping, courseIDs, classes) =>
+      new Promise((res, rej) => {
+        const channel = new MessageChannel();
+
+        channel.port1.onmessage = ({ data }) => {
+          channel.port1.close();
+          if (data.error) {
+            rej(data.error);
+          } else {
+            res(data.result);
+          }
+        };
+
+        worker.postMessage(
+          ["selectClasses", mapping, courseIDs, classes],
+          [channel.port2]
+        );
+      });
+    console.log(selectClasses(mapping, courseIDs, classes));
+    const possibleClassSelections = await selectClasses(
+      mapping,
+      courseIDs,
+      classes
+    );
     console.timeEnd("selectClasses");
-    let firstA = true;
+
+    let first = true;
     if (Object.keys(possibleClassSelections).length > 0)
       console.log(
         "all possible class selections",
@@ -238,8 +200,8 @@ const getTimetables = async (courses, faculties, blacklistedSlots) => {
         Object.keys(possibleClassSelections).length,
         "Possible Schedules:",
         Object.keys(possibleClassSelections).reduce((total, key) => {
-          if (firstA) {
-            firstA = false;
+          if (first) {
+            first = false;
             return (
               possibleClassSelections[Object.keys(possibleClassSelections)[0]]
                 .length + possibleClassSelections[key].length
@@ -251,6 +213,7 @@ const getTimetables = async (courses, faculties, blacklistedSlots) => {
     else alert("No valid schedules found.");
     return possibleClassSelections;
   }
+  return [];
 };
 
 export { getTimetables, getCourseID };
