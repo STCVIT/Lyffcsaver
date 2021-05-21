@@ -15,6 +15,10 @@ const getCourseID = (course) => {
 };
 
 const verifyPreferencesSet = (courses, faculties) => {
+  if (courses.length === 0) {
+    alert(`Please select at least one course.`);
+    return false;
+  }
   const unsetCourses = [];
   courses.forEach((course) => {
     if (faculties[getCourseID(course)] === undefined)
@@ -47,6 +51,7 @@ const getClasses = async (faculties) => {
 };
 
 const getSlotMapping = () => {
+  Object.keys(mapping).forEach((key) => delete mapping[key]);
   const data = timetableTemplateData;
   for (let rowNo = 4; rowNo + 1 < data.length; rowNo += 2) {
     for (let colNo = 2; colNo < data[rowNo].length; colNo++) {
@@ -126,6 +131,23 @@ const selectClasses = (courseIDs, classes, selection = {}) => {
   return allResults;
 };
 
+const getNumberOfTotalPossibleSelections = (classes) => {
+  let first = true;
+  if (classes !== undefined) {
+    const keysArray = Object.keys(classes);
+    console.log(keysArray);
+    if (keysArray.length > 0)
+      return keysArray.reduce((total, key) => {
+        if (first) {
+          first = false;
+          return classes[Object.keys(classes)[0]].length * classes[key].length;
+        }
+        return total * classes[key].length;
+      });
+    else return 0;
+  }
+};
+
 const verifyNumberOfClasses = (classes) => {
   let first = true;
   let courseIDWithTooFewClasses;
@@ -143,13 +165,7 @@ const verifyNumberOfClasses = (classes) => {
     return false;
   }
 
-  const numberOfPossibilities = Object.keys(classes).reduce((total, key) => {
-    if (first) {
-      first = false;
-      return classes[Object.keys(classes)[0]].length * classes[key].length;
-    }
-    return total * classes[key].length;
-  });
+  const numberOfPossibilities = getNumberOfTotalPossibleSelections(classes);
   if (numberOfPossibilities > 20000000) {
     const minutes = numberOfPossibilities / 50000000;
     return confirm(
@@ -163,22 +179,7 @@ const verifyNumberOfClasses = (classes) => {
   return true;
 };
 
-/**
- *
- * @param {Object} courses Object of type {courseID: [Array of classes with this courseID]}
- * @param {Object} faculties Object of type {courseID: [Faculties teaching this course sorted by preference]}
- * @param {Array} blacklistedSlots Contains slots to be excluded while making timetables
- * @returns {Object} Object in the format {slots: [All schedules occupying those slots]}
- */
-const getTimetables = async (courses, faculties, blacklistedSlots) => {
-  Object.keys(mapping).forEach((key) => delete mapping[key]);
-  getSlotMapping();
-  // console.log(courses, faculties);
-  if (!verifyPreferencesSet(courses, faculties)) return [];
-
-  const courseIDs = Object.keys(faculties);
-
-  const classes = await getClasses(faculties);
+const removeBlacklistedSlots = (classes, blacklistedSlots) => {
   Object.keys(classes).forEach((courseID) => {
     classes[courseID] = classes[courseID].filter((classToBeChecked) => {
       return (
@@ -189,53 +190,67 @@ const getTimetables = async (courses, faculties, blacklistedSlots) => {
       );
     });
   });
-  if (!verifyNumberOfClasses(classes)) return [];
-  // console.log(classes);
+};
 
-  // sorting courseIDs in ascending order of the number of classes
-  // with that courseID.
-  // This is done so that backtracking algorithm will terminate quicker
-  // in case some mistake is found.
-  courseIDs.sort((courseIDa, courseIDb) => {
-    return classes[courseIDa].length - classes[courseIDb].length;
-  });
-  // console.log(courseIDs);
+/**
+ *
+ * @param {Object} courses Object of type {courseID: [Array of classes with this courseID]}
+ * @param {Object} faculties Object of type {courseID: [Faculties teaching this course sorted by preference]}
+ * @param {Array} blacklistedSlots Contains slots to be excluded while making timetables
+ * @returns {Object} Object in the format {slots: [All schedules occupying those slots]}
+ */
+const getTimetables = async (courses, faculties, blacklistedSlots) => {
+  // console.log(courses, faculties);
+  if (window.Worker) {
+    const worker = new Worker("workers/worker.js");
 
-  let firstB = true;
-  console.log(
-    "All Possible Selections:",
-    Object.keys(classes).reduce((total, key) => {
-      if (firstB) {
-        firstB = false;
-        return classes[Object.keys(classes)[0]].length * classes[key].length;
-      }
-      return total * classes[key].length;
-    })
-  );
-  console.time("selectClasses");
-  const possibleClassSelections = selectClasses(courseIDs, classes);
-  console.timeEnd("selectClasses");
-  let firstA = true;
-  if (Object.keys(possibleClassSelections).length > 0)
+    getSlotMapping();
+
+    const courseIDs = Object.keys(faculties);
+    const classes = await getClasses(faculties);
+
+    if (!verifyPreferencesSet(courses, faculties)) return [];
+
+    removeBlacklistedSlots(classes, blacklistedSlots);
+    if (!verifyNumberOfClasses(classes)) return [];
+
+    // sorting courseIDs in ascending order of the number of classes
+    // with that courseID.
+    // This is done so that backtracking algorithm will terminate quicker
+    // in case some mistake is found.
+    courseIDs.sort((courseIDa, courseIDb) => {
+      return classes[courseIDa].length - classes[courseIDb].length;
+    });
+
     console.log(
-      "all possible class selections",
-      possibleClassSelections,
-      "Groups:",
-      Object.keys(possibleClassSelections).length,
-      "Possible Schedules:",
-      Object.keys(possibleClassSelections).reduce((total, key) => {
-        if (firstA) {
-          firstA = false;
-          return (
-            possibleClassSelections[Object.keys(possibleClassSelections)[0]]
-              .length + possibleClassSelections[key].length
-          );
-        }
-        return total + possibleClassSelections[key].length;
-      })
+      "All Possible Selections:",
+      getNumberOfTotalPossibleSelections(classes)
     );
-  else alert("No valid schedules found.");
-  return possibleClassSelections;
+    console.time("selectClasses");
+    const possibleClassSelections = selectClasses(courseIDs, classes);
+    console.timeEnd("selectClasses");
+    let firstA = true;
+    if (Object.keys(possibleClassSelections).length > 0)
+      console.log(
+        "all possible class selections",
+        possibleClassSelections,
+        "Groups:",
+        Object.keys(possibleClassSelections).length,
+        "Possible Schedules:",
+        Object.keys(possibleClassSelections).reduce((total, key) => {
+          if (firstA) {
+            firstA = false;
+            return (
+              possibleClassSelections[Object.keys(possibleClassSelections)[0]]
+                .length + possibleClassSelections[key].length
+            );
+          }
+          return total + possibleClassSelections[key].length;
+        })
+      );
+    else alert("No valid schedules found.");
+    return possibleClassSelections;
+  }
 };
 
 export { getTimetables, getCourseID };

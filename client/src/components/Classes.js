@@ -22,7 +22,9 @@ const Classes = ({ schedules, select, slots }) => {
     ?.slice(currentPage * previewsPerPage, (currentPage + 1) * previewsPerPage)
     ?.map((schedule, index) => {
       const courseIDs = Object.keys(schedule);
-      return (
+      return courseIDs.length === 0 ? (
+        <></>
+      ) : (
         <div
           key={`${slots.join("")}-${index}}`}
           className={styles.tableWrapper}
