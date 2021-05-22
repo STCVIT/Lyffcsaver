@@ -26,13 +26,14 @@ const { parseAndLoadExcel } = require(path.join(
   "parseAndLoadExcel.js"
 ));
 
-parseAndLoadExcel(
-  path.join(
-    __dirname,
-    "course-allocation",
-    "WINSEM2019-20_ALL_ALLOCATIONREPORT_22-10-2019.xlsx"
-  )
-);
+if (process.argv[2] === "loadData")
+  parseAndLoadExcel(
+    path.join(
+      __dirname,
+      "course-allocation",
+      "WINSEM2019-20_ALL_ALLOCATIONREPORT_22-10-2019.xlsx"
+    )
+  );
 const getCourseID = (course) => {
   return `${course["COURSE CODE"]}-${course["COURSE TYPE"]}`;
 };
