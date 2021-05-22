@@ -183,7 +183,6 @@ const getTimetables = async (courses, faculties, blacklistedSlots) => {
           [channel.port2]
         );
       });
-    console.log(selectClasses(mapping, courseIDs, classes));
     const possibleClassSelections = await selectClasses(
       mapping,
       courseIDs,
