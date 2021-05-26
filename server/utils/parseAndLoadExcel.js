@@ -1,16 +1,30 @@
 const XLSX = require("xlsx");
-const path = require("path");
-const fs = require("fs");
 const { matchesField, matchesFieldAll } = require("./matchesField");
+const { db } = require("../firebase/firebaseConfig");
+const FACULTIES = "FACULTIES";
+const COURSES = "COURSES";
+const CLASSES = "CLASSES";
+
+const getCourseID = (course) => {
+  return `${course["COURSE CODE"]}-${course["COURSE TYPE"]}`;
+};
+const addUnique = async (uniqueField, collectionName, data) => {
+  // await db
+  //   .collection(collectionName)
+  //   .where(uniqueField, "==", data[uniqueField])
+  //   .get()
+  //   .then(async (snapshot) => {
+  //     if (snapshot.docs.length === 0)
+  //       await db.collection(collectionName).add(data);
+  //   });
+};
 const parseAndLoadExcel = async (filePath) => {
   const courses = [];
   const faculties = [];
   const classes = [];
-
   const workbook = XLSX.readFile(filePath);
   const sheetNameList = workbook.SheetNames;
   const data = XLSX.utils.sheet_to_json(workbook.Sheets[sheetNameList[0]]);
-
   for (const classInfo of data) {
     const matchingFaculty = matchesField(
       classInfo["ERP ID"],
@@ -27,7 +41,6 @@ const parseAndLoadExcel = async (filePath) => {
       "COURSE TYPE",
       matchingCourses
     );
-
     const newClass = {
       "ERP ID": classInfo["ERP ID"],
       "COURSE CODE": classInfo["COURSE CODE"],
@@ -36,7 +49,7 @@ const parseAndLoadExcel = async (filePath) => {
       SLOT: classInfo["SLOT"],
       "COURSE TYPE": classInfo["COURSE TYPE"],
       "ROOM NUMBER": classInfo["ROOM NUMBER"],
-      BATCH: classInfo["BATCH"],
+      BATCH: classInfo["BATCH"] === undefined ? "-" : classInfo["BATCH"],
       "CLASS OPTION": classInfo["CLASS OPTION"],
       "CLASS TYPE": classInfo["CLASS TYPE"],
       "COURSE MODE": classInfo["COURSE MODE"],
@@ -47,6 +60,7 @@ const parseAndLoadExcel = async (filePath) => {
     };
     if (classInfo["SLOT"] !== "NIL") {
       classes.push(newClass);
+      await addUnique("CLASS ID", CLASSES, newClass);
       if (matchingFaculty === null) {
         const newFaculty = {
           "ERP ID": classInfo["ERP ID"],
@@ -54,6 +68,7 @@ const parseAndLoadExcel = async (filePath) => {
           "EMPLOYEE SCHOOL": classInfo["EMPLOYEE SCHOOL"],
         };
         faculties.push(newFaculty);
+        await addUnique("ERP ID", FACULTIES, newFaculty);
       }
       if (matchingCourse === null) {
         const newCourse = {
@@ -67,31 +82,34 @@ const parseAndLoadExcel = async (filePath) => {
           "PRACTICAL HOURS": classInfo["PRACTICAL HOURS"],
           CREDITS: classInfo["CREDITS"],
         };
+        newCourse["COURSE ID"] = getCourseID(newCourse);
         courses.push(newCourse);
+        await addUnique("COURSE ID", COURSES, newCourse);
       }
     }
   }
-  fs.writeFile(
-    path.join("data", "faculties.json"),
-    JSON.stringify(faculties),
-    (err) => {
-      if (err !== null) console.log(err);
-    }
-  );
-  fs.writeFile(
-    path.join("data", "courses.json"),
-    JSON.stringify(courses),
-    (err) => {
-      if (err !== null) console.log(err);
-    }
-  );
-  fs.writeFile(
-    path.join("data", "classes.json"),
-    JSON.stringify(classes),
-    (err) => {
-      if (err !== null) console.log(err);
-    }
-  );
+  console.log("finished uploading data");
+  // fs.writeFile(
+  //   path.join("data", "faculties.json"),
+  //   JSON.stringify(faculties),
+  //   (err) => {
+  //     if (err !== null) console.log(err);
+  //   }
+  // );
+  // fs.writeFile(
+  //   path.join("data", "courses.json"),
+  //   JSON.stringify(courses),
+  //   (err) => {
+  //     if (err !== null) console.log(err);
+  //   }
+  // );
+  // fs.writeFile(
+  //   path.join("data", "classes.json"),
+  //   JSON.stringify(classes),
+  //   (err) => {
+  //     if (err !== null) console.log(err);
+  //   }
+  // );
 };
 
-module.exports = { parseAndLoadExcel };
+module.exports = { parseAndLoadExcel, getCourseID };

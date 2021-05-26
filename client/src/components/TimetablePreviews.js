@@ -6,7 +6,6 @@ import ReactPaginate from "react-paginate";
 // https://ihsavru.medium.com/react-paginate-implementing-pagination-in-react-f199625a5c8e
 // for pagination.
 const TimetablePreviews = ({ schedulesSlots, select }) => {
-  // console.log("in timetable previews", schedulesSlots);
   const previewsPerPage = 15;
   const pageCount = Math.ceil(schedulesSlots.length / previewsPerPage);
   const [currentPage, setCurrentPage] = useState(0);

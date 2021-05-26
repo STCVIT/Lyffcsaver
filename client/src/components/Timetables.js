@@ -3,22 +3,35 @@ import Timetable from "./Timetable";
 import Classes from "./Classes";
 import styles from "../css/Timetables.module.css";
 
-const Timetables = ({ schedules, slots }) => {
-  const [currentlySelectedSchedule, setCurrentlySelectedSchedule] = useState(
-    {}
-  );
+const Timetables = ({ schedules, slots, faculties }) => {
+  const [selectedClasses, setSelectedClasses] = useState({});
+  const [hoveredSlots, setHoveredSlots] = useState([]);
   useEffect(() => {
-    setCurrentlySelectedSchedule({});
+    setHoveredSlots([]);
   }, [slots]);
+  // useEffect(() => console.log("selected classes", selectedClasses), [
+  //   selectedClasses,
+  // ]);
   return (
     <div id="#timetables-screen" className={styles.timetablesScreen}>
       <h3 className={styles.slotTitle}>{slots.join("+")}</h3>
-      <Classes
-        schedules={schedules[slots.join("+")]}
+      {slots !== undefined && slots.length > 0 ? (
+        <Classes
+          schedules={schedules[slots.join("+")]}
+          slots={slots}
+          selectedClasses={selectedClasses}
+          setSelectedClasses={setSelectedClasses}
+          faculties={faculties}
+          setHoveredSlots={setHoveredSlots}
+        ></Classes>
+      ) : (
+        <></>
+      )}
+      <Timetable
+        selectedClasses={selectedClasses}
         slots={slots}
-        select={setCurrentlySelectedSchedule}
-      ></Classes>
-      <Timetable schedule={currentlySelectedSchedule} slots={slots}></Timetable>
+        hoveredSlots={hoveredSlots}
+      ></Timetable>
     </div>
   );
 };

@@ -15,37 +15,22 @@ const Options = ({ generateTimetables }) => {
     "PRACTICAL HOURS",
   ];
   const [selectedCourses, setSelectedCourses] = useState([]);
+  const [selectedFaculties, setSelectedFaculties] = useState({});
   const [currentlySelectedCourseID, setCurrentlySelectedCourseID] = useState(
     ""
   );
-  const [selectedFaculties, setSelectedFaculties] = useState({});
   const [blacklistedSlots, setBlacklistedSlots] = useState([]);
-
-  useEffect(() => {
-    console.log("added courses", selectedCourses);
-  }, [selectedCourses]);
-  useEffect(() => {
-    console.log("currently selected course", currentlySelectedCourseID);
-  }, [currentlySelectedCourseID]);
-  useEffect(() => {
-    console.log("new selected faculties", selectedFaculties);
-  }, [selectedFaculties]);
-  useEffect(() => {
-    console.log("new blacklisted slots", blacklistedSlots);
-  }, [blacklistedSlots]);
 
   const toggleBlacklist = (slot) => {
     const pattern = /[A-Z]+\d+/;
     if (pattern.test(slot)) {
       if (blacklistedSlots.includes(slot)) {
-        console.log("deleting", blacklistedSlots, slot);
         setBlacklistedSlots((prevBlacklistedSlots) =>
           prevBlacklistedSlots.filter(
             (slotToBeChecked) => slotToBeChecked !== slot
           )
         );
       } else {
-        console.log("adding", blacklistedSlots, slot);
         setBlacklistedSlots((prevBlacklistedSlots) => [
           ...prevBlacklistedSlots,
           slot,
@@ -54,10 +39,8 @@ const Options = ({ generateTimetables }) => {
     }
   };
   const addCourse = async (courseID) => {
-    // console.log(courseID);
     try {
       let res = await axios.get(`/courses?courseID=${courseID}`);
-      // console.log(res.data);
       if (res.data !== undefined) {
         const course = res.data;
         setSelectedCourses((prevSelectedCourses) => [
@@ -91,7 +74,7 @@ const Options = ({ generateTimetables }) => {
   };
   return (
     <div className={styles.screen}>
-      <div className={styles.row}>
+      {/* <div className={styles.row}>
         <div className={styles.option}>
           <label htmlFor="semester">
             <h2>Semester</h2>
@@ -137,7 +120,7 @@ const Options = ({ generateTimetables }) => {
             <option value="scope">Scope</option>
           </select>
         </div>
-      </div>
+      </div> */}
       <div className={styles.row}>
         <BlacklistSlots
           blacklistedSlots={blacklistedSlots}

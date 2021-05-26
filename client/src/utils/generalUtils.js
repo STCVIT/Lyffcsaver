@@ -72,7 +72,6 @@ const getNumberOfTotalPossibleSelections = (classes) => {
   let first = true;
   if (classes !== undefined) {
     const keysArray = Object.keys(classes);
-    console.log(keysArray);
     if (keysArray.length > 0)
       return keysArray.reduce((total, key) => {
         if (first) {

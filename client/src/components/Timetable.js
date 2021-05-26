@@ -1,8 +1,7 @@
 import timetableStyles from "../css/Timetable.module.css";
 import timetableTemplateData from "../utils/timetableTemplateData";
 
-const Timetable = ({ slots, schedule }) => {
-  // console.log("timetable", slots);
+const Timetable = ({ slots, selectedClasses, hoveredSlots }) => {
   let dayCount = 0;
   const id = "final-display";
   const getCellContent = (schedule, cell) => {
@@ -27,6 +26,15 @@ const Timetable = ({ slots, schedule }) => {
     if (cellContent === "Lunch") {
       className += `${timetableStyles.lunch}`;
       return className;
+    }
+    if (hoveredSlots.includes(cellContent)) {
+      if (rowIndex % 2 === 0) {
+        className += `${timetableStyles.hoveredTheory}`;
+        return className;
+      } else {
+        className += `${timetableStyles.hoveredLab}`;
+        return className;
+      }
     }
     if (slots.includes(cellContent)) {
       if (rowIndex % 2 === 0) {
@@ -83,7 +91,7 @@ const Timetable = ({ slots, schedule }) => {
                       className={`${getClassName(cell, rowIndex, cellIndex)}`}
                       rowSpan={cellIndex === 0 ? 2 : 1}
                     >
-                      {getCellContent(schedule, cell)}
+                      {getCellContent(selectedClasses, cell)}
                     </td>
                   );
                 })}

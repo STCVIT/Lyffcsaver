@@ -1,9 +1,16 @@
 import ReactPaginate from "react-paginate";
 import InfoCols from "./InfoCols";
 import styles from "../css/Classes.module.css";
-import { useState } from "react";
-const Classes = ({ schedules, select, slots }) => {
-  console.log({ schedules, slots });
+import { getCourseID } from "../utils/generalUtils";
+import { useEffect, useState } from "react";
+const Classes = ({
+  schedules,
+  slots,
+  selectedClasses,
+  setSelectedClasses,
+  setHoveredSlots,
+  faculties,
+}) => {
   const ignoreCols = [
     "REGISTERED SEATS",
     "ASSO CLASS ID",
@@ -13,72 +20,279 @@ const Classes = ({ schedules, select, slots }) => {
     "WAITING SEATS",
     "COURSE STATUS",
     "COURSE MODE",
+    "COURSE CODE",
     "BATCH",
   ];
-  const previewsPerPage = 2;
-  const pageCount = Math.ceil(schedules?.length / previewsPerPage);
+  const courseIDs = schedules?.length > 0 ? Object.keys(schedules[0]) : [];
+  const classes = {};
+  const previewsPerPage = 1;
+  const pageCount = courseIDs?.length / previewsPerPage;
   const [currentPage, setCurrentPage] = useState(0);
-  const currentPageData = schedules
+
+  const isUnique = (fieldName, array, element) => {
+    return !array.some(
+      (currentElement) => currentElement[fieldName] === element[fieldName]
+    );
+  };
+  schedules?.forEach((schedule) =>
+    courseIDs?.forEach((courseID) => {
+      if (classes[courseID] === undefined) classes[courseID] = [];
+      if (isUnique("CLASS ID", classes[courseID], schedule[courseID]))
+        classes[courseID].push(schedule[courseID]);
+    })
+  );
+  courseIDs.sort((a, b) => classes[b].length - classes[a].length);
+
+  useEffect(() => {
+    setCurrentPage(0);
+    // useForceUpdate();
+  }, [slots, schedules]);
+  useEffect(() => {}, [selectedClasses]);
+
+  useEffect(() => {
+    const newSelectedClasses = {};
+    for (const courseID of Object.keys(classes)) {
+      newSelectedClasses[courseID] = classes[courseID][0];
+    }
+    setSelectedClasses(newSelectedClasses);
+  }, [slots, schedules]);
+
+  const getFacultyByID = (erpID, courseID) => {
+    if (courseID !== undefined)
+      return faculties[courseID].find((element) => element["ERP ID"] === erpID);
+    for (const courseID of courseIDs) {
+      const foundElement = faculties[courseID].find(
+        (element) => element["ERP ID"] === erpID
+      );
+      if (foundElement !== undefined) return foundElement;
+    }
+    return undefined;
+  };
+
+  const isSelectedClass = (classToBeChecked, currentCourseID) => {
+    return (
+      selectedClasses[currentCourseID] !== undefined &&
+      selectedClasses[currentCourseID]["CLASS ID"] ===
+        classToBeChecked["CLASS ID"]
+    );
+  };
+
+  const getClassName = (classToBeChecked) => {
+    let className = `${styles.tableRow} `;
+    const newSlots = classToBeChecked["SLOT"].split("+");
+    const noSlotConflict =
+      newSlots.find(
+        (slot) =>
+          Object.keys(selectedClasses).find(
+            (courseID) =>
+              getCourseID(classToBeChecked) !== courseID &&
+              selectedClasses[courseID]["SLOT"].split("+").includes(slot)
+          ) !== undefined
+      ) === undefined;
+    if (!noSlotConflict) className += `${styles.faded} `;
+    return className;
+  };
+
+  const InteractionElement = ({ currentClass, customKey, currentCourseID }) => {
+    return (
+      <td className={styles.cell}>
+        <input
+          type="checkbox"
+          name="selected"
+          id={`${customKey}-selected`}
+          key={customKey}
+          onClick={(e) => {
+            let newSelectedClasses = selectedClasses;
+            if (newSelectedClasses[currentCourseID] === undefined)
+              newSelectedClasses[currentCourseID] = {};
+            if (e.target.checked) {
+              for (const courseIDToBeChecked of Object.keys(
+                newSelectedClasses
+              )) {
+                if (
+                  currentCourseID !== courseIDToBeChecked &&
+                  newSelectedClasses[courseIDToBeChecked]["SLOT"]
+                    ?.split("+")
+                    ?.find((slot) =>
+                      currentClass["SLOT"].split("+").includes(slot)
+                    )
+                ) {
+                  delete newSelectedClasses[courseIDToBeChecked];
+                }
+              }
+              if (!isSelectedClass(currentClass))
+                newSelectedClasses[currentCourseID] = currentClass;
+            } else {
+              delete newSelectedClasses[currentCourseID];
+            }
+            setSelectedClasses({ ...newSelectedClasses });
+          }}
+          defaultChecked={isSelectedClass(currentClass, currentCourseID)}
+          className={styles.checkbox}
+        />
+      </td>
+    );
+  };
+
+  const handleHover = (hoveredClass, element) => {
+    if (hoveredClass === undefined) return;
+    setHoveredSlots(hoveredClass["SLOT"].split("+"));
+    document
+      .querySelectorAll(`.${styles.hoverRow}`)
+      .forEach((e) => e.classList.remove(styles.hoverRow));
+    let currentElement = element?.target;
+    while (
+      currentElement !== null &&
+      currentElement !== undefined &&
+      !currentElement?.classList?.contains(styles.tableRow)
+    ) {
+      currentElement = currentElement.parentNode;
+    }
+    currentElement?.classList?.add(styles.hoverRow);
+  };
+
+  const handleDehover = (hoveredClass, element) => {
+    setHoveredSlots([]);
+    document
+      .querySelectorAll(`.${styles.hoverRow}`)
+      .forEach((e) => e.classList.remove(styles.hoverRow));
+    // let currentElement = element;
+    // while (
+    //   currentElement !== null &&
+    //   currentElement !== undefined &&
+    // // !currentElement?.classList?.contains(styles.tableRow)
+    // ) {
+    //   currentElement = currentElement.parentNode;
+    // }
+    // currentElement?.classList?.add(styles.hoverRow);
+  };
+  const colsHeadings =
+    courseIDs?.length > 0 && schedules[0][courseIDs[0]] !== undefined
+      ? Object.keys(schedules[0][courseIDs[0]]).map((colName, index) => {
+          if (ignoreCols && !ignoreCols.includes(colName))
+            return (
+              <th
+                className={`${styles.cell} ${styles.headRow}`}
+                key={`${slots.join("")}-${index}-head-${colName}`}
+              >
+                {colName}
+              </th>
+            );
+        })
+      : [];
+
+  const currentPageData = courseIDs
     ?.slice(currentPage * previewsPerPage, (currentPage + 1) * previewsPerPage)
-    ?.map((schedule, index) => {
-      const courseIDs = Object.keys(schedule);
-      return courseIDs.length === 0 ? (
-        <></>
-      ) : (
+    ?.map((courseID) => {
+      return (
         <div
-          key={`${slots.join("")}-${index}}`}
           className={styles.tableWrapper}
-          onClick={() => select(schedule)}
+          key={`${slots.join("")}-${courseID}`}
         >
           <table className={styles.table}>
             <thead>
-              {Object.keys(schedule[courseIDs[0]]).map((key) => {
-                if (ignoreCols && !ignoreCols.includes(key))
-                  return (
-                    <th
-                      className={styles.cell}
-                      key={`${slots.join("")}-${index}-head-${key}`}
-                    >
-                      {key}
-                    </th>
-                  );
-              })}
+              <th
+                className={`${styles.cell} ${styles.headRow}`}
+                colSpan={colsHeadings.length}
+              >
+                {courseID}
+              </th>
+            </thead>
+            <thead>
+              <th className={`${styles.cell} ${styles.headRow}`}></th>
+              <th className={`${styles.cell} ${styles.headRow}`}>
+                EMPLOYEE NAME
+              </th>
+              {colsHeadings}
             </thead>
             <tbody>
-              {courseIDs.map((courseID) => {
-                return (
-                  <tr key={`${slots.join("")}-${index}}-${courseID}`}>
-                    <InfoCols
-                      entry={schedule[courseID]}
-                      getID={() => `${slots.join("")}-${index}}-${courseID}`}
-                      styles={styles}
-                      ignoreCols={ignoreCols}
-                      onClick={(e) => {
-                        document
-                          .querySelectorAll(`.${styles.selectedSchedule}`)
-                          ?.forEach((element) =>
-                            element.classList.remove(styles.selectedSchedule)
-                          );
-
-                        let element = e.target;
-                        while (element !== null && element !== undefined) {
-                          if (element.classList.contains(styles.table)) {
-                            element.classList.add(styles.selectedSchedule);
-                            break;
-                          }
-                          element = element.parentNode;
+              {selectedClasses[courseID] === undefined ? (
+                <></>
+              ) : (
+                <tr
+                  key={`${slots.join("")}-${courseID}-${
+                    selectedClasses[courseID]["CLASS ID"]
+                  }`}
+                  className={styles.tableRow}
+                  onMouseEnter={(e) =>
+                    handleHover(selectedClasses[courseID], e)
+                  }
+                  onMouseLeave={(e) =>
+                    handleDehover(selectedClasses[courseID], e)
+                  }
+                  id={`${selectedClasses[courseID]["CLASS ID"]}`}
+                >
+                  <InteractionElement
+                    currentClass={selectedClasses[courseID]}
+                    customKey={`${slots.join("")}-${courseID}-${
+                      selectedClasses[courseID]["CLASS ID"]
+                    }`}
+                    currentCourseID={courseID}
+                  ></InteractionElement>
+                  <td className={`${styles.cell}`}>
+                    {
+                      getFacultyByID(
+                        selectedClasses[courseID]["ERP ID"],
+                        courseID
+                      )["EMPLOYEE NAME"]
+                    }
+                  </td>
+                  <InfoCols
+                    entry={selectedClasses[courseID]}
+                    styles={styles}
+                    ignoreCols={ignoreCols}
+                    getID={() =>
+                      `${slots.join("")}-${courseID}-${
+                        selectedClasses[courseID]["CLASS ID"]
+                      }`
+                    }
+                  ></InfoCols>
+                </tr>
+              )}
+              {classes[courseID].map((currentClass) => {
+                if (!isSelectedClass(currentClass, courseID))
+                  return (
+                    <tr
+                      key={`${slots.join("")}-${courseID}-${
+                        currentClass["CLASS ID"]
+                      }`}
+                      onMouseEnter={(e) => handleHover(currentClass, e)}
+                      onMouseLeave={(e) => handleDehover(currentClass, e)}
+                      className={getClassName(currentClass)}
+                      id={`${currentClass["CLASS ID"]}`}
+                    >
+                      <InteractionElement
+                        currentClass={currentClass}
+                        customKey={`${slots.join("")}-${courseID}-${
+                          currentClass["CLASS ID"]
+                        }`}
+                        currentCourseID={courseID}
+                      ></InteractionElement>
+                      <td className={`${styles.cell}`}>
+                        {
+                          getFacultyByID(currentClass["ERP ID"], courseID)[
+                            "EMPLOYEE NAME"
+                          ]
                         }
-                      }}
-                    ></InfoCols>
-                  </tr>
-                );
+                      </td>
+                      <InfoCols
+                        entry={currentClass}
+                        styles={styles}
+                        ignoreCols={ignoreCols}
+                        getID={() =>
+                          `${slots.join("")}-${courseID}-${
+                            currentClass["CLASS ID"]
+                          }`
+                        }
+                      ></InfoCols>
+                    </tr>
+                  );
               })}
             </tbody>
           </table>
         </div>
       );
     });
-  console.log("classes", schedules, slots);
   return schedules === undefined ? (
     <></>
   ) : (
@@ -89,12 +303,12 @@ const Classes = ({ schedules, select, slots }) => {
         pageCount={pageCount}
         onPageChange={({ selected }) => {
           setCurrentPage(selected);
-          select({});
-          document
-            .querySelectorAll(`.${styles.selectedSchedule}`)
-            ?.forEach((element) =>
-              element.classList.remove(styles.selectedSchedule)
-            );
+          // select({});
+          // document
+          //   .querySelectorAll(`.${styles.selectedSchedule}`)
+          //   ?.forEach((element) =>
+          //     element.classList.remove(styles.selectedSchedule)
+          //   );
         }}
         containerClassName={styles.schedules}
         previousLinkClassName={styles.previous}

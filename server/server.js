@@ -20,7 +20,7 @@ const { matchesField, matchesFieldAll } = require(path.join(
   "utils",
   "matchesField.js"
 ));
-const { parseAndLoadExcel } = require(path.join(
+const { parseAndLoadExcel, getCourseID } = require(path.join(
   __dirname,
   "utils",
   "parseAndLoadExcel.js"
@@ -34,9 +34,6 @@ if (process.argv[2] === "loadData")
       "WINSEM2019-20_ALL_ALLOCATIONREPORT_22-10-2019.xlsx"
     )
   );
-const getCourseID = (course) => {
-  return `${course["COURSE CODE"]}-${course["COURSE TYPE"]}`;
-};
 
 app.get("/faculties", (req, res) => {
   const classes = JSON.parse(

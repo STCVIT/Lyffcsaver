@@ -38,7 +38,6 @@ const selectClasses = (courseIDs, classes, selection = {}) => {
   const courseID = courseIDs[0];
   if (selection[courseID] !== undefined) return [];
   const allResults = {};
-  // console.log({ mapping, courseIDs, classes });
   for (const currentClass of classes[courseID]) {
     selection[courseID] = currentClass;
 
@@ -63,7 +62,6 @@ const selectClasses = (courseIDs, classes, selection = {}) => {
   return allResults;
 };
 onmessage = (event) => {
-  console.log("message received", event.data);
   const req = event.data[0];
   try {
     if (req === "selectClasses") {
@@ -71,7 +69,6 @@ onmessage = (event) => {
       const courseIDs = event.data[2];
       const classes = event.data[3];
       const possibleClassSelections = selectClasses(courseIDs, classes);
-      // console.log({ possibleClassSelections });
       event.ports[0].postMessage({ result: possibleClassSelections });
     } else {
       throw "Invalid message";

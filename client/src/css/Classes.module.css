@@ -17,20 +17,22 @@
 }
 .table {
   border-spacing: 0;
-  cursor: pointer;
 }
-.table:hover {
+/* .table:hover {
   background-color: var(--selectable-row-hover-bg);
 }
 .selectedSchedule {
   border: 2px blue solid;
-}
+} */
 .tableWrapper {
   margin-top: 20px;
   max-width: 40vw;
   min-width: fit-content(500px);
   max-height: 40vh;
   overflow: auto;
+}
+.tableRow {
+  user-select: none;
 }
 .headRow,
 .headRow th {
@@ -45,14 +47,17 @@
   flex: 2;
   min-width: 120px;
 }
-.remove {
+.checkbox {
+  cursor: pointer;
+}
+/* .remove {
   color: red;
   font-weight: 1000;
   cursor: pointer;
 }
 .remove:hover {
   background-color: var(--remove-hover-bg);
-}
+} */
 
 .loading,
 .error {
@@ -69,7 +74,7 @@
   background-color: var(--active-bg);
 }
 .hoverRow {
-  background-color: var(--selectable-row-hover-bg);
+  background-color: lightcoral !important;
 }
 
 .panel {
@@ -98,4 +103,8 @@
 }
 .active > a {
   background-color: #ccf !important;
+}
+.faded {
+  background-color: lightgray;
+  color: gray;
 }

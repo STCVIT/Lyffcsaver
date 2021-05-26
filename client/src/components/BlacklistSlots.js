@@ -22,15 +22,6 @@ const BlacklistSlots = ({ blacklistedSlots, toggleBlacklist }) => {
       className += ` ${timetableStyles.blacklisted} `;
       return className;
     }
-    // if (slots.includes(cellContent)) {
-    //   if (rowIndex % 2 === 0) {
-    //     className += `${timetableStyles.theory}`;
-    //     return className;
-    //   } else {
-    //     className += `${timetableStyles.lab}`;
-    //     return className;
-    //   }
-    // }
     if (dayCount % 2 === 0) {
       className += ` ${timetableStyles.evenDay} `;
       return className;

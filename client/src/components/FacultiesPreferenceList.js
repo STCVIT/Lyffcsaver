@@ -46,7 +46,6 @@ const FacultiesPreferenceList = ({
     setPageNumber(1);
   };
 
-  // console.log("rerendering faculties");
   const isSelectedFaculty = (facultyToBeChecked) => {
     return (
       selectedFaculties[currentlySelectedCourseID]?.find((selectedFaculty) => {
@@ -56,10 +55,10 @@ const FacultiesPreferenceList = ({
   };
 
   // start code from https://stackoverflow.com/a/53837442/13378825
-  const [forcingValue, setForcingValue] = useState(0); // integer state
-  function useForceUpdate() {
-    setForcingValue((prevforcingValue) => prevforcingValue + 1); // update the state to force render
-  }
+  // const [forcingValue, setForcingValue] = useState(0); // integer state
+  // function useForceUpdate() {
+  //   setForcingValue((prevforcingValue) => prevforcingValue + 1); // update the state to force render
+  // }
   // end code from https://stackoverflow.com/a/53837442/13378825
 
   const InteractionElement = ({ faculty, customKey }) => {
@@ -72,25 +71,16 @@ const FacultiesPreferenceList = ({
           key={customKey}
           onClick={(e) => {
             let newSelectedFaculties = selectedFaculties;
-            console.log(selectedFaculties);
             if (newSelectedFaculties[currentlySelectedCourseID] === undefined)
               newSelectedFaculties[currentlySelectedCourseID] = [];
             if (e.target.checked) {
-              console.log("selecting", e.target.parentNode.parentNode.id);
               if (!isSelectedFaculty(faculty))
                 newSelectedFaculties[currentlySelectedCourseID].push(faculty);
             } else {
-              console.log("deselecting", e.target.parentNode.parentNode.id);
               newSelectedFaculties[
                 currentlySelectedCourseID
               ] = newSelectedFaculties[currentlySelectedCourseID].filter(
                 (selectedFaculty) => {
-                  // console.log(
-                  //   selectedFaculty,
-                  //   e.target.parentNode.parentNode.id,
-                  //   selectedFaculty["ERP ID"] !==
-                  //     e.target.parentNode.parentNode.id
-                  // );
                   return (
                     selectedFaculty["ERP ID"] !==
                     e.target.parentNode.parentNode.id
@@ -98,12 +88,12 @@ const FacultiesPreferenceList = ({
                 }
               );
             }
-            setSelectedFaculties(newSelectedFaculties);
+            setSelectedFaculties({ ...newSelectedFaculties });
 
             // Forcing Update is necessary here as changes to selectedFaculties
             // happen at a nested level, and therefore react doesn't notice the
             // change.
-            useForceUpdate();
+            // useForceUpdate();
           }}
           defaultChecked={isSelectedFaculty(faculty)}
         />
@@ -241,7 +231,9 @@ const FacultiesPreferenceList = ({
     setSelectedFaculties(newSelectedFaculties);
   };
 
-  return currentlySelectedCourseID !== "" ? (
+  return currentlySelectedCourseID === "" ? (
+    <></>
+  ) : (
     <div className={styles.container}>
       <label className={styles.label}>
         <h2>Faculties</h2>
@@ -264,9 +256,7 @@ const FacultiesPreferenceList = ({
                   <th className={styles.cell} key="faculty-head-select"></th>
                   {Object.keys(faculties[0]).map((key) => {
                     if (
-                      // eslint-disable-next-line no-undef
                       ignoreCols === undefined ||
-                      // eslint-disable-next-line no-undef
                       (ignoreCols && !ignoreCols.includes(key))
                     )
                       return (
@@ -295,8 +285,6 @@ const FacultiesPreferenceList = ({
         </table>
       </div>
     </div>
-  ) : (
-    <></>
   );
 };
 

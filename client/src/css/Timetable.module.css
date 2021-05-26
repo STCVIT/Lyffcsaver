@@ -36,6 +36,12 @@
 .evenDay {
   background-color: #f9efa4;
 }
+.hoveredTheory {
+  background-color: lightcoral;
+}
+.hoveredLab {
+  background-color: red;
+}
 .theory {
   background-color: #cf3;
 }
