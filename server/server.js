@@ -10,6 +10,10 @@ const port = process.env.PORT || 3001;
 const path = require("path");
 const fs = require("fs");
 const Fuse = require("fuse.js");
+const { db } = require("./firebase/firebaseConfig");
+const FACULTIES = "FACULTIES";
+const COURSES = "COURSES";
+const CLASSES = "CLASSES";
 
 app.use(express.json()); // for parsing application/json
 app.use(express.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded));
@@ -35,28 +39,38 @@ if (process.argv[2] === "loadData")
     )
   );
 
-app.get("/faculties", (req, res) => {
-  const classes = JSON.parse(
-    fs.readFileSync(path.join(__dirname, "data", "classes.json"), "utf-8")
-  );
-  const faculties = JSON.parse(
-    fs.readFileSync(path.join(__dirname, "data", "faculties.json"), "utf-8")
-  );
+app.get("/faculties", async (req, res) => {
   const { query, pageNumber, courseID } = req.query;
   console.log("searching for", courseID, query, pageNumber);
   const [courseCode, courseType] = courseID.split("-");
 
-  let requiredClasses = matchesFieldAll(courseCode, "COURSE CODE", classes);
-  requiredClasses = matchesFieldAll(courseType, "COURSE TYPE", requiredClasses);
-  const facultyIds = new Set();
+  let requiredClassesSnapshot = await db
+    .collection(CLASSES)
+    .where("COURSE CODE", "==", courseCode)
+    .where("COURSE TYPE", "==", courseType)
+    .get();
+  let requiredClasses = requiredClassesSnapshot.docs;
+  let facultyIds = new Set();
   const requiredFaculties = [];
 
   requiredClasses.forEach((requiredClass) => {
-    facultyIds.add(requiredClass["ERP ID"]);
+    facultyIds.add(requiredClass.data()["ERP ID"]);
   });
-  facultyIds.forEach((facultyId) => {
-    requiredFaculties.push(matchesField(facultyId, "ERP ID", faculties));
-  });
+  facultyIds = [...facultyIds];
+  let facultyIdsStartIndex = 0;
+  while (facultyIdsStartIndex < facultyIds.length) {
+    const facultyIdsEndIndex = facultyIdsStartIndex + 10;
+    const snapshot = await db
+      .collection(FACULTIES)
+      .where(
+        "ERP ID",
+        "in",
+        facultyIds.slice(facultyIdsStartIndex, facultyIdsEndIndex)
+      )
+      .get();
+    requiredFaculties.push(...snapshot.docs.map((doc) => doc.data()));
+    facultyIdsStartIndex = facultyIdsEndIndex;
+  }
 
   const size = 10;
   const startIndex = Number(Number(pageNumber - 1) * size);

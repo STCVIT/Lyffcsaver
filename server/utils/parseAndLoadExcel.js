@@ -1,22 +1,53 @@
 const XLSX = require("xlsx");
 const { matchesField, matchesFieldAll } = require("./matchesField");
 const { db } = require("../firebase/firebaseConfig");
+const fs = require("fs");
+const path = require("path");
 const FACULTIES = "FACULTIES";
 const COURSES = "COURSES";
 const CLASSES = "CLASSES";
 
+let coursesUploaded = 0,
+  coursesFailed = 0,
+  classesUploaded = 0,
+  classesFailed = 0,
+  facultiesUploaded = 0,
+  facultiesFailed = 0;
+let failedFacultyData = [],
+  failedCourseData = [],
+  failedClassData = [];
 const getCourseID = (course) => {
   return `${course["COURSE CODE"]}-${course["COURSE TYPE"]}`;
 };
 const addUnique = async (uniqueField, collectionName, data) => {
-  // await db
-  //   .collection(collectionName)
-  //   .where(uniqueField, "==", data[uniqueField])
-  //   .get()
-  //   .then(async (snapshot) => {
-  //     if (snapshot.docs.length === 0)
-  //       await db.collection(collectionName).add(data);
-  //   });
+  try {
+    await db
+      .collection(collectionName)
+      .where(uniqueField, "==", data[uniqueField])
+      .get()
+      .then(async (snapshot) => {
+        if (snapshot.docs.length === 0)
+          await db.collection(collectionName).add(data);
+      });
+    if (collectionName === FACULTIES) {
+      facultiesUploaded++;
+    } else if (collectionName === COURSES) {
+      coursesUploaded++;
+    } else if (collectionName === CLASSES) {
+      classesUploaded++;
+    }
+  } catch (e) {
+    if (collectionName === FACULTIES) {
+      facultiesFailed++;
+      failedFacultyData.push(data);
+    } else if (collectionName === COURSES) {
+      coursesFailed++;
+      failedCourseData.push(data);
+    } else if (collectionName === CLASSES) {
+      classesFailed++;
+      failedClassData.push(data);
+    }
+  }
 };
 const parseAndLoadExcel = async (filePath) => {
   const courses = [];
@@ -88,7 +119,36 @@ const parseAndLoadExcel = async (filePath) => {
       }
     }
   }
-  console.log("finished uploading data");
+  console.log(`Classes uploaded: ${classesUploaded}`);
+  console.log(`Classes failed: ${classesFailed}`);
+  console.log(`Classes total: ${classes.length}`);
+  console.log(`Courses uploaded: ${coursesUploaded}`);
+  console.log(`Courses failed: ${coursesFailed}`);
+  console.log(`Courses total: ${courses.length}`);
+  console.log(`Faculties uploaded: ${facultiesUploaded}`);
+  console.log(`Faculties failed: ${facultiesFailed}`);
+  console.log(`Faculties total: ${faculties.length}`);
+  fs.writeFile(
+    path.join("data", "faculties.json"),
+    JSON.stringify(failedFacultyData),
+    (err) => {
+      if (err !== null) console.log(err);
+    }
+  );
+  fs.writeFile(
+    path.join("data", "courses.json"),
+    JSON.stringify(failedCourseData),
+    (err) => {
+      if (err !== null) console.log(err);
+    }
+  );
+  fs.writeFile(
+    path.join("data", "classes.json"),
+    JSON.stringify(failedClassData),
+    (err) => {
+      if (err !== null) console.log(err);
+    }
+  );
   // fs.writeFile(
   //   path.join("data", "faculties.json"),
   //   JSON.stringify(faculties),

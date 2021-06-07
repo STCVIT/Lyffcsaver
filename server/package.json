@@ -7,7 +7,6 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js",
     "startAndLoad": "node server.js loadData",
-    "devStartAndLoad": "nodemon server.js loadData --ignore data/",
     "server": "nodemon server.js --ignore data/"
   },
   "keywords": [
