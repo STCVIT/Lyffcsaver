@@ -39,6 +39,32 @@ if (process.argv[2] === "loadData")
     )
   );
 
+const getWithFieldValueIn = async (
+  collectionNameOrSnapshot,
+  fieldName,
+  possibilities
+) => {
+  let startIndex = 0;
+  let result = [];
+  while (startIndex < possibilities.length) {
+    const endIndex = startIndex + 10;
+    let snapshot;
+    if (typeof collectionNameOrSnapshot === "string") {
+      snapshot = await db
+        .collection(collectionNameOrSnapshot)
+        .where(fieldName, "in", possibilities.slice(startIndex, endIndex))
+        .get();
+    } else {
+      snapshot = await collectionNameOrSnapshot
+        .where(fieldName, "in", possibilities.slice(startIndex, endIndex))
+        .get();
+    }
+    result.push(...snapshot.docs.map((doc) => doc.data()));
+    startIndex = endIndex;
+  }
+  return result;
+};
+
 app.get("/faculties", async (req, res) => {
   const { query, pageNumber, courseID } = req.query;
   console.log("searching for", courseID, query, pageNumber);
@@ -51,26 +77,16 @@ app.get("/faculties", async (req, res) => {
     .get();
   let requiredClasses = requiredClassesSnapshot.docs;
   let facultyIds = new Set();
-  const requiredFaculties = [];
 
   requiredClasses.forEach((requiredClass) => {
     facultyIds.add(requiredClass.data()["ERP ID"]);
   });
   facultyIds = [...facultyIds];
-  let facultyIdsStartIndex = 0;
-  while (facultyIdsStartIndex < facultyIds.length) {
-    const facultyIdsEndIndex = facultyIdsStartIndex + 10;
-    const snapshot = await db
-      .collection(FACULTIES)
-      .where(
-        "ERP ID",
-        "in",
-        facultyIds.slice(facultyIdsStartIndex, facultyIdsEndIndex)
-      )
-      .get();
-    requiredFaculties.push(...snapshot.docs.map((doc) => doc.data()));
-    facultyIdsStartIndex = facultyIdsEndIndex;
-  }
+  const requiredFaculties = await getWithFieldValueIn(
+    FACULTIES,
+    "ERP ID",
+    facultyIds
+  );
 
   const size = 10;
   const startIndex = Number(Number(pageNumber - 1) * size);
@@ -169,36 +185,22 @@ app.get("/courses", (req, res) => {
   }
 });
 
-app.post("/classes", (req, res) => {
-  const classes = JSON.parse(
-    fs.readFileSync(path.join(__dirname, "data", "classes.json"), "utf-8")
-  );
+app.post("/classes", async (req, res) => {
   console.log(req.body);
   const data = req.body;
   const requiredClasses = {};
-  classes.forEach((classToCheck) => {
-    const currentCourseID = getCourseID(classToCheck);
-    if (
-      data[currentCourseID] !== undefined &&
-      data[currentCourseID].includes(classToCheck["ERP ID"])
-    ) {
-      if (requiredClasses[currentCourseID] === undefined)
-        requiredClasses[currentCourseID] = [];
-      requiredClasses[currentCourseID].push(classToCheck);
-    }
-  });
+  for (const courseID of Object.keys(data)) {
+    const [courseCode, courseType] = courseID.split("-");
+    const partialQuery = await db
+      .collection(CLASSES)
+      .where("COURSE CODE", "==", courseCode)
+      .where("COURSE TYPE", "==", courseType);
+    requiredClasses[courseID] = [
+      ...(await getWithFieldValueIn(partialQuery, "ERP ID", data[courseID])),
+    ];
+  }
   res.json(requiredClasses);
 });
-
-// app.get("/slots", (req, res) => {
-//   const slotsFileData = JSON.parse(
-//     fs.readFileSync(
-//       path.join(__dirname, "data", "timetableTemplate.json"),
-//       "utf-8"
-//     )
-//   );
-//   res.json(slotsFileData);
-// });
 
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "build", "index.html"));
