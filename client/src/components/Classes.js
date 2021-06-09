@@ -14,7 +14,7 @@ const Classes = ({
   const ignoreCols = [
     "REGISTERED SEATS",
     "ASSO CLASS ID",
-    // "CLASS ID",
+    "COURSE ID",
     "CLASS OPTION",
     "CLASS TYPE",
     "WAITING SEATS",
@@ -166,10 +166,13 @@ const Classes = ({
     // }
     // currentElement?.classList?.add(styles.hoverRow);
   };
-  const colsHeadings =
-    courseIDs?.length > 0 && schedules[0][courseIDs[0]] !== undefined
+  const columnKeys = [];
+  const colsHeadings = () => {
+    columnKeys.length = 0;
+    return courseIDs?.length > 0 && schedules[0][courseIDs[0]] !== undefined
       ? Object.keys(schedules[0][courseIDs[0]]).map((colName, index) => {
-          if (ignoreCols && !ignoreCols.includes(colName))
+          if (ignoreCols && !ignoreCols.includes(colName)) {
+            columnKeys.push(colName);
             return (
               <th
                 className={`${styles.cell} ${styles.headRow}`}
@@ -178,8 +181,10 @@ const Classes = ({
                 {colName}
               </th>
             );
+          }
         })
       : [];
+  };
 
   const currentPageData = courseIDs
     ?.slice(currentPage * previewsPerPage, (currentPage + 1) * previewsPerPage)
@@ -193,7 +198,7 @@ const Classes = ({
             <thead>
               <th
                 className={`${styles.cell} ${styles.headRow}`}
-                colSpan={colsHeadings.length}
+                colSpan={colsHeadings().length}
               >
                 {courseID}
               </th>
@@ -203,7 +208,7 @@ const Classes = ({
               <th className={`${styles.cell} ${styles.headRow}`}>
                 EMPLOYEE NAME
               </th>
-              {colsHeadings}
+              {colsHeadings()}
             </thead>
             <tbody>
               {selectedClasses[courseID] === undefined ? (
@@ -238,6 +243,7 @@ const Classes = ({
                     }
                   </td>
                   <InfoCols
+                    keys={columnKeys}
                     entry={selectedClasses[courseID]}
                     styles={styles}
                     ignoreCols={ignoreCols}
@@ -276,6 +282,7 @@ const Classes = ({
                         }
                       </td>
                       <InfoCols
+                        keys={columnKeys}
                         entry={currentClass}
                         styles={styles}
                         ignoreCols={ignoreCols}

@@ -15,7 +15,12 @@ const FacultiesPreferenceList = ({
   const [query, setQuery] = useState("");
   const [pageNumber, setPageNumber] = useState(1);
 
-  const { data: faculties, hasMore, loading, error } = useDataSearch(
+  const {
+    data: faculties,
+    hasMore,
+    loading,
+    error,
+  } = useDataSearch(
     { courseID: currentlySelectedCourseID, query, pageNumber },
     "faculties"
   );
@@ -77,16 +82,15 @@ const FacultiesPreferenceList = ({
               if (!isSelectedFaculty(faculty))
                 newSelectedFaculties[currentlySelectedCourseID].push(faculty);
             } else {
-              newSelectedFaculties[
-                currentlySelectedCourseID
-              ] = newSelectedFaculties[currentlySelectedCourseID].filter(
-                (selectedFaculty) => {
-                  return (
-                    selectedFaculty["ERP ID"] !==
-                    e.target.parentNode.parentNode.id
-                  );
-                }
-              );
+              newSelectedFaculties[currentlySelectedCourseID] =
+                newSelectedFaculties[currentlySelectedCourseID].filter(
+                  (selectedFaculty) => {
+                    return (
+                      selectedFaculty["ERP ID"] !==
+                      e.target.parentNode.parentNode.id
+                    );
+                  }
+                );
             }
             setSelectedFaculties({ ...newSelectedFaculties });
 
@@ -99,6 +103,23 @@ const FacultiesPreferenceList = ({
         />
       </td>
     );
+  };
+  const columnKeys = [];
+  const colsHeadings = () => {
+    columnKeys.length = 0;
+    return Object.keys(faculties[0]).map((key) => {
+      if (
+        ignoreCols === undefined ||
+        (ignoreCols && !ignoreCols.includes(key))
+      ) {
+        columnKeys.push(key);
+        return (
+          <th className={styles.cell} key={`faculties-head-${key}`}>
+            {key}
+          </th>
+        );
+      }
+    });
   };
   const facultyRows = (provided) => {
     return (
@@ -130,6 +151,7 @@ const FacultiesPreferenceList = ({
                     ></InteractionElement>
 
                     <InfoCols
+                      keys={columnKeys}
                       entry={faculty}
                       getID={(faculty) => faculty["ERP ID"] + "s"}
                       styles={styles}
@@ -159,6 +181,7 @@ const FacultiesPreferenceList = ({
                     ></InteractionElement>
 
                     <InfoCols
+                      keys={columnKeys}
                       entry={faculty}
                       getID={(faculty) => faculty["ERP ID"] + "s"}
                       styles={styles}
@@ -187,6 +210,7 @@ const FacultiesPreferenceList = ({
                 ></InteractionElement>
 
                 <InfoCols
+                  keys={columnKeys}
                   entry={faculty}
                   getID={(faculty) => faculty["ERP ID"] + "u"}
                   styles={styles}
@@ -206,6 +230,7 @@ const FacultiesPreferenceList = ({
                 ></InteractionElement>
 
                 <InfoCols
+                  keys={columnKeys}
                   entry={faculty}
                   getID={(faculty) => faculty["ERP ID"] + "u"}
                   styles={styles}
@@ -254,20 +279,7 @@ const FacultiesPreferenceList = ({
               <thead>
                 <tr className={styles.headRow}>
                   <th className={styles.cell} key="faculty-head-select"></th>
-                  {Object.keys(faculties[0]).map((key) => {
-                    if (
-                      ignoreCols === undefined ||
-                      (ignoreCols && !ignoreCols.includes(key))
-                    )
-                      return (
-                        <th
-                          className={styles.cell}
-                          key={`faculties-head-${key}`}
-                        >
-                          {key}
-                        </th>
-                      );
-                  })}
+                  {colsHeadings()}
                 </tr>
               </thead>
 

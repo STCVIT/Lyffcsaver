@@ -10,10 +10,12 @@ const AvailableCoursesList = ({ ignoreCols, addCourse, selectedCourses }) => {
   const [query, setQuery] = useState("");
   const [pageNumber, setPageNumber] = useState(1);
 
-  const { data: courses, hasMore, loading, error } = useDataSearch(
-    { query, pageNumber },
-    "courses"
-  );
+  const {
+    data: courses,
+    hasMore,
+    loading,
+    error,
+  } = useDataSearch({ query, pageNumber }, "courses");
   const isSelectedCourse = (course) => {
     const foundCourse = selectedCourses.find((courseToCheck) => {
       return getCourseID(courseToCheck) === getCourseID(course);
@@ -34,10 +36,24 @@ const AvailableCoursesList = ({ ignoreCols, addCourse, selectedCourses }) => {
     },
     [loading, hasMore]
   );
+  const columnKeys = [];
 
   const handleSearch = (newQuery) => {
     setQuery(newQuery);
     setPageNumber(1);
+  };
+  const colsHeadings = () => {
+    columnKeys.length = 0;
+    return Object.keys(courses[0]).map((key) => {
+      if (ignoreCols && !ignoreCols.includes(key)) {
+        columnKeys.push(key);
+        return (
+          <th className={styles.cell} key={`available-head-${key}`}>
+            {key}
+          </th>
+        );
+      }
+    });
   };
 
   return (
@@ -55,17 +71,7 @@ const AvailableCoursesList = ({ ignoreCols, addCourse, selectedCourses }) => {
               <thead>
                 <tr className={styles.headRow}>
                   <th className={styles.cell} key="available-head-select"></th>
-                  {Object.keys(courses[0]).map((key) => {
-                    if (ignoreCols && !ignoreCols.includes(key))
-                      return (
-                        <th
-                          className={styles.cell}
-                          key={`available-head-${key}`}
-                        >
-                          {key}
-                        </th>
-                      );
-                  })}
+                  {colsHeadings()}
                 </tr>
               </thead>
 
@@ -93,6 +99,7 @@ const AvailableCoursesList = ({ ignoreCols, addCourse, selectedCourses }) => {
                             +
                           </td>
                           <InfoCols
+                            keys={columnKeys}
                             entry={course}
                             getID={getCourseID}
                             styles={styles}
@@ -114,6 +121,7 @@ const AvailableCoursesList = ({ ignoreCols, addCourse, selectedCourses }) => {
                             +
                           </td>
                           <InfoCols
+                            keys={columnKeys}
                             entry={course}
                             getID={getCourseID}
                             styles={styles}

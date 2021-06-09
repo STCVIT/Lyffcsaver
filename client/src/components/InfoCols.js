@@ -1,4 +1,5 @@
 const InfoCols = ({
+  keys,
   entry,
   getID,
   styles,
@@ -9,7 +10,7 @@ const InfoCols = ({
 }) => {
   return (
     <>
-      {Object.keys(entry).map((key) => {
+      {keys.map((key) => {
         if (
           ignoreCols === undefined ||
           (ignoreCols && !ignoreCols.includes(key))

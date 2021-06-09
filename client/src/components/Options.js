@@ -9,6 +9,7 @@ import { getCourseID } from "../utils/generalUtils";
 
 const Options = ({ generateTimetables }) => {
   const ignoreCols = [
+    "COURSE ID",
     "LECTURE HOURS",
     "TUTORIAL HOURS",
     "PROJECT HOURS",
@@ -16,9 +17,8 @@ const Options = ({ generateTimetables }) => {
   ];
   const [selectedCourses, setSelectedCourses] = useState([]);
   const [selectedFaculties, setSelectedFaculties] = useState({});
-  const [currentlySelectedCourseID, setCurrentlySelectedCourseID] = useState(
-    ""
-  );
+  const [currentlySelectedCourseID, setCurrentlySelectedCourseID] =
+    useState("");
   const [blacklistedSlots, setBlacklistedSlots] = useState([]);
 
   const toggleBlacklist = (slot) => {

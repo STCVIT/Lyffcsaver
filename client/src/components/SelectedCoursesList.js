@@ -9,6 +9,20 @@ const SelectedCoursesList = ({
   onDeselect,
   selectedCourses,
 }) => {
+  const columnKeys = [];
+  const colsHeadings = () => {
+    columnKeys.length = 0;
+    return Object.keys(selectedCourses[0]).map((key) => {
+      if (ignoreCols && !ignoreCols.includes(key)) {
+        columnKeys.push(key);
+        return (
+          <th className={styles.cell} key={`selected-head-${key}`}>
+            {key}
+          </th>
+        );
+      }
+    });
+  };
   return selectedCourses && selectedCourses.length > 0 ? (
     <div className={styles.container}>
       <label className={styles.label}>
@@ -19,14 +33,7 @@ const SelectedCoursesList = ({
           <thead>
             <tr className={styles.headRow}>
               <th className={styles.cell} key="selected-head-select"></th>
-              {Object.keys(selectedCourses[0]).map((key) => {
-                if (ignoreCols && !ignoreCols.includes(key))
-                  return (
-                    <th className={styles.cell} key={`selected-head-${key}`}>
-                      {key}
-                    </th>
-                  );
-              })}
+              {colsHeadings()}
             </tr>
           </thead>
           <tbody>
@@ -49,6 +56,7 @@ const SelectedCoursesList = ({
                     -
                   </td>
                   <InfoCols
+                    keys={columnKeys}
                     entry={course}
                     getID={getCourseID}
                     styles={styles}
