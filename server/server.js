@@ -2,6 +2,7 @@
 // https://medium.com/stackfame/get-list-of-all-files-in-a-directory-in-node-js-befd31677ec5
 
 // // TODO: Clean data. Remove data with important fields as NIL.
+// TODO: CLOUD FUNCTIONS for fetching only required data wherever a query can be passed
 // TODO: better error handling
 
 const express = require("express");
@@ -42,22 +43,34 @@ if (process.argv[2] === "loadData")
 const getWithFieldValueIn = async (
   collectionNameOrSnapshot,
   fieldName,
-  possibilities
+  possibilities,
+  query,
+  size
 ) => {
   let startIndex = 0;
   let result = [];
   while (startIndex < possibilities.length) {
+    // if no query and size of results is greater than required size then break out of loop
+    if ((query === undefined || query === "") && result.length > size + 2)
+      break;
     const endIndex = startIndex + 10;
     let snapshot;
     if (typeof collectionNameOrSnapshot === "string") {
-      snapshot = await db
+      snapshot = db
         .collection(collectionNameOrSnapshot)
-        .where(fieldName, "in", possibilities.slice(startIndex, endIndex))
-        .get();
+        .where(fieldName, "in", possibilities.slice(startIndex, endIndex));
+      if ((query === undefined || query === "") && size !== undefined)
+        snapshot = snapshot.limit(size - result.length + 3);
+      snapshot = await snapshot.get();
     } else {
-      snapshot = await collectionNameOrSnapshot
-        .where(fieldName, "in", possibilities.slice(startIndex, endIndex))
-        .get();
+      snapshot = collectionNameOrSnapshot.where(
+        fieldName,
+        "in",
+        possibilities.slice(startIndex, endIndex)
+      );
+      if ((query === undefined || query === "") && size !== undefined)
+        snapshot = snapshot.limit(size - result.length + 3);
+      snapshot = await snapshot.get();
     }
     result.push(...snapshot.docs.map((doc) => doc.data()));
     startIndex = endIndex;
@@ -82,13 +95,15 @@ app.get("/faculties", async (req, res) => {
     facultyIds.add(requiredClass.data()["ERP ID"]);
   });
   facultyIds = [...facultyIds];
+  const size = 10;
   const requiredFaculties = await getWithFieldValueIn(
     FACULTIES,
     "ERP ID",
-    facultyIds
+    facultyIds,
+    query,
+    size * pageNumber
   );
 
-  const size = 10;
   const startIndex = Number(Number(pageNumber - 1) * size);
   const endIndex = startIndex + Number(size);
 
