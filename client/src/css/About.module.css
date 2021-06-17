@@ -2,15 +2,19 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   margin: 0 50px;
+  padding-bottom: 50px;
 }
 .title {
   margin: 20px;
+  text-align: center;
 }
 .cols {
   margin-top: 20px;
   display: flex;
   justify-content: space-between;
+  align-items: stretch;
   width: 100%;
   max-width: 900px;
 }
@@ -20,4 +24,28 @@
   flex-direction: column;
   align-items: center;
   max-width: 400px;
+}
+.content {
+  flex-direction: column;
+  align-items: center;
+  max-width: 400px;
+}
+@media only screen and (max-width: 850px) {
+  .cols {
+    flex-direction: column;
+    align-items: center;
+  }
+  .features {
+    margin-top: 30px;
+    flex-direction: column-reverse;
+  }
+}
+
+@media only screen and (max-width: 425px) {
+  .content > p {
+    font-size: 13px;
+  }
+  .col > img {
+    width: 90%;
+  }
 }

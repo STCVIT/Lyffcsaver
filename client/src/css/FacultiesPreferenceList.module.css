@@ -10,6 +10,7 @@
 }
 .facultyTable {
   border-spacing: 0;
+  background-color: var(--table-bg);
 }
 .tableWrapper {
   margin-top: 20px;
@@ -23,6 +24,7 @@
   position: sticky;
   top: 0;
   background-color: var(--table-head-bg);
+  color: var(--primary-font-color);
 }
 .cell {
   border: 1px solid var(--outline-color);
