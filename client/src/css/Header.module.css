@@ -1,6 +1,24 @@
-.header {
-  background-color: var(--primary-color);
+.navbar {
+  /* background-color: var(--primary-color); */
   color: var(--logo-font-color);
-  padding: 10px;
-  padding-left: 60px;
+}
+/* .logotype {
+  font-weight: 300;
+}
+.logotype > strong {
+  font-weight: 500;
+} */
+.logotype {
+  color: var(--logo-font-color);
+  font-size: 1.5rem;
+  margin: 0;
+}
+.logotypePrimary {
+  color: var(--primary-color);
+  font-size: 1.5rem;
+  margin: 0;
+}
+
+.navLinks {
+  margin-left: auto;
 }

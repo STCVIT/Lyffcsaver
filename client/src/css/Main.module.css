@@ -1,0 +1,8 @@
+.appContainer {
+  position: relative;
+}
+.ellipse {
+  position: absolute;
+  z-index: -1000;
+  /* width: 70%; */
+}

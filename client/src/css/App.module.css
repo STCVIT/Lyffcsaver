@@ -8,7 +8,8 @@
   --primary-color: #4357ad;
   --logo-font-color: #fff;
   --label-font-color: #000;
-  --font-color: #000;
+  --primary-font-color: #fff;
+  --secondary-font-color: #000;
   --outline-color: #000;
   --active-bg: rgb(133, 184, 252);
   --selectable-row-hover-bg: rgb(211, 208, 252);

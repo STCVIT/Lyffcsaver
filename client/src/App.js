@@ -1,9 +1,11 @@
 import styles from "./css/App.module.css";
-import Header from "./components/Header";
-import Options from "./components/Options";
-import TimetablesSection from "./components/TimetablesSection";
-import { getTimetables, getCourseID } from "./utils/generalUtils";
-import { useEffect, useState } from "react";
+import "bootstrap/dist/css/bootstrap.min.css";
+import Main from "./components/Main";
+import About from "./components/About";
+import FAQ from "./components/Faq";
+import Contact from "./components/Contact";
+
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 // // TODO: Make separate list components instead of just one that changes according to the props passed in
 // // TODO: Generate timetables based on preferences (generator function)
@@ -13,33 +15,23 @@ import { useEffect, useState } from "react";
 // TODO: Add jsdoc wherever necessary
 
 function App() {
-  const [allSchedules, setAllSchedules] = useState([]);
-  const [faculties, setFaculties] = useState({});
-  const populateAllSchedules = async (courses, faculties, blacklistedSlots) => {
-    setAllSchedules([]);
-    setAllSchedules(await getTimetables(courses, faculties, blacklistedSlots));
-    setFaculties({ ...faculties });
-  };
-
-  useEffect(() => {
-    if (Object.keys(allSchedules).length > 0) {
-      let element = document.getElementById("screen2");
-      element?.scrollIntoView({ behavior: "smooth" });
-    }
-  }, [allSchedules]);
-
   return (
-    <>
-      <Header />
-      <Options
-        getCourseID={getCourseID}
-        generateTimetables={populateAllSchedules}
-      />
-      <TimetablesSection
-        schedules={allSchedules}
-        faculties={faculties}
-      ></TimetablesSection>
-    </>
+    <Router>
+      <Switch>
+        <Route path="/about">
+          <About logoVariant={"logotypePrimary"}></About>
+        </Route>
+        <Route path="/faq">
+          <FAQ logoVariant={"logotypePrimary"}></FAQ>
+        </Route>
+        <Route path="/contact">
+          <Contact logoVariant={"logotypePrimary"}></Contact>
+        </Route>
+        <Route path="/">
+          <Main logoVariant={"logotype"}></Main>
+        </Route>
+      </Switch>
+    </Router>
   );
 }
 

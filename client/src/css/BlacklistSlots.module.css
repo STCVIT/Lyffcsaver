@@ -10,6 +10,9 @@
   margin-bottom: 10px;
 }
 .slotCell {
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
   cursor: pointer;
 }
 .slotCell:hover {
