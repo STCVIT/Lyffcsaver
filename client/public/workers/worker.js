@@ -31,9 +31,6 @@ const isPossible = (selection, courseID) => {
 };
 
 const selectClasses = (courseIDs, classes, selection = {}) => {
-  // console.log(
-  //   JSON.stringify({ courseIDsLength: courseIDs.length, classes, selection })
-  // );
   if (courseIDs.length === 0) {
     const slots = [...new Set(getSlots(selection))];
     slots.sort();
@@ -61,13 +58,10 @@ const selectClasses = (courseIDs, classes, selection = {}) => {
         slots.sort();
         const key = slots.join("+");
         if (allResults[key] === undefined) allResults[key] = [];
-        // console.log("pushing", key, result, JSON.stringify(allResults));
         allResults[key].push(result);
-        // console.log("pushed", key, result, JSON.stringify(allResults));
       }
     }
   }
-  // console.log("returning", JSON.stringify(allResults));
   return allResults;
 };
 
@@ -170,6 +164,12 @@ const allElementsWithinArray = (arrayToBeTested, testingArray) => {
   );
 };
 
+function shuffleArray(array) {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+}
 const populateSlotCombination = (
   courseIDs,
   classes,
@@ -264,7 +264,6 @@ const populateSlotCombination = (
       ...findEquivalentSchedules(courseIDs, schedule, similarClasses)
     );
   }
-
   possibleSlotCombinations[slotCombinationString] = newSchedules;
   return possibleSlotCombinations;
 };
@@ -277,32 +276,33 @@ onmessage = (event) => {
       const courseIDs = event.data[2];
       const classes = event.data[3];
       const possibleClassSelections = selectClasses(courseIDs, classes);
-      // console.log("Arguments for possibleClassSelections", courseIDs, classes);
       event.ports[0].postMessage({ result: possibleClassSelections });
     } else if (req === "getSlotCombinations") {
       mapping = event.data[1];
       const courseIDs = event.data[2];
       const classes = event.data[3];
       const possibleSlotCombinations = getSlotCombinations(courseIDs, classes);
-      // console.log("Arguments for possibleSlotCombinations", courseIDs, classes);
       event.ports[0].postMessage({ result: possibleSlotCombinations });
     } else if (req === "populateSlotCombination") {
-      const courseIDs = event.data[1];
-      const classes = event.data[2];
-      const slotCombinationString = event.data[3];
-      const possibleSlotCombinations = event.data[4];
+      mapping = event.data[1];
+      const courseIDs = event.data[2];
+      const classes = event.data[3];
+      const slotCombinationString = event.data[4];
+      const possibleSlotCombinations = event.data[5];
+      console.log(
+        "in worker",
+        courseIDs,
+        classes,
+        slotCombinationString,
+        possibleSlotCombinations
+      );
+
       const possibleClassSelections = populateSlotCombination(
         courseIDs,
         classes,
         slotCombinationString,
         possibleSlotCombinations
       );
-      // console.log("Arguments for possibleSlotCombinations", {
-      //   courseIDs,
-      //   classes,
-      //   slotCombinationString,
-      //   possibleSlotCombinations,
-      // });
       event.ports[0].postMessage({ result: possibleClassSelections });
     } else {
       throw "Invalid message";

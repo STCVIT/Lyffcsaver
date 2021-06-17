@@ -127,6 +127,139 @@ const removeBlacklistedSlots = (classes, blacklistedSlots) => {
   });
 };
 
+const populateSlotCombination = async (
+  faculties,
+  blacklistedSlots,
+  slotsString,
+  objectToPopulate
+) => {
+  if (window.Worker) {
+    const worker = new Worker("workers/worker.js");
+
+    getSlotMapping();
+
+    const courseIDs = Object.keys(faculties);
+    const classes = await getClasses(faculties);
+    removeBlacklistedSlots(classes, blacklistedSlots);
+    // if (!verifyNumberOfClasses(classes)) return {};
+
+    // sorting courseIDs in ascending order of the number of classes
+    // with that courseID.
+    // This is done so that backtracking algorithm will terminate quicker
+    // in case some mistake is found.
+    courseIDs.sort((courseIDa, courseIDb) => {
+      return classes[courseIDa].length - classes[courseIDb].length;
+    });
+
+    const requestWorker = (
+      courseIDs,
+      classes,
+      slotCombinationString,
+      possibleSlotCombinations
+    ) =>
+      new Promise((res, rej) => {
+        const channel = new MessageChannel();
+
+        channel.port1.onmessage = ({ data }) => {
+          // console.log(JSON.stringify(data));
+          console.log(data);
+          channel.port1.close();
+          if (data.error) {
+            rej(data.error);
+          } else {
+            res(data.result);
+          }
+        };
+
+        worker.postMessage(
+          [
+            "populateSlotCombination",
+            mapping,
+            courseIDs,
+            classes,
+            slotCombinationString,
+            possibleSlotCombinations,
+          ],
+          [channel.port2]
+        );
+      });
+
+    console.time("populateSlotCombination");
+    const populatedSlotCombination = await requestWorker(
+      courseIDs,
+      classes,
+      slotsString,
+      objectToPopulate
+    );
+    console.timeEnd("populateSlotCombination");
+    return populatedSlotCombination;
+  }
+  return {};
+};
+const getSlotCombinations = async (courses, faculties, blacklistedSlots) => {
+  if (window.Worker) {
+    const worker = new Worker("workers/worker.js");
+
+    getSlotMapping();
+
+    const courseIDs = Object.keys(faculties);
+    const classes = await getClasses(faculties);
+
+    if (!verifyPreferencesSet(courses, faculties)) return {};
+
+    removeBlacklistedSlots(classes, blacklistedSlots);
+    if (!verifyNumberOfClasses(classes)) return {};
+
+    // sorting courseIDs in ascending order of the number of classes
+    // with that courseID.
+    // This is done so that backtracking algorithm will terminate quicker
+    // in case some mistake is found.
+    courseIDs.sort((courseIDa, courseIDb) => {
+      return classes[courseIDa].length - classes[courseIDb].length;
+    });
+
+    console.log(
+      "All Possible Selections:",
+      getNumberOfTotalPossibleSelections(classes)
+    );
+
+    const requestWorker = (mapping, courseIDs, classes) =>
+      new Promise((res, rej) => {
+        const channel = new MessageChannel();
+
+        channel.port1.onmessage = ({ data }) => {
+          console.log(data);
+          channel.port1.close();
+          if (data.error) {
+            rej(data.error);
+          } else {
+            res(data.result);
+          }
+        };
+
+        worker.postMessage(
+          ["getSlotCombinations", mapping, courseIDs, classes],
+          [channel.port2]
+        );
+      });
+
+    console.time("getSlotCombinations");
+    const possibleSlotCombinations = await requestWorker(
+      mapping,
+      courseIDs,
+      classes
+    );
+    const possibleSlotCombinationsObject = {};
+    possibleSlotCombinations.forEach(
+      (slotCombination) =>
+        (possibleSlotCombinationsObject[slotCombination.join("+")] = [])
+    );
+    console.timeEnd("getSlotCombinations");
+    return possibleSlotCombinationsObject;
+  }
+  return {};
+};
+
 /**
  *
  * @param {Object} courses Object of type {courseID: [Array of classes with this courseID]}
@@ -135,7 +268,6 @@ const removeBlacklistedSlots = (classes, blacklistedSlots) => {
  * @returns {Object} Object in the format {slots: [All schedules occupying those slots]}
  */
 const getTimetables = async (courses, faculties, blacklistedSlots) => {
-  // console.log(courses, faculties);
   if (window.Worker) {
     const worker = new Worker("workers/worker.js");
 
@@ -161,7 +293,6 @@ const getTimetables = async (courses, faculties, blacklistedSlots) => {
       "All Possible Selections:",
       getNumberOfTotalPossibleSelections(classes)
     );
-    console.time("selectClasses");
     // using code from https://advancedweb.hu/how-to-use-async-await-with-postmessage/
     // to use async await with worker.
     const selectClasses = (mapping, courseIDs, classes) =>
@@ -232,12 +363,6 @@ const getTimetables = async (courses, faculties, blacklistedSlots) => {
           [channel.port2]
         );
       });
-    const possibleClassSelections = await selectClasses(
-      mapping,
-      courseIDs,
-      classes
-    );
-    console.timeEnd("selectClasses");
     console.time("getSlotCombinations");
     const possibleSlotCombinations = await getSlotCombinations(
       mapping,
@@ -245,6 +370,13 @@ const getTimetables = async (courses, faculties, blacklistedSlots) => {
       classes
     );
     console.timeEnd("getSlotCombinations");
+    console.time("selectClasses");
+    const possibleClassSelections = await selectClasses(
+      mapping,
+      courseIDs,
+      classes
+    );
+    console.timeEnd("selectClasses");
 
     console.log("Possible slot combinations", possibleSlotCombinations);
     let first = true;
@@ -299,6 +431,7 @@ const getTimetables = async (courses, faculties, blacklistedSlots) => {
       impossibleSlotCombinations
     );
 
+    console.time("populatedSlotCombination");
     const populatedSlotCombinationsObject = await populateSlotCombination(
       courseIDs,
       classes,
@@ -311,10 +444,16 @@ const getTimetables = async (courses, faculties, blacklistedSlots) => {
       "Possible Schedules",
       populatedSlotCombinationsObject[possibleSlotCombinationStrings[0]]
     );
+    console.timeEnd("populatedSlotCombination");
 
     return possibleClassSelections;
   }
   return [];
 };
 
-export { getTimetables, getCourseID };
+export {
+  getTimetables,
+  getCourseID,
+  getSlotCombinations,
+  populateSlotCombination,
+};

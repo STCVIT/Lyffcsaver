@@ -30,6 +30,7 @@ const TimetablePreviews = ({ schedulesSlots, select }) => {
         nextLabel=">"
         pageCount={pageCount}
         onPageChange={({ selected }) => {
+          console.log("page change");
           setCurrentPage(selected);
           select([]);
         }}

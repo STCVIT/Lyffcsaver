@@ -2,7 +2,12 @@ import styles from "./css/App.module.css";
 import Header from "./components/Header";
 import Options from "./components/Options";
 import TimetablesSection from "./components/TimetablesSection";
-import { getTimetables, getCourseID } from "./utils/generalUtils";
+import {
+  getTimetables,
+  getCourseID,
+  getSlotCombinations,
+  populateSlotCombination,
+} from "./utils/generalUtils";
 import { useEffect, useState } from "react";
 
 // // TODO: Make separate list components instead of just one that changes according to the props passed in
@@ -15,11 +20,41 @@ import { useEffect, useState } from "react";
 
 function App() {
   const [allSchedules, setAllSchedules] = useState([]);
+  const [blacklistedSlots, setBlacklistedSlots] = useState([]);
   const [faculties, setFaculties] = useState({});
-  const populateAllSchedules = async (courses, faculties, blacklistedSlots) => {
+  // const populateAllSchedules = async (courses, faculties, blacklistedSlots) => {
+  //   setAllSchedules([]);
+  //   setAllSchedules(await getTimetables(courses, faculties, blacklistedSlots));
+  //   setFaculties({ ...faculties });
+  // };
+  useEffect(() => {
+    console.log("updated allSchedules", allSchedules);
+  }, [allSchedules]);
+  const getAllSlotCombinations = async (
+    courses,
+    faculties,
+    blacklistedSlots
+  ) => {
     setAllSchedules([]);
-    setAllSchedules(await getTimetables(courses, faculties, blacklistedSlots));
+    setAllSchedules(
+      await getSlotCombinations(courses, faculties, blacklistedSlots)
+    );
     setFaculties({ ...faculties });
+    setBlacklistedSlots([...blacklistedSlots]);
+  };
+
+  const getSchedulesForSlots = async (newSlotsString) => {
+    const result = await populateSlotCombination(
+      faculties,
+      blacklistedSlots,
+      newSlotsString,
+      allSchedules
+    );
+    setAllSchedules((prevAllSchedules) => {
+      prevAllSchedules[newSlotsString] = result[newSlotsString];
+      console.log("new all schedules", prevAllSchedules);
+      return { ...prevAllSchedules };
+    });
   };
 
   useEffect(() => {
@@ -34,11 +69,12 @@ function App() {
       <Header />
       <Options
         getCourseID={getCourseID}
-        generateTimetables={populateAllSchedules}
+        generateTimetables={getAllSlotCombinations}
       />
       <TimetablesSection
         schedules={allSchedules}
         faculties={faculties}
+        getSchedulesForSlots={getSchedulesForSlots}
       ></TimetablesSection>
     </>
   );

@@ -34,8 +34,9 @@ const TimetablePreview = ({ slots, id, select }) => {
       {/* <h3>{slots.join("+")}</h3> */}
       <table
         className={styles.timetablePreview}
-        onClick={(e) => {
-          select(slots);
+        onClick={async (e) => {
+          console.log("event", e, JSON.stringify(slots));
+          await select(slots);
 
           document
             .querySelectorAll(`.${styles.selectedTimetablePreview}`)

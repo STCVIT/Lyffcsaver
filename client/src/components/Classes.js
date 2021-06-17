@@ -11,6 +11,7 @@ const Classes = ({
   setHoveredSlots,
   faculties,
 }) => {
+  console.log("rendering classes", slots);
   const ignoreCols = [
     "REGISTERED SEATS",
     "ASSO CLASS ID",
@@ -196,19 +197,22 @@ const Classes = ({
         >
           <table className={styles.table}>
             <thead>
-              <th
-                className={`${styles.cell} ${styles.headRow}`}
-                colSpan={colsHeadings().length}
-              >
-                {courseID}
-              </th>
-            </thead>
-            <thead>
-              <th className={`${styles.cell} ${styles.headRow}`}></th>
-              <th className={`${styles.cell} ${styles.headRow}`}>
-                EMPLOYEE NAME
-              </th>
-              {colsHeadings()}
+              <tr>
+                <th
+                  className={`${styles.cell} ${styles.headRow}`}
+                  colSpan={colsHeadings().length}
+                >
+                  {courseID}
+                </th>
+              </tr>
+
+              <tr>
+                <th className={`${styles.cell} ${styles.headRow}`}></th>
+                <th className={`${styles.cell} ${styles.headRow}`}>
+                  EMPLOYEE NAME
+                </th>
+                {colsHeadings()}
+              </tr>
             </thead>
             <tbody>
               {selectedClasses[courseID] === undefined ? (
