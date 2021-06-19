@@ -12,6 +12,7 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 // // TODO: Figure out how to work with timetables (slots, timings)
 // // TODO: Render timetables
 // // TODO: Reorder faculty list by dragging (react-beautiful-dnd)
+// TODO: Refactor and make classes for schedules, faculties and classes
 // TODO: Add jsdoc wherever necessary
 
 function App() {

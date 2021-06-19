@@ -2,6 +2,7 @@ import timetableStyles from "../css/Timetable.module.css";
 import timetableTemplateData from "../utils/timetableTemplateData";
 
 const Timetable = ({ slots, selectedClasses, hoveredSlots }) => {
+  console.log("rendering timetable", slots);
   let dayCount = 0;
   const id = "final-display";
   const getCellContent = (schedule, cell) => {
