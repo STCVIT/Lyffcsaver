@@ -5,8 +5,24 @@ import contactNameIcon from "../assets/contactNameIcon.svg";
 import contactEmailIcon from "../assets/contactEmailIcon.svg";
 import contactMessageIcon from "../assets/contactMessageIcon.svg";
 const Contact = ({ logoVariant }) => {
+  // setInterval(() => {
+  //   console.log("hello");
+  //   const inputFields = document.querySelectorAll(`.${styles.inputField}`);
+  //   inputFields.forEach((inputField) => {
+  //     if (inputField?.value === "")
+  //       inputField?.classList?.add(styles.disablePlaceholder);
+  //   });
+  // }, 1000)
   return (
     <div>
+      {/* <script>
+        function recheckInputFields() {
+          inputFields = document.querySelectorAll(`.${styles.inputField}`);
+          inputFields.forEach(inputField)
+        }
+        setInterval(recheckInputFields, 1000);
+      </script> */}
+      {/* {} */}
       <Header logoVariant={logoVariant} />
       <div className={styles.container}>
         <div className={styles.title}>
@@ -54,6 +70,11 @@ const Contact = ({ logoVariant }) => {
                             styles.disablePlaceholder
                           );
                       }}
+                      onChange={(e) => {
+                        e.target?.parentNode?.classList.add(
+                          styles.disablePlaceholder
+                        );
+                      }}
                       required
                     />
                   </div>
@@ -84,6 +105,11 @@ const Contact = ({ logoVariant }) => {
                           e.target?.parentNode?.classList.remove(
                             styles.disablePlaceholder
                           );
+                      }}
+                      onChange={(e) => {
+                        e.target?.parentNode?.classList.add(
+                          styles.disablePlaceholder
+                        );
                       }}
                       required
                     />
@@ -117,6 +143,11 @@ const Contact = ({ logoVariant }) => {
                           e.target?.parentNode?.classList.remove(
                             styles.disablePlaceholder
                           );
+                      }}
+                      onChange={(e) => {
+                        e.target?.parentNode?.classList.add(
+                          styles.disablePlaceholder
+                        );
                       }}
                       required
                     />

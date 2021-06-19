@@ -43,7 +43,8 @@ const Faq = ({ logoVariant }) => {
           <strong>Still have questions?</strong>
           <p>
             If you cannot find answers to your questions here, you can always{" "}
-            <a href="/contact">contact us</a>. <br />
+            <NavLink to="/contact">contact us</NavLink>
+            . <br />
             We will answer to you shortly!
           </p>
         </div>

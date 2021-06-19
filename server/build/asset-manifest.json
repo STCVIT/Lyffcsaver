@@ -1,19 +1,19 @@
 {
   "files": {
     "main.css": "/static/css/main.0f21f580.chunk.css",
-    "main.js": "/static/js/main.0f2785bc.chunk.js",
-    "main.js.map": "/static/js/main.0f2785bc.chunk.js.map",
+    "main.js": "/static/js/main.9b1809f3.chunk.js",
+    "main.js.map": "/static/js/main.9b1809f3.chunk.js.map",
     "runtime-main.js": "/static/js/runtime-main.b420c20e.js",
     "runtime-main.js.map": "/static/js/runtime-main.b420c20e.js.map",
     "static/css/2.61b4cb56.chunk.css": "/static/css/2.61b4cb56.chunk.css",
-    "static/js/2.76eff6be.chunk.js": "/static/js/2.76eff6be.chunk.js",
-    "static/js/2.76eff6be.chunk.js.map": "/static/js/2.76eff6be.chunk.js.map",
+    "static/js/2.4d02c9a5.chunk.js": "/static/js/2.4d02c9a5.chunk.js",
+    "static/js/2.4d02c9a5.chunk.js.map": "/static/js/2.4d02c9a5.chunk.js.map",
     "static/js/3.7e24ef01.chunk.js": "/static/js/3.7e24ef01.chunk.js",
     "static/js/3.7e24ef01.chunk.js.map": "/static/js/3.7e24ef01.chunk.js.map",
     "index.html": "/index.html",
     "static/css/2.61b4cb56.chunk.css.map": "/static/css/2.61b4cb56.chunk.css.map",
     "static/css/main.0f21f580.chunk.css.map": "/static/css/main.0f21f580.chunk.css.map",
-    "static/js/2.76eff6be.chunk.js.LICENSE.txt": "/static/js/2.76eff6be.chunk.js.LICENSE.txt",
+    "static/js/2.4d02c9a5.chunk.js.LICENSE.txt": "/static/js/2.4d02c9a5.chunk.js.LICENSE.txt",
     "static/media/aboutPageLady.41651b2d.svg": "/static/media/aboutPageLady.41651b2d.svg",
     "static/media/aboutPageMan.d189f0f4.svg": "/static/media/aboutPageMan.d189f0f4.svg",
     "static/media/calanderEmoji.8969dc1a.svg": "/static/media/calanderEmoji.8969dc1a.svg",
@@ -28,8 +28,8 @@
   "entrypoints": [
     "static/js/runtime-main.b420c20e.js",
     "static/css/2.61b4cb56.chunk.css",
-    "static/js/2.76eff6be.chunk.js",
+    "static/js/2.4d02c9a5.chunk.js",
     "static/css/main.0f21f580.chunk.css",
-    "static/js/main.0f2785bc.chunk.js"
+    "static/js/main.9b1809f3.chunk.js"
   ]
 }
