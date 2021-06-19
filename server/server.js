@@ -10,10 +10,6 @@ const port = process.env.PORT || 3001;
 const path = require("path");
 const fs = require("fs");
 const Fuse = require("fuse.js");
-const { db } = require("./firebase/firebaseConfig");
-const FACULTIES = "FACULTIES";
-const COURSES = "COURSES";
-const CLASSES = "CLASSES";
 
 app.use(express.json()); // for parsing application/json
 app.use(express.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded));
@@ -39,54 +35,28 @@ if (process.argv[2] === "loadData")
     )
   );
 
-const getWithFieldValueIn = async (
-  collectionNameOrSnapshot,
-  fieldName,
-  possibilities
-) => {
-  let startIndex = 0;
-  let result = [];
-  while (startIndex < possibilities.length) {
-    const endIndex = startIndex + 10;
-    let snapshot;
-    if (typeof collectionNameOrSnapshot === "string") {
-      snapshot = await db
-        .collection(collectionNameOrSnapshot)
-        .where(fieldName, "in", possibilities.slice(startIndex, endIndex))
-        .get();
-    } else {
-      snapshot = await collectionNameOrSnapshot
-        .where(fieldName, "in", possibilities.slice(startIndex, endIndex))
-        .get();
-    }
-    result.push(...snapshot.docs.map((doc) => doc.data()));
-    startIndex = endIndex;
-  }
-  return result;
-};
-
-app.get("/faculties", async (req, res) => {
+app.get("/faculties", (req, res) => {
+  const classes = JSON.parse(
+    fs.readFileSync(path.join(__dirname, "data", "classes.json"), "utf-8")
+  );
+  const faculties = JSON.parse(
+    fs.readFileSync(path.join(__dirname, "data", "faculties.json"), "utf-8")
+  );
   const { query, pageNumber, courseID } = req.query;
   console.log("searching for", courseID, query, pageNumber);
   const [courseCode, courseType] = courseID.split("-");
 
-  let requiredClassesSnapshot = await db
-    .collection(CLASSES)
-    .where("COURSE CODE", "==", courseCode)
-    .where("COURSE TYPE", "==", courseType)
-    .get();
-  let requiredClasses = requiredClassesSnapshot.docs;
-  let facultyIds = new Set();
+  let requiredClasses = matchesFieldAll(courseCode, "COURSE CODE", classes);
+  requiredClasses = matchesFieldAll(courseType, "COURSE TYPE", requiredClasses);
+  const facultyIds = new Set();
+  const requiredFaculties = [];
 
   requiredClasses.forEach((requiredClass) => {
-    facultyIds.add(requiredClass.data()["ERP ID"]);
+    facultyIds.add(requiredClass["ERP ID"]);
   });
-  facultyIds = [...facultyIds];
-  const requiredFaculties = await getWithFieldValueIn(
-    FACULTIES,
-    "ERP ID",
-    facultyIds
-  );
+  facultyIds.forEach((facultyId) => {
+    requiredFaculties.push(matchesField(facultyId, "ERP ID", faculties));
+  });
 
   const size = 10;
   const startIndex = Number(Number(pageNumber - 1) * size);
@@ -185,22 +155,36 @@ app.get("/courses", (req, res) => {
   }
 });
 
-app.post("/classes", async (req, res) => {
+app.post("/classes", (req, res) => {
+  const classes = JSON.parse(
+    fs.readFileSync(path.join(__dirname, "data", "classes.json"), "utf-8")
+  );
   console.log(req.body);
   const data = req.body;
   const requiredClasses = {};
-  for (const courseID of Object.keys(data)) {
-    const [courseCode, courseType] = courseID.split("-");
-    const partialQuery = await db
-      .collection(CLASSES)
-      .where("COURSE CODE", "==", courseCode)
-      .where("COURSE TYPE", "==", courseType);
-    requiredClasses[courseID] = [
-      ...(await getWithFieldValueIn(partialQuery, "ERP ID", data[courseID])),
-    ];
-  }
+  classes.forEach((classToCheck) => {
+    const currentCourseID = getCourseID(classToCheck);
+    if (
+      data[currentCourseID] !== undefined &&
+      data[currentCourseID].includes(classToCheck["ERP ID"])
+    ) {
+      if (requiredClasses[currentCourseID] === undefined)
+        requiredClasses[currentCourseID] = [];
+      requiredClasses[currentCourseID].push(classToCheck);
+    }
+  });
   res.json(requiredClasses);
 });
+
+// app.get("/slots", (req, res) => {
+//   const slotsFileData = JSON.parse(
+//     fs.readFileSync(
+//       path.join(__dirname, "data", "timetableTemplate.json"),
+//       "utf-8"
+//     )
+//   );
+//   res.json(slotsFileData);
+// });
 
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "build", "index.html"));
