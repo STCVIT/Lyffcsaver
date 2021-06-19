@@ -18,11 +18,7 @@ const Searchbar = ({ handleSearch }) => {
         placeholder="Search"
         className={styles.input}
       ></input>
-      <input
-        type="submit"
-        className={styles.button}
-        placeholder="Search"
-      ></input>
+      <input type="submit" className={styles.button} value="Search"></input>
     </form>
   );
 };

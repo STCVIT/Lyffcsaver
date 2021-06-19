@@ -12,7 +12,11 @@ const Timetable = ({ slots, selectedClasses, hoveredSlots }) => {
     if (
       schedule === undefined ||
       courseIDs.length === 0 ||
-      courseID === undefined
+      courseID === undefined ||
+      !(
+        schedule[courseID] &&
+        slots.includes(schedule[courseID]["SLOT"].split("+")[0])
+      )
     )
       return cell;
     return `${cell}-${courseID}-${schedule[courseID]["ROOM NUMBER"]}`;
@@ -23,16 +27,20 @@ const Timetable = ({ slots, selectedClasses, hoveredSlots }) => {
       className += `${timetableStyles.headDay}`;
       return className;
     }
+    if (rowIndex < 4) {
+      className += ` ${timetableStyles.cell} ${timetableStyles.headTop} `;
+      return className;
+    }
     if (cellContent === "Lunch") {
       className += `${timetableStyles.lunch}`;
       return className;
     }
     if (hoveredSlots.includes(cellContent)) {
       if (rowIndex % 2 === 0) {
-        className += `${timetableStyles.hoveredTheory}`;
+        className += `${timetableStyles.theory} ${timetableStyles.hoveredTheory}`;
         return className;
       } else {
-        className += `${timetableStyles.hoveredLab}`;
+        className += `${timetableStyles.lab} ${timetableStyles.hoveredLab}`;
         return className;
       }
     }
@@ -61,15 +69,15 @@ const Timetable = ({ slots, selectedClasses, hoveredSlots }) => {
             return (
               <tr key={`${id}-row-${rowIndex}`}>
                 {row.map((cell, index) => {
-                  return cell === "" ? (
+                  return cell === "" || index === 1 ? (
                     <></>
                   ) : (
                     <th
                       key={`${id}-${rowIndex}-${index}`}
-                      className={`${timetableStyles.cell} ${timetableStyles.headTime}`}
+                      className={getClassName(cell, rowIndex, index)}
                       rowSpan={index === 0 ? 2 : 1}
                     >
-                      {cell}
+                      {cell !== "Lunch" ? cell : ""}
                     </th>
                   );
                 })}
@@ -83,17 +91,38 @@ const Timetable = ({ slots, selectedClasses, hoveredSlots }) => {
             return (
               <tr key={`${id}-row-${rowIndex}`}>
                 {row.map((cell, cellIndex) => {
-                  return cell === "" ? (
+                  return cell === "" ||
+                    cellIndex === 1 ||
+                    (rowIndex > 0 && cell === "Lunch") ? (
                     <></>
                   ) : (
                     <td
                       key={`${id}-${rowIndex}-${cellIndex}`}
-                      className={`${getClassName(cell, rowIndex, cellIndex)}`}
-                      rowSpan={cellIndex === 0 ? 2 : 1}
+                      className={`${getClassName(
+                        cell,
+                        rowIndex + 4,
+                        cellIndex
+                      )}`}
+                      rowSpan={cell === "Lunch" ? 14 : cellIndex === 0 ? 2 : 1}
                     >
                       {getCellContent(selectedClasses, cell)}
                     </td>
                   );
+
+                  // return cell === "" && cellIndex != 1 ? (
+                  //   <></>
+                  // ) : (
+                  //   <td
+                  //     key={`${id}-${rowIndex}-${cellIndex}`}
+                  //     className={`${getClassName(
+                  //       cell,
+                  //       rowIndex + 4,
+                  //       cellIndex
+                  //     )}`}
+                  //     rowSpan={cellIndex === 0 ? 2 : 1}
+                  //   >
+                  //   </td>
+                  // );
                 })}
               </tr>
             );

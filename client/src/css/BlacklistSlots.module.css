@@ -16,5 +16,5 @@
   cursor: pointer;
 }
 .slotCell:hover {
-  border: 1px red dashed;
+  border: 2px red dashed !important;
 }

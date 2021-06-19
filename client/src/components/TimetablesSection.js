@@ -20,7 +20,6 @@ const TimetablesSection = ({ schedules, faculties }) => {
       }`}
       id="screen2"
     >
-      <h1 className={styles.title}>Generated Timetables</h1>
       <div className={styles.twoCols}>
         <TimetablePreviews
           schedulesSlots={schedulesSlots}

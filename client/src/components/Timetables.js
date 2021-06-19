@@ -14,7 +14,13 @@ const Timetables = ({ schedules, slots, faculties }) => {
   // ]);
   return (
     <div id="#timetables-screen" className={styles.timetablesScreen}>
-      <h3 className={styles.slotTitle}>{slots.join("+")}</h3>
+      {/* <h3 className={styles.slotTitle}>{slots.join("+")}</h3> */}
+
+      <Timetable
+        selectedClasses={selectedClasses}
+        slots={slots}
+        hoveredSlots={hoveredSlots}
+      ></Timetable>
       {slots !== undefined && slots.length > 0 ? (
         <Classes
           schedules={schedules[slots.join("+")]}
@@ -27,11 +33,6 @@ const Timetables = ({ schedules, slots, faculties }) => {
       ) : (
         <></>
       )}
-      <Timetable
-        selectedClasses={selectedClasses}
-        slots={slots}
-        hoveredSlots={hoveredSlots}
-      ></Timetable>
     </div>
   );
 };

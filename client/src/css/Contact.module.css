@@ -9,3 +9,103 @@
   margin: 20px;
   text-align: center;
 }
+.subTitle {
+  color: var(--faded-font-color);
+}
+.cols {
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: stretch;
+  width: 100%;
+  max-width: 1100px;
+}
+.col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.col1 {
+  flex: 1;
+  padding-right: 100px;
+}
+.col2 {
+  flex: 1;
+}
+.col2 > img {
+  width: 100%;
+  min-width: 340px;
+}
+.emailForm {
+  width: 100%;
+}
+.emailForm > ul {
+  list-style-type: none;
+  list-style: none;
+  list-style-image: none;
+}
+.emailForm > ul > li {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 40px;
+}
+.submitRow {
+  align-items: center;
+}
+.sendButton {
+  border-radius: 35px;
+  padding: 10px 35px;
+  width: fit-content;
+  background: var(--button-bg);
+  box-shadow: var(--button-shadow);
+  color: var(--button-font-col);
+}
+.inputField {
+  border: 2px solid var(--text-input-outline);
+  border-radius: 5px;
+  padding: 5px;
+  width: 100%;
+}
+.inputContainer {
+  margin-top: 10px;
+  width: 100%;
+  position: relative;
+  display: flex;
+}
+.placeholder {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  top: calc(50% - 0.8em);
+  pointer-events: none;
+}
+.placeholder > p {
+  margin: 0;
+  margin-left: 5px;
+}
+.placeholder > img {
+  margin-left: 10px;
+}
+/* .inputContainer:valid .placeholder,
+.inputContainer:focus .placeholder {
+  display: none;
+} */
+.disablePlaceholder .placeholder {
+  display: none;
+}
+.inputField:focus {
+  border: tomato solid 5px;
+}
+.messageInputContainer > .placeholder {
+  top: calc(0.8em);
+}
+@media only screen and (max-width: 850px) {
+  .cols {
+    flex-direction: column-reverse;
+    align-items: center;
+  }
+  .col1 {
+    padding: 0;
+    width: 100%;
+  }
+}

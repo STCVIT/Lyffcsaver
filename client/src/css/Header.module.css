@@ -1,5 +1,4 @@
 .navbar {
-  /* background-color: var(--primary-color); */
   color: var(--logo-font-color);
 }
 /* .logotype {
@@ -21,4 +20,16 @@
 
 .navLinks {
   margin-left: auto;
+}
+.navLinks > a {
+  padding: 0 0.5rem 0 0.5rem;
+  text-decoration: none;
+  color: var(--faded-font-color);
+}
+.navLinks > a:hover {
+  font-weight: 600;
+}
+.navLinks > .active {
+  color: rgb(65, 63, 63);
+  font-weight: 600;
 }

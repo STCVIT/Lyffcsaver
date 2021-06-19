@@ -8,6 +8,10 @@ const TimetablePreview = ({ slots, id, select }) => {
       className += `${styles.headDay}`;
       return className;
     }
+    if (rowIndex < 4) {
+      className += ` ${styles.cell} ${styles.headTop} `;
+      return className;
+    }
     if (cellContent === "Lunch") {
       className += `${styles.lunch}`;
       return className;
@@ -63,7 +67,7 @@ const TimetablePreview = ({ slots, id, select }) => {
                   ) : (
                     <th
                       key={`${id}-${rowIndex}-${index}`}
-                      className={`${styles.cell} ${styles.headTime}`}
+                      className={getClassName(cell, rowIndex, index)}
                       rowSpan={index === 0 ? 2 : 1}
                     >
                       {/* {cell} */}
@@ -85,7 +89,11 @@ const TimetablePreview = ({ slots, id, select }) => {
                   ) : (
                     <td
                       key={`${id}-${rowIndex}-${cellIndex}`}
-                      className={`${getClassName(cell, rowIndex, cellIndex)}`}
+                      className={`${getClassName(
+                        cell,
+                        rowIndex + 4,
+                        cellIndex
+                      )}`}
                       rowSpan={cellIndex === 0 ? 2 : 1}
                     >
                       {/* {cell} */}

@@ -14,6 +14,10 @@ const BlacklistSlots = ({ blacklistedSlots, toggleBlacklist }) => {
       className += ` ${timetableStyles.headDay} `;
       return className;
     }
+    if (rowIndex < 4) {
+      className += ` ${timetableStyles.cell} ${timetableStyles.headTop} `;
+      return className;
+    }
     if (cellContent === "Lunch") {
       className += ` ${timetableStyles.lunch} `;
       return className;
@@ -41,15 +45,15 @@ const BlacklistSlots = ({ blacklistedSlots, toggleBlacklist }) => {
             return (
               <tr key={`${id}-row-${rowIndex}`}>
                 {row.map((cell, index) => {
-                  return cell === "" ? (
+                  return cell === "" || index === 1 ? (
                     <></>
                   ) : (
                     <th
                       key={`${id}-${rowIndex}-${index}`}
-                      className={`${timetableStyles.cell} ${timetableStyles.headTime}`}
+                      className={getClassName(cell, rowIndex, index)}
                       rowSpan={index === 0 ? 2 : 1}
                     >
-                      {cell}
+                      {cell !== "Lunch" ? cell : ""}
                     </th>
                   );
                 })}
@@ -63,13 +67,19 @@ const BlacklistSlots = ({ blacklistedSlots, toggleBlacklist }) => {
             return (
               <tr key={`${id}-row-${rowIndex}`}>
                 {row.map((cell, cellIndex) => {
-                  return cell === "" ? (
+                  return cell === "" ||
+                    cellIndex === 1 ||
+                    (rowIndex > 0 && cell === "Lunch") ? (
                     <></>
                   ) : (
                     <td
                       key={`${id}-${rowIndex}-${cellIndex}`}
-                      className={`${getClassName(cell, rowIndex, cellIndex)}`}
-                      rowSpan={cellIndex === 0 ? 2 : 1}
+                      className={`${getClassName(
+                        cell,
+                        rowIndex + 4,
+                        cellIndex
+                      )}`}
+                      rowSpan={cell === "Lunch" ? 14 : cellIndex === 0 ? 2 : 1}
                       onClick={() => toggleBlacklist(cell)}
                     >
                       {cell}

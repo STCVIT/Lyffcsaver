@@ -19,6 +19,10 @@
   --button-col: rgb(113, 241, 124);
   --table-head-bg: #333;
   --table-bg: #d5dcff;
+  --text-input-outline: #a6a6a6;
+  --button-font-col: #fff;
+  --button-bg: linear-gradient(86.21deg, #8c7eee 5.73%, #4d60c7 99.22%);
+  --button-shadow: 0px 0px 20px rgba(77, 96, 199, 0.3);
 }
 body {
   width: 100vw;

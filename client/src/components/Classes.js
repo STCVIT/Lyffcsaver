@@ -304,6 +304,7 @@ const Classes = ({
     <></>
   ) : (
     <div className={styles.panel}>
+      <div className={styles.container}>{currentPageData}</div>
       <ReactPaginate
         previousLabel="<"
         nextLabel=">"
@@ -323,7 +324,6 @@ const Classes = ({
         disabledClassName={styles.disabled}
         activeClassName={styles.active}
       ></ReactPaginate>
-      <div className={styles.container}>{currentPageData}</div>
     </div>
   );
 };
