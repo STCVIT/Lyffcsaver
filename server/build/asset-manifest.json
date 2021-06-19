@@ -1,22 +1,35 @@
 {
   "files": {
-    "main.css": "/static/css/main.e346b76e.chunk.css",
-    "main.js": "/static/js/main.60694e58.chunk.js",
-    "main.js.map": "/static/js/main.60694e58.chunk.js.map",
-    "runtime-main.js": "/static/js/runtime-main.fa6993e1.js",
-    "runtime-main.js.map": "/static/js/runtime-main.fa6993e1.js.map",
-    "static/js/2.bad1decd.chunk.js": "/static/js/2.bad1decd.chunk.js",
-    "static/js/2.bad1decd.chunk.js.map": "/static/js/2.bad1decd.chunk.js.map",
-    "static/js/3.fbb62dca.chunk.js": "/static/js/3.fbb62dca.chunk.js",
-    "static/js/3.fbb62dca.chunk.js.map": "/static/js/3.fbb62dca.chunk.js.map",
+    "main.css": "/static/css/main.0f21f580.chunk.css",
+    "main.js": "/static/js/main.0f2785bc.chunk.js",
+    "main.js.map": "/static/js/main.0f2785bc.chunk.js.map",
+    "runtime-main.js": "/static/js/runtime-main.b420c20e.js",
+    "runtime-main.js.map": "/static/js/runtime-main.b420c20e.js.map",
+    "static/css/2.61b4cb56.chunk.css": "/static/css/2.61b4cb56.chunk.css",
+    "static/js/2.76eff6be.chunk.js": "/static/js/2.76eff6be.chunk.js",
+    "static/js/2.76eff6be.chunk.js.map": "/static/js/2.76eff6be.chunk.js.map",
+    "static/js/3.7e24ef01.chunk.js": "/static/js/3.7e24ef01.chunk.js",
+    "static/js/3.7e24ef01.chunk.js.map": "/static/js/3.7e24ef01.chunk.js.map",
     "index.html": "/index.html",
-    "static/css/main.e346b76e.chunk.css.map": "/static/css/main.e346b76e.chunk.css.map",
-    "static/js/2.bad1decd.chunk.js.LICENSE.txt": "/static/js/2.bad1decd.chunk.js.LICENSE.txt"
+    "static/css/2.61b4cb56.chunk.css.map": "/static/css/2.61b4cb56.chunk.css.map",
+    "static/css/main.0f21f580.chunk.css.map": "/static/css/main.0f21f580.chunk.css.map",
+    "static/js/2.76eff6be.chunk.js.LICENSE.txt": "/static/js/2.76eff6be.chunk.js.LICENSE.txt",
+    "static/media/aboutPageLady.41651b2d.svg": "/static/media/aboutPageLady.41651b2d.svg",
+    "static/media/aboutPageMan.d189f0f4.svg": "/static/media/aboutPageMan.d189f0f4.svg",
+    "static/media/calanderEmoji.8969dc1a.svg": "/static/media/calanderEmoji.8969dc1a.svg",
+    "static/media/checkmark.472edd5d.svg": "/static/media/checkmark.472edd5d.svg",
+    "static/media/contactEmailIcon.10e29a73.svg": "/static/media/contactEmailIcon.10e29a73.svg",
+    "static/media/contactIllustration.d2aaf54a.svg": "/static/media/contactIllustration.d2aaf54a.svg",
+    "static/media/contactMessageIcon.9f13b164.svg": "/static/media/contactMessageIcon.9f13b164.svg",
+    "static/media/contactNameIcon.6ada76d8.svg": "/static/media/contactNameIcon.6ada76d8.svg",
+    "static/media/faqPattern.ed9d4615.svg": "/static/media/faqPattern.ed9d4615.svg",
+    "static/media/quarterEllipse.c73c7fea.svg": "/static/media/quarterEllipse.c73c7fea.svg"
   },
   "entrypoints": [
-    "static/js/runtime-main.fa6993e1.js",
-    "static/js/2.bad1decd.chunk.js",
-    "static/css/main.e346b76e.chunk.css",
-    "static/js/main.60694e58.chunk.js"
+    "static/js/runtime-main.b420c20e.js",
+    "static/css/2.61b4cb56.chunk.css",
+    "static/js/2.76eff6be.chunk.js",
+    "static/css/main.0f21f580.chunk.css",
+    "static/js/main.0f2785bc.chunk.js"
   ]
 }
