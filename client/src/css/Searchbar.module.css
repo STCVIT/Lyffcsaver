@@ -1,20 +1,25 @@
 .form {
   position: relative;
   height: min-content;
+  width: min-content;
+  --radius: 16px;
 }
 .button {
   position: absolute;
   right: 0;
   /* top: 50%; */
   height: 100%;
-  border-radius: 0px 6px 6px 0px;
+  border-radius: 0px var(--radius) var(--radius) 0px;
   border: 2px solid var(--outline-color);
+  border-left: 0px;
   padding: 6px;
+  background-color: #fff;
 }
 .input {
   padding: 6px;
   margin: 0;
-  width: 100%;
-  border-radius: 6px;
+  width: 230px;
+  height: 40px;
+  border-radius: var(--radius);
   border: 2px solid var(--outline-color);
 }

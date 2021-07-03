@@ -1,4 +1,49 @@
 .container {
+  --container-radius: 5px;
+  --template: 1fr 2fr repeat(3, 1fr);
+  width: 530px;
+  height: 450px;
+  background-color: var(--table-bg);
+  border-radius: var(--container-radius);
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+.header {
+  border-radius: var(--container-radius) var(--container-radius) 0px 0px;
+  background-color: var(--table-head-bg);
+  padding: 20px;
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  display: grid;
+  grid-template-columns: var(--template);
+  column-gap: 7px;
+  color: var(--primary-font-color);
+}
+.body {
+  --card-side-padding: 15px;
+  padding: var(--card-side-padding);
+}
+.card {
+  background-color: #fff;
+  border-radius: var(--container-radius);
+  display: grid;
+  grid-template-columns: var(--template);
+  margin-bottom: 10px;
+  column-gap: 7px;
+  grid-auto-rows: minmax(50px, auto);
+  padding: 0 var(--card-side-padding) 0 var(--card-side-padding);
+  align-items: center;
+  cursor: pointer;
+}
+/* .bodyCol {
+  overflow-x: hidden;
+  text-overflow: ellipsis;
+} */
+/* .courseTitle{
+
+} */
+/* .container {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -51,10 +96,10 @@
 
 .selectedCoursesRow {
   cursor: pointer;
-}
+}*/
 .activeRow {
   background-color: var(--active-bg);
 }
 .hoverRow {
-  background-color: var(--selectable-row-hover-bg);
+  background-color: var(--active-hover-bg);
 }

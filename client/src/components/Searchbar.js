@@ -1,5 +1,6 @@
 import styles from "../css/Searchbar.module.css";
-const Searchbar = ({ handleSearch }) => {
+import searchIcon from "../assets/searchIcon.svg";
+const Searchbar = ({ handleSearch, text = "Search" }) => {
   return (
     <form
       action="/"
@@ -15,10 +16,12 @@ const Searchbar = ({ handleSearch }) => {
       <input
         type="text"
         name="search"
-        placeholder="Search"
+        placeholder={text}
         className={styles.input}
       ></input>
-      <input type="submit" className={styles.button} value="Search"></input>
+      <button type="submit" className={styles.button} value="Search">
+        <img src={searchIcon} alt="" />
+      </button>
     </form>
   );
 };

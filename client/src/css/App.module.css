@@ -12,9 +12,10 @@
   --secondary-font-color: #000;
   --faded-font-color: rgb(88, 87, 87);
   --outline-color: #000;
-  --active-bg: rgb(133, 184, 252);
+  --active-bg: #63de8d;
+  --active-hover-bg: #63de8d;
   --selectable-row-hover-bg: rgb(211, 208, 252);
-  --add-hover-bg: rgb(218, 252, 190);
+  --add-hover-bg: #63de8d;
   --remove-hover-bg: rgb(248, 194, 163);
   --button-col: rgb(113, 241, 124);
   --table-head-bg: #333;

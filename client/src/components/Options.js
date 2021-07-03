@@ -21,7 +21,9 @@ const Options = ({ generateTimetables }) => {
   const [currentlySelectedCourseID, setCurrentlySelectedCourseID] =
     useState("");
   const [blacklistedSlots, setBlacklistedSlots] = useState([]);
-
+  useEffect(() => {
+    console.log({ currentlySelectedCourseID });
+  }, [currentlySelectedCourseID]);
   const toggleBlacklist = (slot) => {
     const pattern = /[A-Z]+\d+/;
     if (pattern.test(slot)) {
@@ -70,8 +72,9 @@ const Options = ({ generateTimetables }) => {
     setCurrentlySelectedCourseID(courseID);
   };
 
-  const deselectCourse = () => {
-    setCurrentlySelectedCourseID("");
+  const deselectCourse = (courseID) => {
+    if (courseID === currentlySelectedCourseID || courseID === undefined)
+      setCurrentlySelectedCourseID("");
   };
   return (
     <div className={styles.screen}>
