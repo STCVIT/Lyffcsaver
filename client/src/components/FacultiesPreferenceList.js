@@ -68,7 +68,7 @@ const FacultiesPreferenceList = ({
 
   const InteractionElement = ({ faculty, customKey }) => {
     return (
-      <td className={styles.cell}>
+      <div className={styles.bodyCol}>
         <input
           type="checkbox"
           name="selected"
@@ -101,31 +101,45 @@ const FacultiesPreferenceList = ({
           }}
           defaultChecked={isSelectedFaculty(faculty)}
         />
-      </td>
+      </div>
     );
   };
   const columnKeys = [];
   const colsHeadings = () => {
     columnKeys.length = 0;
-    return Object.keys(faculties[0]).map((key) => {
-      if (
-        ignoreCols === undefined ||
-        (ignoreCols && !ignoreCols.includes(key))
-      ) {
-        columnKeys.push(key);
-        return (
-          <th className={styles.cell} key={`faculties-head-${key}`}>
-            {key}
-          </th>
-        );
-      }
-    });
+    if (faculties[0] !== undefined) {
+      const headers = Object.keys(faculties[0]).map((key) => {
+        if (
+          ignoreCols === undefined ||
+          (ignoreCols && !ignoreCols.includes(key))
+        ) {
+          columnKeys.push(key);
+          return (
+            <div className={styles.cell} key={`faculties-head-${key}`}>
+              {key}
+            </div>
+          );
+        }
+      });
+      headers.unshift(
+        <div className={styles.cell} key={`faculties-head-ie`}></div>
+      );
+      return headers;
+    }
+  };
+  const isInFaculties = (facultyToCheck) => {
+    return (
+      faculties.find(
+        (faculty) => faculty["ERP ID"] === facultyToCheck["ERP ID"]
+      ) !== undefined
+    );
   };
   const facultyRows = (provided) => {
     return (
       <>
         {selectedFaculties[currentlySelectedCourseID]?.map((faculty, index) => {
-          // if (!isSelectedFaculty(faculty)) return <></>;
+          if (!isInFaculties(faculty)) return <></>;
+
           // Rendering selected faculties
           if (faculties.length === index + 1) {
             return (
@@ -135,12 +149,12 @@ const FacultiesPreferenceList = ({
                 index={index}
               >
                 {(provided) => (
-                  <tr
+                  <div
                     ref={(node) => {
                       lastElementRef(node);
                       provided.innerRef(node);
                     }}
-                    className={`${styles.row} ${styles.selectedRow}`}
+                    className={`${styles.card} ${styles.selected}`}
                     id={faculty["ERP ID"]}
                     {...provided.draggableProps}
                     {...provided.dragHandleProps}
@@ -149,14 +163,20 @@ const FacultiesPreferenceList = ({
                       faculty={faculty}
                       customKey={`${faculty["ERP ID"]}-s-i`}
                     ></InteractionElement>
-
-                    <InfoCols
+                    <div className={styles.bodyCol}>{faculty["ERP ID"]}</div>
+                    <div className={styles.bodyCol}>
+                      {faculty["EMPLOYEE NAME"]}
+                    </div>
+                    <div className={styles.bodyCol}>
+                      {faculty["EMPLOYEE SCHOOL"]}
+                    </div>
+                    {/* <InfoCols
                       keys={columnKeys}
                       entry={faculty}
                       getID={(faculty) => faculty["ERP ID"] + "s"}
                       styles={styles}
-                    ></InfoCols>
-                  </tr>
+                    ></InfoCols> */}
+                  </div>
                 )}
               </Draggable>
             );
@@ -168,8 +188,8 @@ const FacultiesPreferenceList = ({
                 index={index}
               >
                 {(provided) => (
-                  <tr
-                    className={`${styles.row} ${styles.selectedRow}`}
+                  <div
+                    className={`${styles.card} ${styles.selected}`}
                     id={faculty["ERP ID"]}
                     ref={provided.innerRef}
                     {...provided.draggableProps}
@@ -180,13 +200,20 @@ const FacultiesPreferenceList = ({
                       customKey={`${faculty["ERP ID"]}-s-i`}
                     ></InteractionElement>
 
-                    <InfoCols
+                    <div className={styles.bodyCol}>{faculty["ERP ID"]}</div>
+                    <div className={styles.bodyCol}>
+                      {faculty["EMPLOYEE NAME"]}
+                    </div>
+                    <div className={styles.bodyCol}>
+                      {faculty["EMPLOYEE SCHOOL"]}
+                    </div>
+                    {/* <InfoCols
                       keys={columnKeys}
                       entry={faculty}
                       getID={(faculty) => faculty["ERP ID"] + "s"}
                       styles={styles}
-                    ></InfoCols>
-                  </tr>
+                    ></InfoCols> */}
+                  </div>
                 )}
               </Draggable>
             );
@@ -198,9 +225,9 @@ const FacultiesPreferenceList = ({
           // Rendering unselected faculties
           if (faculties.length === index + 1) {
             return (
-              <tr
+              <div
                 ref={lastElementRef}
-                className={`${styles.row} ${styles.notSelectedRow}`}
+                className={`${styles.card} ${styles.notSelected}`}
                 id={faculty["ERP ID"]}
                 key={`${faculty["ERP ID"]}-u`}
               >
@@ -209,19 +236,24 @@ const FacultiesPreferenceList = ({
                   customKey={`${faculty["ERP ID"]}-u-i`}
                 ></InteractionElement>
 
-                <InfoCols
+                <div className={styles.bodyCol}>{faculty["ERP ID"]}</div>
+                <div className={styles.bodyCol}>{faculty["EMPLOYEE NAME"]}</div>
+                <div className={styles.bodyCol}>
+                  {faculty["EMPLOYEE SCHOOL"]}
+                </div>
+                {/* <InfoCols
                   keys={columnKeys}
                   entry={faculty}
                   getID={(faculty) => faculty["ERP ID"] + "u"}
                   styles={styles}
-                ></InfoCols>
-              </tr>
+                ></InfoCols> */}
+              </div>
             );
           } else {
             return (
-              <tr
+              <div
                 id={faculty["ERP ID"]}
-                className={`${styles.row} ${styles.notSelectedRow}`}
+                className={`${styles.card} ${styles.notSelected}`}
                 key={`${faculty["ERP ID"]}-u`}
               >
                 <InteractionElement
@@ -229,13 +261,18 @@ const FacultiesPreferenceList = ({
                   customKey={`${faculty["ERP ID"]}-u-i`}
                 ></InteractionElement>
 
-                <InfoCols
+                <div className={styles.bodyCol}>{faculty["ERP ID"]}</div>
+                <div className={styles.bodyCol}>{faculty["EMPLOYEE NAME"]}</div>
+                <div className={styles.bodyCol}>
+                  {faculty["EMPLOYEE SCHOOL"]}
+                </div>
+                {/* <InfoCols
                   keys={columnKeys}
                   entry={faculty}
                   getID={(faculty) => faculty["ERP ID"] + "u"}
                   styles={styles}
-                ></InfoCols>
-              </tr>
+                ></InfoCols> */}
+              </div>
             );
           }
         })}
@@ -260,44 +297,78 @@ const FacultiesPreferenceList = ({
     <></>
   ) : (
     <div className={styles.container}>
-      <label className={styles.label}>
-        <h2>Faculties</h2>
-      </label>
-      <Searchbar handleSearch={handleSearch}></Searchbar>
+      <div className={styles.header}>
+        <div className={styles.headerNames}>
+          <div className={styles.headCol}></div>
+          <div className={styles.headCol}>ERP ID</div>
+          <div className={styles.headCol}>EMPLOYEE NAME</div>
+          <div className={styles.headCol}>EMPLOYEE SCHOOL</div>
+        </div>
+        <div className={styles.headerSearch}>
+          <Searchbar handleSearch={handleSearch}></Searchbar>
+        </div>
+      </div>
+
       <div className={styles.loading}>{loading && "Loading..."}</div>
       <div className={styles.error}>{error && "Error..."}</div>
-      <div className={styles.tableWrapper}>
-        <table className={styles.facultyTable}>
-          {faculties.length === 0 ? (
-            <tbody>
-              <tr>
-                <td>{!loading && !error && "No Results"}</td>
-              </tr>
-            </tbody>
-          ) : (
-            <>
-              <thead>
-                <tr className={styles.headRow}>
-                  <th className={styles.cell} key="faculty-head-select"></th>
-                  {colsHeadings()}
-                </tr>
-              </thead>
-
-              <DragDropContext onDragEnd={handleOnDragEnd}>
-                <Droppable droppableId="faculties">
-                  {(provided) => (
-                    <tbody {...provided.droppableProps} ref={provided.innerRef}>
-                      {facultyRows(provided)}
-                    </tbody>
-                  )}
-                </Droppable>
-              </DragDropContext>
-            </>
-          )}
-        </table>
+      <div className={styles.noResults}>
+        {!loading && !error && faculties.length === 0 && "No Results."}
       </div>
+
+      <DragDropContext onDragEnd={handleOnDragEnd}>
+        <Droppable droppableId="faculties">
+          {(provided) => (
+            <div
+              className={styles.body}
+              ref={provided.innerRef}
+              {...provided.droppableProps}
+            >
+              {facultyRows(provided)}
+            </div>
+          )}
+        </Droppable>
+      </DragDropContext>
     </div>
   );
+  // return currentlySelectedCourseID === "" ? (
+  //   <></>
+  // ) : (
+  //   <div className={styles.container}>
+  //     <Searchbar handleSearch={handleSearch}></Searchbar>
+  //     <div className={styles.loading}>{loading && "Loading..."}</div>
+  //     <div className={styles.error}>{error && "Error..."}</div>
+  //     <div className={styles.tableWrapper}>
+  //       <table className={styles.facultyTable}>
+  //         {faculties.length === 0 ? (
+  //           <tbody>
+  //             <tr>
+  //               <td>{!loading && !error && "No Results"}</td>
+  //             </tr>
+  //           </tbody>
+  //         ) : (
+  //           <>
+  //             <thead>
+  //               <tr className={styles.headRow}>
+  //                 <th className={styles.cell} key="faculty-head-select"></th>
+  //                 {colsHeadings()}
+  //               </tr>
+  //             </thead>
+
+  //             <DragDropContext onDragEnd={handleOnDragEnd}>
+  //               <Droppable droppableId="faculties">
+  //                 {(provided) => (
+  //                   <tbody {...provided.droppableProps} ref={provided.innerRef}>
+  //                     {facultyRows(provided)}
+  //                   </tbody>
+  //                 )}
+  //               </Droppable>
+  //             </DragDropContext>
+  //           </>
+  //         )}
+  //       </table>
+  //     </div>
+  //   </div>
+  // );
 };
 
 export default FacultiesPreferenceList;

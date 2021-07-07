@@ -1,12 +1,11 @@
 .container {
   --container-radius: 5px;
   --template: 1fr 2fr repeat(3, 1fr);
-  width: 530px;
+  width: 500px;
   height: 450px;
   background-color: var(--table-bg);
   border-radius: var(--container-radius);
   overflow-x: hidden;
-  overflow-y: auto;
 }
 .header {
   border-radius: var(--container-radius) var(--container-radius) 0px 0px;
@@ -19,10 +18,13 @@
   grid-template-columns: var(--template);
   column-gap: 7px;
   color: var(--primary-font-color);
+  align-items: center;
 }
 .body {
   --card-side-padding: 15px;
   padding: var(--card-side-padding);
+  overflow-y: auto;
+  height: calc(450px - 89px);
 }
 .card {
   background-color: #fff;
@@ -35,6 +37,12 @@
   padding: 0 var(--card-side-padding) 0 var(--card-side-padding);
   align-items: center;
   cursor: pointer;
+}
+.activeRow {
+  background-color: var(--active-bg);
+}
+.hoverRow {
+  background-color: var(--active-hover-bg);
 }
 /* .bodyCol {
   overflow-x: hidden;
@@ -97,9 +105,3 @@
 .selectedCoursesRow {
   cursor: pointer;
 }*/
-.activeRow {
-  background-color: var(--active-bg);
-}
-.hoverRow {
-  background-color: var(--active-hover-bg);
-}

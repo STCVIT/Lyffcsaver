@@ -1,4 +1,59 @@
 .container {
+  --container-radius: 5px;
+  --template: 1fr 2fr 3fr 2fr;
+  width: 500px;
+  height: 450px;
+  background-color: var(--table-bg);
+  border-radius: var(--container-radius);
+  overflow-x: hidden;
+}
+.header {
+  border-radius: var(--container-radius) var(--container-radius) 0px 0px;
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  color: var(--primary-font-color);
+}
+.headerNames {
+  background-color: var(--table-head-bg);
+  display: grid;
+  grid-template-columns: var(--template);
+  column-gap: 7px;
+  align-items: center;
+  padding: 20px;
+}
+.headerSearch {
+  background-color: var(--table-bg);
+  padding: 20px;
+}
+.body {
+  --card-side-padding: 10px;
+  padding: var(--card-side-padding);
+  overflow-y: auto;
+  height: calc(450px - 170px);
+}
+.card {
+  background-color: #fff;
+  border-radius: var(--container-radius);
+  display: grid;
+  grid-template-columns: var(--template);
+  margin-bottom: 10px;
+  column-gap: 7px;
+  grid-auto-rows: minmax(50px, auto);
+  padding: 0 var(--card-side-padding) 0 var(--card-side-padding);
+  align-items: center;
+}
+.bodyCol > input {
+  cursor: pointer;
+}
+.notSelected {
+  background-color: lightgray;
+  color: gray;
+}
+.selected {
+  cursor: grab;
+}
+/* .container {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -57,3 +112,4 @@
 .selectedRow {
   cursor: grab;
 }
+*/

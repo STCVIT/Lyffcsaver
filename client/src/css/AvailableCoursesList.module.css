@@ -1,11 +1,10 @@
 .container {
   --container-radius: 5px;
-  width: 530px;
+  width: 500px;
   height: 450px;
   background-color: var(--table-bg);
   border-radius: var(--container-radius);
   overflow-x: hidden;
-  overflow-y: auto;
 }
 .header {
   border-radius: var(--container-radius) var(--container-radius) 0px 0px;
@@ -18,6 +17,8 @@
 .body {
   --card-side-padding: 15px;
   padding: var(--card-side-padding);
+  overflow-y: auto;
+  height: calc(450px - 80px);
 }
 .card {
   background-color: #fff;
