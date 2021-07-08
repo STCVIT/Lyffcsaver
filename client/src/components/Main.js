@@ -13,10 +13,10 @@ import styles from "../css/Main.module.css";
 const Main = ({ logoVariant }) => {
   const [allSchedules, setAllSchedules] = useState([]);
   const [faculties, setFaculties] = useState({});
-  const [blacklistedSlots, setBlacklistedSlots] = useState([]);
-  const populateAllSchedules = async (courses, faculties, blacklistedSlots) => {
+  const [reservedSlots, setReservedSlots] = useState([]);
+  const populateAllSchedules = async (courses, faculties, reservedSlots) => {
     setAllSchedules([]);
-    setAllSchedules(await getTimetables(courses, faculties, blacklistedSlots));
+    setAllSchedules(await getTimetables(courses, faculties, reservedSlots));
     setFaculties({ ...faculties });
   };
 
@@ -30,23 +30,19 @@ const Main = ({ logoVariant }) => {
   useEffect(() => {
     console.log("updated allSchedules", allSchedules);
   }, [allSchedules]);
-  const getAllSlotCombinations = async (
-    courses,
-    faculties,
-    blacklistedSlots
-  ) => {
+  const getAllSlotCombinations = async (courses, faculties, reservedSlots) => {
     setAllSchedules([]);
     setAllSchedules(
-      await getSlotCombinations(courses, faculties, blacklistedSlots)
+      await getSlotCombinations(courses, faculties, reservedSlots)
     );
     setFaculties({ ...faculties });
-    setBlacklistedSlots([...blacklistedSlots]);
+    setReservedSlots([...reservedSlots]);
   };
 
   const getSchedulesForSlots = async (newSlotsString) => {
     const result = await populateSlotCombination(
       faculties,
-      blacklistedSlots,
+      reservedSlots,
       newSlotsString,
       allSchedules
     );

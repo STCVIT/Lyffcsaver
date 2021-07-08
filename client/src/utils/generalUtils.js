@@ -98,7 +98,7 @@ const verifyNumberOfClasses = (classes) => {
   ) {
     alert(
       `No valid classes found for ${courseIDWithTooFewClasses}\n` +
-        `Please either reduce blacklisted slots or add more faculties from this course`
+        `Please either reduce reserved slots or add more faculties from this course`
     );
     return false;
   }
@@ -110,20 +110,19 @@ const verifyNumberOfClasses = (classes) => {
       `Number of Possibilities: ${numberOfPossibilities.toLocaleString()}\n` +
         `Time required: (approx) ${minutes.toLocaleString()} minutes (Actual time required might be much less)\n` +
         `If you get a message saying "Page Unresponsive" after choosing to proceed, please choose to wait.\n` +
-        `To reduce possibilities, reduce the number of faculties selected or blacklist more slots\n` +
+        `To reduce possibilities, reduce the number of faculties selected or reserve more slots\n` +
         `Proceed?`
     );
   }
   return true;
 };
 
-const removeBlacklistedSlots = (classes, blacklistedSlots) => {
+const removeReservedSlots = (classes, reservedSlots) => {
   Object.keys(classes).forEach((courseID) => {
     classes[courseID] = classes[courseID].filter((classToBeChecked) => {
       return (
         classToBeChecked["SLOT"].split("+").find((slot) => {
-          if (blacklistedSlots.includes(slot))
-            return blacklistedSlots.includes(slot);
+          if (reservedSlots.includes(slot)) return reservedSlots.includes(slot);
         }) === undefined
       );
     });
@@ -132,7 +131,7 @@ const removeBlacklistedSlots = (classes, blacklistedSlots) => {
 
 const populateSlotCombination = async (
   faculties,
-  blacklistedSlots,
+  reservedSlots,
   slotsString,
   objectToPopulate
 ) => {
@@ -143,7 +142,7 @@ const populateSlotCombination = async (
 
     const courseIDs = Object.keys(faculties);
     const classes = await getClasses(faculties);
-    removeBlacklistedSlots(classes, blacklistedSlots);
+    removeReservedSlots(classes, reservedSlots);
     // if (!verifyNumberOfClasses(classes)) return {};
 
     // sorting courseIDs in ascending order of the number of classes
@@ -199,7 +198,7 @@ const populateSlotCombination = async (
   }
   return {};
 };
-const getSlotCombinations = async (courses, faculties, blacklistedSlots) => {
+const getSlotCombinations = async (courses, faculties, reservedSlots) => {
   if (window.Worker) {
     const worker = new Worker("workers/worker.js");
 
@@ -210,7 +209,7 @@ const getSlotCombinations = async (courses, faculties, blacklistedSlots) => {
 
     if (!verifyPreferencesSet(courses, faculties)) return {};
 
-    removeBlacklistedSlots(classes, blacklistedSlots);
+    removeReservedSlots(classes, reservedSlots);
     if (!verifyNumberOfClasses(classes)) return {};
 
     // sorting courseIDs in ascending order of the number of classes
@@ -267,10 +266,10 @@ const getSlotCombinations = async (courses, faculties, blacklistedSlots) => {
  *
  * @param {Object} courses Object of type {courseID: [Array of classes with this courseID]}
  * @param {Object} faculties Object of type {courseID: [Faculties teaching this course sorted by preference]}
- * @param {Array} blacklistedSlots Contains slots to be excluded while making timetables
+ * @param {Array} reservedSlots Contains slots to be excluded while making timetables
  * @returns {Object} Object in the format {slots: [All schedules occupying those slots]}
  */
-const getTimetables = async (courses, faculties, blacklistedSlots) => {
+const getTimetables = async (courses, faculties, reservedSlots) => {
   if (window.Worker) {
     const worker = new Worker("workers/worker.js");
 
@@ -281,7 +280,7 @@ const getTimetables = async (courses, faculties, blacklistedSlots) => {
 
     if (!verifyPreferencesSet(courses, faculties)) return [];
 
-    removeBlacklistedSlots(classes, blacklistedSlots);
+    removeReservedSlots(classes, reservedSlots);
     if (!verifyNumberOfClasses(classes)) return [];
 
     // sorting courseIDs in ascending order of the number of classes

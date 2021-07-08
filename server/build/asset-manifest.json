@@ -1,8 +1,8 @@
 {
   "files": {
-    "main.css": "/static/css/main.5f15be32.chunk.css",
-    "main.js": "/static/js/main.5e5557be.chunk.js",
-    "main.js.map": "/static/js/main.5e5557be.chunk.js.map",
+    "main.css": "/static/css/main.b6d7ed35.chunk.css",
+    "main.js": "/static/js/main.ddf89dd6.chunk.js",
+    "main.js.map": "/static/js/main.ddf89dd6.chunk.js.map",
     "runtime-main.js": "/static/js/runtime-main.397f66a4.js",
     "runtime-main.js.map": "/static/js/runtime-main.397f66a4.js.map",
     "static/css/2.4be38407.chunk.css": "/static/css/2.4be38407.chunk.css",
@@ -12,7 +12,7 @@
     "static/js/3.9eee3c2d.chunk.js.map": "/static/js/3.9eee3c2d.chunk.js.map",
     "index.html": "/index.html",
     "static/css/2.4be38407.chunk.css.map": "/static/css/2.4be38407.chunk.css.map",
-    "static/css/main.5f15be32.chunk.css.map": "/static/css/main.5f15be32.chunk.css.map",
+    "static/css/main.b6d7ed35.chunk.css.map": "/static/css/main.b6d7ed35.chunk.css.map",
     "static/js/2.78885976.chunk.js.LICENSE.txt": "/static/js/2.78885976.chunk.js.LICENSE.txt",
     "static/media/aboutPageLady.41651b2d.svg": "/static/media/aboutPageLady.41651b2d.svg",
     "static/media/aboutPageMan.d189f0f4.svg": "/static/media/aboutPageMan.d189f0f4.svg",
@@ -32,7 +32,7 @@
     "static/js/runtime-main.397f66a4.js",
     "static/css/2.4be38407.chunk.css",
     "static/js/2.78885976.chunk.js",
-    "static/css/main.5f15be32.chunk.css",
-    "static/js/main.5e5557be.chunk.js"
+    "static/css/main.b6d7ed35.chunk.css",
+    "static/js/main.ddf89dd6.chunk.js"
   ]
 }
