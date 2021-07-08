@@ -3,7 +3,7 @@ import styles from "../css/Options.module.css";
 import AvailableCoursesList from "./AvailableCoursesList";
 import FacultiesPreferenceList from "./FacultiesPreferenceList";
 import SelectedCoursesList from "./SelectedCoursesList";
-import BlacklistSlots from "./BlacklistSlots";
+import ReserveSlots from "./ReserveSlots";
 import Instructions from "./Instructions";
 import InitialSelect from "./InitialSelect";
 import axios from "axios";
@@ -14,24 +14,21 @@ const Options = ({ generateTimetables }) => {
   const [selectedFaculties, setSelectedFaculties] = useState({});
   const [currentlySelectedCourseID, setCurrentlySelectedCourseID] =
     useState("");
-  const [blacklistedSlots, setBlacklistedSlots] = useState([]);
+  const [reservedSlots, setReservedSlots] = useState([]);
   useEffect(() => {
     console.log({ currentlySelectedCourseID });
   }, [currentlySelectedCourseID]);
-  const toggleBlacklist = (slot) => {
+  const toggleReserve = (slot) => {
     const pattern = /[A-Z]+\d+/;
     if (pattern.test(slot)) {
-      if (blacklistedSlots.includes(slot)) {
-        setBlacklistedSlots((prevBlacklistedSlots) =>
-          prevBlacklistedSlots.filter(
+      if (reservedSlots.includes(slot)) {
+        setReservedSlots((prevReservedSlots) =>
+          prevReservedSlots.filter(
             (slotToBeChecked) => slotToBeChecked !== slot
           )
         );
       } else {
-        setBlacklistedSlots((prevBlacklistedSlots) => [
-          ...prevBlacklistedSlots,
-          slot,
-        ]);
+        setReservedSlots((prevReservedSlots) => [...prevReservedSlots, slot]);
       }
     }
   };
@@ -97,10 +94,10 @@ const Options = ({ generateTimetables }) => {
         ></FacultiesPreferenceList>
       </div>
       <div className={styles.row}>
-        <BlacklistSlots
-          blacklistedSlots={blacklistedSlots}
-          toggleBlacklist={toggleBlacklist}
-        ></BlacklistSlots>
+        <ReserveSlots
+          reservedSlots={reservedSlots}
+          toggleReserve={toggleReserve}
+        ></ReserveSlots>
       </div>
       <div className={styles.row}>
         <button
@@ -109,7 +106,7 @@ const Options = ({ generateTimetables }) => {
             generateTimetables(
               selectedCourses,
               selectedFaculties,
-              blacklistedSlots
+              reservedSlots
             );
           }}
         >

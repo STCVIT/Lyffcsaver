@@ -1,11 +1,11 @@
 import { useState } from "react";
-import styles from "../css/BlacklistSlots.module.css";
+import styles from "../css/ReservedSlots.module.css";
 import timetableStyles from "../css/Timetable.module.css";
 import timetableTemplateData from "../utils/timetableTemplateData";
 // TODO: Clicking on row or column should select everything in that row or column
-const BlacklistSlots = ({ blacklistedSlots, toggleBlacklist }) => {
+const ReserveSlots = ({ reservedSlots, toggleReserve }) => {
   let dayCount = 0;
-  const id = "blacklist-slots";
+  const id = "reserve-slots";
   const getClassName = (cellContent, rowIndex, cellIndex) => {
     let className = `${timetableStyles.cell} `;
     const pattern = /[A-Z]+\d+/;
@@ -22,8 +22,8 @@ const BlacklistSlots = ({ blacklistedSlots, toggleBlacklist }) => {
       className += ` ${timetableStyles.lunch} `;
       return className;
     }
-    if (blacklistedSlots.includes(cellContent)) {
-      className += ` ${styles.blacklisted} `;
+    if (reservedSlots.includes(cellContent)) {
+      className += ` ${styles.reserved} `;
       return className;
     }
     if (dayCount % 2 === 0) {
@@ -37,7 +37,7 @@ const BlacklistSlots = ({ blacklistedSlots, toggleBlacklist }) => {
   return (
     <div className={styles.container}>
       <label className={styles.label}>
-        <h2>Blacklist Slots</h2>
+        <h2>Reserve Slots</h2>
       </label>
       <table className={timetableStyles.timetable} onClick={(e) => {}}>
         <thead>
@@ -80,7 +80,7 @@ const BlacklistSlots = ({ blacklistedSlots, toggleBlacklist }) => {
                         cellIndex
                       )}`}
                       rowSpan={cell === "Lunch" ? 14 : cellIndex === 0 ? 2 : 1}
-                      onClick={() => toggleBlacklist(cell)}
+                      onClick={() => toggleReserve(cell)}
                     >
                       {cell}
                     </td>
@@ -95,4 +95,4 @@ const BlacklistSlots = ({ blacklistedSlots, toggleBlacklist }) => {
   );
 };
 
-export default BlacklistSlots;
+export default ReserveSlots;

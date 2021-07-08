@@ -16,7 +16,7 @@ const Instructions = () => {
           <img src={checkmark} alt="" /> Select your preferred faculty
         </li>
         <li>
-          <img src={checkmark} alt="" /> Blacklist the slots you want free{" "}
+          <img src={checkmark} alt="" /> Reserve the slots you want free{" "}
         </li>
         <li>
           <img src={checkmark} alt="" /> Generate timetables and pick the one

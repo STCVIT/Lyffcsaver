@@ -20,6 +20,6 @@
   border: 2px red dashed !important;
   /* margin: -3px; */
 }
-.blacklisted {
+.reserved {
   background-color: red;
 }
