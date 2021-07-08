@@ -1,21 +1,13 @@
 .container {
-  /* overflow: auto;
-  display: flex;
-  flex-wrap: wrap;
-  margin-left: 30px;
-  justify-content: center;
-  overflow: auto; */
   display: grid;
   gap: 20px;
-  /* overflow-y: auto; */
   padding: 20px;
   overflow-x: visible;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(4, 1fr);
 }
 .panel {
   display: flex;
   flex-direction: column;
-  max-width: 700px;
 }
 .paginatedPreviews {
   margin-top: 20px;

@@ -4,13 +4,11 @@ import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import styles from "../css/FacultiesPreferenceList.module.css";
 import useDataSearch from "../utils/useDataSearch";
 import Searchbar from "./Searchbar";
-import InfoCols from "./InfoCols";
 
 const FacultiesPreferenceList = ({
   currentlySelectedCourseID,
   selectedFaculties,
   setSelectedFaculties,
-  ignoreCols,
 }) => {
   const [query, setQuery] = useState("");
   const [pageNumber, setPageNumber] = useState(1);
@@ -59,13 +57,6 @@ const FacultiesPreferenceList = ({
     );
   };
 
-  // start code from https://stackoverflow.com/a/53837442/13378825
-  // const [forcingValue, setForcingValue] = useState(0); // integer state
-  // function useForceUpdate() {
-  //   setForcingValue((prevforcingValue) => prevforcingValue + 1); // update the state to force render
-  // }
-  // end code from https://stackoverflow.com/a/53837442/13378825
-
   const InteractionElement = ({ faculty, customKey }) => {
     return (
       <div className={styles.bodyCol}>
@@ -93,39 +84,11 @@ const FacultiesPreferenceList = ({
                 );
             }
             setSelectedFaculties({ ...newSelectedFaculties });
-
-            // Forcing Update is necessary here as changes to selectedFaculties
-            // happen at a nested level, and therefore react doesn't notice the
-            // change.
-            // useForceUpdate();
           }}
           defaultChecked={isSelectedFaculty(faculty)}
         />
       </div>
     );
-  };
-  const columnKeys = [];
-  const colsHeadings = () => {
-    columnKeys.length = 0;
-    if (faculties[0] !== undefined) {
-      const headers = Object.keys(faculties[0]).map((key) => {
-        if (
-          ignoreCols === undefined ||
-          (ignoreCols && !ignoreCols.includes(key))
-        ) {
-          columnKeys.push(key);
-          return (
-            <div className={styles.cell} key={`faculties-head-${key}`}>
-              {key}
-            </div>
-          );
-        }
-      });
-      headers.unshift(
-        <div className={styles.cell} key={`faculties-head-ie`}></div>
-      );
-      return headers;
-    }
   };
   const isInFaculties = (facultyToCheck) => {
     return (
@@ -144,8 +107,8 @@ const FacultiesPreferenceList = ({
           if (faculties.length === index + 1) {
             return (
               <Draggable
-                draggableId={`${faculty["ERP ID"]}-s`}
-                key={`${faculty["ERP ID"]}-s`}
+                draggableId={`${faculty["ERP ID"]}-se`}
+                key={`${faculty["ERP ID"]}-se`}
                 index={index}
               >
                 {(provided) => (
@@ -154,6 +117,7 @@ const FacultiesPreferenceList = ({
                       lastElementRef(node);
                       provided.innerRef(node);
                     }}
+                    key={`${faculty["ERP ID"]}-sec`}
                     className={`${styles.card} ${styles.selected}`}
                     id={faculty["ERP ID"]}
                     {...provided.draggableProps}
@@ -161,7 +125,7 @@ const FacultiesPreferenceList = ({
                   >
                     <InteractionElement
                       faculty={faculty}
-                      customKey={`${faculty["ERP ID"]}-s-i`}
+                      customKey={`${faculty["ERP ID"]}-se-i`}
                     ></InteractionElement>
                     <div className={styles.bodyCol}>{faculty["ERP ID"]}</div>
                     <div className={styles.bodyCol}>
@@ -170,12 +134,6 @@ const FacultiesPreferenceList = ({
                     <div className={styles.bodyCol}>
                       {faculty["EMPLOYEE SCHOOL"]}
                     </div>
-                    {/* <InfoCols
-                      keys={columnKeys}
-                      entry={faculty}
-                      getID={(faculty) => faculty["ERP ID"] + "s"}
-                      styles={styles}
-                    ></InfoCols> */}
                   </div>
                 )}
               </Draggable>
@@ -191,6 +149,7 @@ const FacultiesPreferenceList = ({
                   <div
                     className={`${styles.card} ${styles.selected}`}
                     id={faculty["ERP ID"]}
+                    key={`${faculty["ERP ID"]}-sc`}
                     ref={provided.innerRef}
                     {...provided.draggableProps}
                     {...provided.dragHandleProps}
@@ -207,12 +166,6 @@ const FacultiesPreferenceList = ({
                     <div className={styles.bodyCol}>
                       {faculty["EMPLOYEE SCHOOL"]}
                     </div>
-                    {/* <InfoCols
-                      keys={columnKeys}
-                      entry={faculty}
-                      getID={(faculty) => faculty["ERP ID"] + "s"}
-                      styles={styles}
-                    ></InfoCols> */}
                   </div>
                 )}
               </Draggable>
@@ -229,11 +182,11 @@ const FacultiesPreferenceList = ({
                 ref={lastElementRef}
                 className={`${styles.card} ${styles.notSelected}`}
                 id={faculty["ERP ID"]}
-                key={`${faculty["ERP ID"]}-u`}
+                key={`${faculty["ERP ID"]}-ue`}
               >
                 <InteractionElement
                   faculty={faculty}
-                  customKey={`${faculty["ERP ID"]}-u-i`}
+                  customKey={`${faculty["ERP ID"]}-ue-i`}
                 ></InteractionElement>
 
                 <div className={styles.bodyCol}>{faculty["ERP ID"]}</div>
@@ -241,12 +194,6 @@ const FacultiesPreferenceList = ({
                 <div className={styles.bodyCol}>
                   {faculty["EMPLOYEE SCHOOL"]}
                 </div>
-                {/* <InfoCols
-                  keys={columnKeys}
-                  entry={faculty}
-                  getID={(faculty) => faculty["ERP ID"] + "u"}
-                  styles={styles}
-                ></InfoCols> */}
               </div>
             );
           } else {
@@ -266,12 +213,6 @@ const FacultiesPreferenceList = ({
                 <div className={styles.bodyCol}>
                   {faculty["EMPLOYEE SCHOOL"]}
                 </div>
-                {/* <InfoCols
-                  keys={columnKeys}
-                  entry={faculty}
-                  getID={(faculty) => faculty["ERP ID"] + "u"}
-                  styles={styles}
-                ></InfoCols> */}
               </div>
             );
           }
@@ -309,66 +250,28 @@ const FacultiesPreferenceList = ({
         </div>
       </div>
 
-      <div className={styles.loading}>{loading && "Loading..."}</div>
-      <div className={styles.error}>{error && "Error..."}</div>
-      <div className={styles.noResults}>
-        {!loading && !error && faculties.length === 0 && "No Results."}
+      <div className={styles.body}>
+        <DragDropContext onDragEnd={handleOnDragEnd}>
+          <Droppable droppableId="faculties">
+            {(provided) => (
+              <div
+                key={"faculties-list"}
+                ref={provided.innerRef}
+                {...provided.droppableProps}
+              >
+                {facultyRows(provided)}
+              </div>
+            )}
+          </Droppable>
+        </DragDropContext>
+        <div className={styles.loading}>{loading && "Loading..."}</div>
+        <div className={styles.error}>{error && "Error..."}</div>
+        <div className={styles.noResults}>
+          {!loading && !error && faculties.length === 0 && "No Results."}
+        </div>
       </div>
-
-      <DragDropContext onDragEnd={handleOnDragEnd}>
-        <Droppable droppableId="faculties">
-          {(provided) => (
-            <div
-              className={styles.body}
-              ref={provided.innerRef}
-              {...provided.droppableProps}
-            >
-              {facultyRows(provided)}
-            </div>
-          )}
-        </Droppable>
-      </DragDropContext>
     </div>
   );
-  // return currentlySelectedCourseID === "" ? (
-  //   <></>
-  // ) : (
-  //   <div className={styles.container}>
-  //     <Searchbar handleSearch={handleSearch}></Searchbar>
-  //     <div className={styles.loading}>{loading && "Loading..."}</div>
-  //     <div className={styles.error}>{error && "Error..."}</div>
-  //     <div className={styles.tableWrapper}>
-  //       <table className={styles.facultyTable}>
-  //         {faculties.length === 0 ? (
-  //           <tbody>
-  //             <tr>
-  //               <td>{!loading && !error && "No Results"}</td>
-  //             </tr>
-  //           </tbody>
-  //         ) : (
-  //           <>
-  //             <thead>
-  //               <tr className={styles.headRow}>
-  //                 <th className={styles.cell} key="faculty-head-select"></th>
-  //                 {colsHeadings()}
-  //               </tr>
-  //             </thead>
-
-  //             <DragDropContext onDragEnd={handleOnDragEnd}>
-  //               <Droppable droppableId="faculties">
-  //                 {(provided) => (
-  //                   <tbody {...provided.droppableProps} ref={provided.innerRef}>
-  //                     {facultyRows(provided)}
-  //                   </tbody>
-  //                 )}
-  //               </Droppable>
-  //             </DragDropContext>
-  //           </>
-  //         )}
-  //       </table>
-  //     </div>
-  //   </div>
-  // );
 };
 
 export default FacultiesPreferenceList;

@@ -14,7 +14,12 @@
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
   cursor: pointer;
+  /* border: 2px white solid !important; */
 }
 .slotCell:hover {
   border: 2px red dashed !important;
+  /* margin: -3px; */
+}
+.blacklisted {
+  background-color: red;
 }

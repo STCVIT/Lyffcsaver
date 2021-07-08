@@ -5,17 +5,11 @@ import FacultiesPreferenceList from "./FacultiesPreferenceList";
 import SelectedCoursesList from "./SelectedCoursesList";
 import BlacklistSlots from "./BlacklistSlots";
 import Instructions from "./Instructions";
+import InitialSelect from "./InitialSelect";
 import axios from "axios";
 import { getCourseID } from "../utils/generalUtils";
 
 const Options = ({ generateTimetables }) => {
-  const ignoreCols = [
-    "COURSE ID",
-    "LECTURE HOURS",
-    "TUTORIAL HOURS",
-    "PROJECT HOURS",
-    "PRACTICAL HOURS",
-  ];
   const [selectedCourses, setSelectedCourses] = useState([]);
   const [selectedFaculties, setSelectedFaculties] = useState({});
   const [currentlySelectedCourseID, setCurrentlySelectedCourseID] =
@@ -80,14 +74,15 @@ const Options = ({ generateTimetables }) => {
     <div className={styles.screen}>
       <div className={styles.row}>
         <Instructions></Instructions>
+        <InitialSelect></InitialSelect>
+      </div>
+      <div className={styles.row}>
         <AvailableCoursesList
-          ignoreCols={ignoreCols}
           addCourse={addCourse}
           selectedCourses={selectedCourses}
           getCourseID={getCourseID}
         ></AvailableCoursesList>
         <SelectedCoursesList
-          ignoreCols={ignoreCols}
           removeCourse={removeCourse}
           onSelect={selectCourse}
           onDeselect={deselectCourse}
@@ -99,8 +94,9 @@ const Options = ({ generateTimetables }) => {
           selectedFaculties={selectedFaculties}
           setSelectedFaculties={setSelectedFaculties}
           getCourseID={getCourseID}
-          ignoreCols={ignoreCols}
         ></FacultiesPreferenceList>
+      </div>
+      <div className={styles.row}>
         <BlacklistSlots
           blacklistedSlots={blacklistedSlots}
           toggleBlacklist={toggleBlacklist}

@@ -5,7 +5,7 @@ const Header = ({ logoVariant }) => {
   return (
     <Navbar variant="light" expand="lg" className={styles.navbar}>
       <Container>
-        <Navbar.Brand href={"/"}>
+        <Navbar.Brand href="#">
           <p className={styles[logoVariant]}>
             Ly<strong>ffcs</strong>aver
           </p>
@@ -13,15 +13,15 @@ const Header = ({ logoVariant }) => {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className={styles.navLinks}>
-            <NavLink activeClassName={styles.active} to="/about">
+            <Nav.Link activeClassName={styles.active} href="#about">
               About
-            </NavLink>
-            <NavLink activeClassName={styles.active} to="/faq">
+            </Nav.Link>
+            <Nav.Link activeClassName={styles.active} href="#faq">
               FAQs
-            </NavLink>
-            <NavLink activeClassName={styles.active} to="/contact">
+            </Nav.Link>
+            <Nav.Link activeClassName={styles.active} href="#contact">
               Contact Us
-            </NavLink>
+            </Nav.Link>
           </Nav>
         </Navbar.Collapse>
       </Container>

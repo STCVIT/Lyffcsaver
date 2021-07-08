@@ -7,7 +7,6 @@
 .button {
   position: absolute;
   right: 0;
-  /* top: 50%; */
   height: 100%;
   border-radius: 0px var(--radius) var(--radius) 0px;
   border: 2px solid var(--outline-color);

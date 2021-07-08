@@ -35,14 +35,6 @@ const TimetablesSection = ({ schedules, faculties, getSchedulesForSlots }) => {
           slots={currentlySelectedSlots}
           faculties={faculties}
         ></Timetables>
-        {/* {currentlySelectedSlots.length === 0 ? (
-          <></>
-        ) : (
-          <Timetables
-            schedules={schedules}
-            slots={currentlySelectedSlots}
-          ></Timetables>
-        )} */}
       </div>
     </div>
   );

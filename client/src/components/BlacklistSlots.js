@@ -23,7 +23,7 @@ const BlacklistSlots = ({ blacklistedSlots, toggleBlacklist }) => {
       return className;
     }
     if (blacklistedSlots.includes(cellContent)) {
-      className += ` ${timetableStyles.blacklisted} `;
+      className += ` ${styles.blacklisted} `;
       return className;
     }
     if (dayCount % 2 === 0) {

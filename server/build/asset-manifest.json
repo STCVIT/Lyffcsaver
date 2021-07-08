@@ -1,19 +1,19 @@
 {
   "files": {
-    "main.css": "/static/css/main.0f21f580.chunk.css",
-    "main.js": "/static/js/main.9b1809f3.chunk.js",
-    "main.js.map": "/static/js/main.9b1809f3.chunk.js.map",
-    "runtime-main.js": "/static/js/runtime-main.b420c20e.js",
-    "runtime-main.js.map": "/static/js/runtime-main.b420c20e.js.map",
-    "static/css/2.61b4cb56.chunk.css": "/static/css/2.61b4cb56.chunk.css",
-    "static/js/2.4d02c9a5.chunk.js": "/static/js/2.4d02c9a5.chunk.js",
-    "static/js/2.4d02c9a5.chunk.js.map": "/static/js/2.4d02c9a5.chunk.js.map",
-    "static/js/3.7e24ef01.chunk.js": "/static/js/3.7e24ef01.chunk.js",
-    "static/js/3.7e24ef01.chunk.js.map": "/static/js/3.7e24ef01.chunk.js.map",
+    "main.css": "/static/css/main.c3621f54.chunk.css",
+    "main.js": "/static/js/main.4102098d.chunk.js",
+    "main.js.map": "/static/js/main.4102098d.chunk.js.map",
+    "runtime-main.js": "/static/js/runtime-main.7b5ec505.js",
+    "runtime-main.js.map": "/static/js/runtime-main.7b5ec505.js.map",
+    "static/css/2.4be38407.chunk.css": "/static/css/2.4be38407.chunk.css",
+    "static/js/2.7e503852.chunk.js": "/static/js/2.7e503852.chunk.js",
+    "static/js/2.7e503852.chunk.js.map": "/static/js/2.7e503852.chunk.js.map",
+    "static/js/3.2cb02f0a.chunk.js": "/static/js/3.2cb02f0a.chunk.js",
+    "static/js/3.2cb02f0a.chunk.js.map": "/static/js/3.2cb02f0a.chunk.js.map",
     "index.html": "/index.html",
-    "static/css/2.61b4cb56.chunk.css.map": "/static/css/2.61b4cb56.chunk.css.map",
-    "static/css/main.0f21f580.chunk.css.map": "/static/css/main.0f21f580.chunk.css.map",
-    "static/js/2.4d02c9a5.chunk.js.LICENSE.txt": "/static/js/2.4d02c9a5.chunk.js.LICENSE.txt",
+    "static/css/2.4be38407.chunk.css.map": "/static/css/2.4be38407.chunk.css.map",
+    "static/css/main.c3621f54.chunk.css.map": "/static/css/main.c3621f54.chunk.css.map",
+    "static/js/2.7e503852.chunk.js.LICENSE.txt": "/static/js/2.7e503852.chunk.js.LICENSE.txt",
     "static/media/aboutPageLady.41651b2d.svg": "/static/media/aboutPageLady.41651b2d.svg",
     "static/media/aboutPageMan.d189f0f4.svg": "/static/media/aboutPageMan.d189f0f4.svg",
     "static/media/calanderEmoji.8969dc1a.svg": "/static/media/calanderEmoji.8969dc1a.svg",
@@ -22,14 +22,16 @@
     "static/media/contactIllustration.d2aaf54a.svg": "/static/media/contactIllustration.d2aaf54a.svg",
     "static/media/contactMessageIcon.9f13b164.svg": "/static/media/contactMessageIcon.9f13b164.svg",
     "static/media/contactNameIcon.6ada76d8.svg": "/static/media/contactNameIcon.6ada76d8.svg",
+    "static/media/deleteIcon.455a9a63.svg": "/static/media/deleteIcon.455a9a63.svg",
     "static/media/faqPattern.ed9d4615.svg": "/static/media/faqPattern.ed9d4615.svg",
-    "static/media/quarterEllipse.c73c7fea.svg": "/static/media/quarterEllipse.c73c7fea.svg"
+    "static/media/quarterEllipse.c73c7fea.svg": "/static/media/quarterEllipse.c73c7fea.svg",
+    "static/media/searchIcon.709f9899.svg": "/static/media/searchIcon.709f9899.svg"
   },
   "entrypoints": [
-    "static/js/runtime-main.b420c20e.js",
-    "static/css/2.61b4cb56.chunk.css",
-    "static/js/2.4d02c9a5.chunk.js",
-    "static/css/main.0f21f580.chunk.css",
-    "static/js/main.9b1809f3.chunk.js"
+    "static/js/runtime-main.7b5ec505.js",
+    "static/css/2.4be38407.chunk.css",
+    "static/js/2.7e503852.chunk.js",
+    "static/css/main.c3621f54.chunk.css",
+    "static/js/main.4102098d.chunk.js"
   ]
 }

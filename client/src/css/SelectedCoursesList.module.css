@@ -1,7 +1,7 @@
 .container {
   --container-radius: 5px;
   --template: 1fr 2fr repeat(3, 1fr);
-  width: 500px;
+  width: 450px;
   height: 450px;
   background-color: var(--table-bg);
   border-radius: var(--container-radius);
@@ -44,64 +44,3 @@
 .hoverRow {
   background-color: var(--active-hover-bg);
 }
-/* .bodyCol {
-  overflow-x: hidden;
-  text-overflow: ellipsis;
-} */
-/* .courseTitle{
-
-} */
-/* .container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  position: relative;
-}
-.label {
-  margin-bottom: 10px;
-}
-.courseTable {
-  border-spacing: 0;
-  background-color: var(--table-bg);
-}
-.tableWrapper {
-  margin-top: 20px;
-  max-width: 40vw;
-  min-width: fit-content(500px);
-  max-height: 40vh;
-  overflow: auto;
-}
-.headRow,
-.headRow th {
-  position: sticky;
-  top: 0;
-  background-color: var(--table-head-bg);
-  color: var(--primary-font-color);
-}
-.cell {
-  border: 1px solid var(--outline-color);
-  text-align: center;
-  padding: 3px 5px;
-  flex: 2;
-  min-width: 120px;
-}
-.remove {
-  color: red;
-  font-weight: 1000;
-  cursor: pointer;
-}
-.remove:hover {
-  background-color: var(--remove-hover-bg);
-}
-
-.loading,
-.error {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50% -50%);
-}
-
-.selectedCoursesRow {
-  cursor: pointer;
-}*/

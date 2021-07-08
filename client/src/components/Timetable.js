@@ -109,21 +109,6 @@ const Timetable = ({ slots, selectedClasses, hoveredSlots }) => {
                       {getCellContent(selectedClasses, cell)}
                     </td>
                   );
-
-                  // return cell === "" && cellIndex != 1 ? (
-                  //   <></>
-                  // ) : (
-                  //   <td
-                  //     key={`${id}-${rowIndex}-${cellIndex}`}
-                  //     className={`${getClassName(
-                  //       cell,
-                  //       rowIndex + 4,
-                  //       cellIndex
-                  //     )}`}
-                  //     rowSpan={cellIndex === 0 ? 2 : 1}
-                  //   >
-                  //   </td>
-                  // );
                 })}
               </tr>
             );

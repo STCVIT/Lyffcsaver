@@ -157,15 +157,6 @@ const Classes = ({
     document
       .querySelectorAll(`.${styles.hoverRow}`)
       .forEach((e) => e.classList.remove(styles.hoverRow));
-    // let currentElement = element;
-    // while (
-    //   currentElement !== null &&
-    //   currentElement !== undefined &&
-    // // !currentElement?.classList?.contains(styles.tableRow)
-    // ) {
-    //   currentElement = currentElement.parentNode;
-    // }
-    // currentElement?.classList?.add(styles.hoverRow);
   };
   const columnKeys = [];
   const colsHeadings = () => {
@@ -308,19 +299,12 @@ const Classes = ({
     <></>
   ) : (
     <div className={styles.panel}>
-      <div className={styles.container}>{currentPageData}</div>
       <ReactPaginate
         previousLabel="<"
         nextLabel=">"
         pageCount={pageCount}
         onPageChange={({ selected }) => {
           setCurrentPage(selected);
-          // select({});
-          // document
-          //   .querySelectorAll(`.${styles.selectedSchedule}`)
-          //   ?.forEach((element) =>
-          //     element.classList.remove(styles.selectedSchedule)
-          //   );
         }}
         containerClassName={styles.schedules}
         previousLinkClassName={styles.previous}
@@ -328,6 +312,7 @@ const Classes = ({
         disabledClassName={styles.disabled}
         activeClassName={styles.active}
       ></ReactPaginate>
+      <div className={styles.container}>{currentPageData}</div>
     </div>
   );
 };

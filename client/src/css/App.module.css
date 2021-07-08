@@ -29,3 +29,8 @@ body {
   width: 100vw;
   overflow-x: hidden;
 }
+.screen {
+  /* padding: 0 60px 30px 60px; */
+  display: flex;
+  flex-direction: column;
+}

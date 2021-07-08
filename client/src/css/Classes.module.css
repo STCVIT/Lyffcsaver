@@ -3,7 +3,6 @@
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  /* align-items: center; */
   justify-content: center;
   position: relative;
   max-height: 300px;
@@ -18,12 +17,6 @@
 .table {
   border-spacing: 0;
 }
-/* .table:hover {
-  background-color: var(--selectable-row-hover-bg);
-}
-.selectedSchedule {
-  border: 2px blue solid;
-} */
 .tableWrapper {
   margin-top: 20px;
   max-width: 40vw;
@@ -51,14 +44,6 @@
 .checkbox {
   cursor: pointer;
 }
-/* .remove {
-  color: red;
-  font-weight: 1000;
-  cursor: pointer;
-}
-.remove:hover {
-  background-color: var(--remove-hover-bg);
-} */
 
 .loading,
 .error {

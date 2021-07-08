@@ -3,12 +3,15 @@ import styles from "../css/About.module.css";
 import lady from "../assets/aboutPageLady.svg";
 import man from "../assets/aboutPageMan.svg";
 
-const About = ({ logoVariant }) => {
+const About = (/*{ logoVariant }*/) => {
   return (
     <>
-      <Header logoVariant={logoVariant} />
+      {/* <Header logoVariant={logoVariant} /> */}
       <div className={styles.container}>
         <div className={styles.title}>
+          <span className={styles.goto} id="about">
+            &nbsp;
+          </span>
           <h1>About Us</h1>
         </div>
         <div className={styles.cols}>

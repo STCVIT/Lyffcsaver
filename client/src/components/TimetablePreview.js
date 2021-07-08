@@ -35,7 +35,6 @@ const TimetablePreview = ({ slots, id, select }) => {
   };
   return (
     <>
-      {/* <h3>{slots.join("+")}</h3> */}
       <table
         className={styles.timetablePreview}
         onClick={async (e) => {
@@ -70,9 +69,7 @@ const TimetablePreview = ({ slots, id, select }) => {
                       key={`${id}-${rowIndex}-${index}`}
                       className={getClassName(cell, rowIndex, index)}
                       rowSpan={index === 0 ? 2 : 1}
-                    >
-                      {/* {cell} */}
-                    </th>
+                    ></th>
                   );
                 })}
               </tr>
@@ -96,9 +93,7 @@ const TimetablePreview = ({ slots, id, select }) => {
                         cellIndex
                       )}`}
                       rowSpan={cellIndex === 0 ? 2 : 1}
-                    >
-                      {/* {cell} */}
-                    </td>
+                    ></td>
                   );
                 })}
               </tr>

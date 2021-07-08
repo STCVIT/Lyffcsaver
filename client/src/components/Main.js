@@ -27,11 +27,6 @@ const Main = ({ logoVariant }) => {
     }
   }, [allSchedules]);
 
-  // const populateAllSchedules = async (courses, faculties, blacklistedSlots) => {
-  //   setAllSchedules([]);
-  //   setAllSchedules(await getTimetables(courses, faculties, blacklistedSlots));
-  //   setFaculties({ ...faculties });
-  // };
   useEffect(() => {
     console.log("updated allSchedules", allSchedules);
   }, [allSchedules]);
@@ -72,7 +67,6 @@ const Main = ({ logoVariant }) => {
   return (
     <div className={styles.appContainer}>
       <QuarterEllipse className={styles.ellipse}></QuarterEllipse>
-      <Header logoVariant={logoVariant} />
       <Options
         getCourseID={getCourseID}
         generateTimetables={getAllSlotCombinations}

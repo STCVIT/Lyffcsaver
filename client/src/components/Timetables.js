@@ -10,13 +10,8 @@ const Timetables = ({ schedules, slots, faculties }) => {
   useEffect(() => {
     setHoveredSlots([]);
   }, [slots]);
-  // useEffect(() => console.log("selected classes", selectedClasses), [
-  //   selectedClasses,
-  // ]);
   return (
     <div id="#timetables-screen" className={styles.timetablesScreen}>
-      {/* <h3 className={styles.slotTitle}>{slots.join("+")}</h3> */}
-
       <Timetable
         selectedClasses={selectedClasses}
         slots={slots}
