@@ -73,6 +73,7 @@ const Options = ({ generateTimetables }) => {
         <Instructions></Instructions>
         <InitialSelect></InitialSelect>
       </div>
+      {/* <div className={styles.selectionTablesRow}> */}
       <div className={styles.row}>
         <AvailableCoursesList
           addCourse={addCourse}

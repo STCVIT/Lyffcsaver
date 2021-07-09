@@ -10,7 +10,7 @@ import rightArrow from "../assets/rightArrow.svg";
 const TimetablePreviews = ({ schedulesSlots, select }) => {
   const previewsPerPage = 12;
   const pageCount = Math.ceil(schedulesSlots.length / previewsPerPage);
-  const [currentPage, setCurrentPage] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
   const currentPageData = schedulesSlots
     .slice(currentPage * previewsPerPage, (currentPage + 1) * previewsPerPage)
     .map((slotsString) => {
@@ -44,6 +44,7 @@ const TimetablePreviews = ({ schedulesSlots, select }) => {
         nextLinkClassName={styles.next}
         disabledClassName={styles.disabled}
         activeClassName={styles.active}
+        forcePage={currentPage}
       ></ReactPaginate>
     </div>
   );

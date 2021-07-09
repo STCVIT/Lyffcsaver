@@ -69,7 +69,17 @@ const Timetable = ({ slots, selectedClasses, hoveredSlots }) => {
     }
   };
   return (
-    <>
+    <div className={timetableStyles.container}>
+      <div className={timetableStyles.legend}>
+        <div className={timetableStyles.theoryLegend}>
+          <div className={timetableStyles.colorExample}></div>
+          <div className={timetableStyles.legendLabel}>Theory Slot</div>
+        </div>
+        <div className={timetableStyles.labLegend}>
+          <div className={timetableStyles.colorExample}></div>
+          <div className={timetableStyles.legendLabel}>Lab Slot</div>
+        </div>
+      </div>
       <table className={timetableStyles.timetable}>
         <thead>
           {timetableTemplateData.slice(0, 4).map((row, rowIndex) => {
@@ -121,7 +131,7 @@ const Timetable = ({ slots, selectedClasses, hoveredSlots }) => {
           })}
         </tbody>
       </table>
-    </>
+    </div>
   );
 };
 

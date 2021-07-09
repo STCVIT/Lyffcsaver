@@ -45,7 +45,7 @@ const ReserveSlots = ({ reservedSlots, toggleReserve }) => {
       <label className={styles.label}>
         <h2>Reserve Slots</h2>
       </label>
-      <table className={timetableStyles.timetable} onClick={(e) => {}}>
+      <table className={timetableStyles.timetable}>
         <thead>
           {timetableTemplateData.slice(0, 4).map((row, rowIndex) => {
             return (

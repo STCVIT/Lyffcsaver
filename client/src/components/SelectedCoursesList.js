@@ -71,7 +71,7 @@ const SelectedCoursesList = ({
                     onDeselect(courseID);
                   }}
                 >
-                  <img className="deleteButton" src={deleteIcon} alt="Remove" />
+                  <img className="deleteButton" src={deleteIcon} alt="X" />
                 </button>
               </div>
               <div className={`${styles.bodyCol} ${styles.courseTitle}`}>

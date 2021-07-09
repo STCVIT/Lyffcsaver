@@ -30,7 +30,7 @@ const Classes = ({
   const classes = {};
   const previewsPerPage = 1;
   const pageCount = courseIDs?.length / previewsPerPage;
-  const [currentPage, setCurrentPage] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
 
   const isUnique = (fieldName, array, element) => {
     return !array.some(
@@ -180,6 +180,17 @@ const Classes = ({
       : [];
   };
 
+  // const currentPageData = courseIDs
+  //   ?.slice(currentPage * previewsPerPage, (currentPage + 1) * previewsPerPage)
+  //   ?.map((courseID) => {
+  //     return (
+  //       <div
+  //         className={styles.container}
+  //         key={`${slots.join("")}-${courseID}`}
+  //       ></div>
+  //     );
+  //   });
+
   const currentPageData = courseIDs
     ?.slice(currentPage * previewsPerPage, (currentPage + 1) * previewsPerPage)
     ?.map((courseID) => {
@@ -314,8 +325,6 @@ const Classes = ({
           console.log("course ids are", courseIDs, page, courseIDs[page - 1]);
           return courseIDs[page - 1];
         }}
-        initialPage={1}
-        disableInitialCallback={false}
         containerClassName={styles.schedulesPagination}
         pageClassName={styles.page}
         previousLinkClassName={styles.previous}
@@ -323,6 +332,7 @@ const Classes = ({
         disabledClassName={styles.disabled}
         activeClassName={styles.active}
         marginPagesDisplayed={1}
+        forcePage={currentPage}
       ></ReactPaginate>
       <div className={styles.container}>{currentPageData}</div>
     </div>

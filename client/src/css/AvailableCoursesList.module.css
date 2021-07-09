@@ -1,6 +1,9 @@
 .container {
   --container-radius: 5px;
+  /* width: 100%; */
+  /* max-width: 500px; */
   width: 450px;
+  min-width: 400px;
   height: 450px;
   background-color: var(--table-bg);
   border-radius: var(--container-radius);

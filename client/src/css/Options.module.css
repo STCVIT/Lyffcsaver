@@ -3,6 +3,12 @@
   display: flex;
   flex-direction: column;
 }
+/* .selectionTablesRow {
+  margin-top: 50px;
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr;
+  gap: 30px;
+} */
 .row {
   margin-top: 50px;
   display: flex;

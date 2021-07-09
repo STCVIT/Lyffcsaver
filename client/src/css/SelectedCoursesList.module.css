@@ -1,7 +1,10 @@
 .container {
   --container-radius: 5px;
   --template: 1fr 2fr repeat(3, 1fr);
+  /* width: 100%; */
+  /* max-width: 500px; */
   width: 450px;
+  min-width: 400px;
   height: 450px;
   background-color: var(--table-bg);
   border-radius: var(--container-radius);
