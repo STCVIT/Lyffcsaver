@@ -1,19 +1,19 @@
 {
   "files": {
-    "main.css": "/static/css/main.b6d7ed35.chunk.css",
-    "main.js": "/static/js/main.ddf89dd6.chunk.js",
-    "main.js.map": "/static/js/main.ddf89dd6.chunk.js.map",
+    "main.css": "/static/css/main.678246c6.chunk.css",
+    "main.js": "/static/js/main.ea8beff6.chunk.js",
+    "main.js.map": "/static/js/main.ea8beff6.chunk.js.map",
     "runtime-main.js": "/static/js/runtime-main.397f66a4.js",
     "runtime-main.js.map": "/static/js/runtime-main.397f66a4.js.map",
     "static/css/2.4be38407.chunk.css": "/static/css/2.4be38407.chunk.css",
-    "static/js/2.78885976.chunk.js": "/static/js/2.78885976.chunk.js",
-    "static/js/2.78885976.chunk.js.map": "/static/js/2.78885976.chunk.js.map",
+    "static/js/2.5f9c1212.chunk.js": "/static/js/2.5f9c1212.chunk.js",
+    "static/js/2.5f9c1212.chunk.js.map": "/static/js/2.5f9c1212.chunk.js.map",
     "static/js/3.9eee3c2d.chunk.js": "/static/js/3.9eee3c2d.chunk.js",
     "static/js/3.9eee3c2d.chunk.js.map": "/static/js/3.9eee3c2d.chunk.js.map",
     "index.html": "/index.html",
     "static/css/2.4be38407.chunk.css.map": "/static/css/2.4be38407.chunk.css.map",
-    "static/css/main.b6d7ed35.chunk.css.map": "/static/css/main.b6d7ed35.chunk.css.map",
-    "static/js/2.78885976.chunk.js.LICENSE.txt": "/static/js/2.78885976.chunk.js.LICENSE.txt",
+    "static/css/main.678246c6.chunk.css.map": "/static/css/main.678246c6.chunk.css.map",
+    "static/js/2.5f9c1212.chunk.js.LICENSE.txt": "/static/js/2.5f9c1212.chunk.js.LICENSE.txt",
     "static/media/aboutPageLady.41651b2d.svg": "/static/media/aboutPageLady.41651b2d.svg",
     "static/media/aboutPageMan.d189f0f4.svg": "/static/media/aboutPageMan.d189f0f4.svg",
     "static/media/calanderEmoji.8969dc1a.svg": "/static/media/calanderEmoji.8969dc1a.svg",
@@ -25,14 +25,16 @@
     "static/media/coupleCalendar.8b5ee6f3.svg": "/static/media/coupleCalendar.8b5ee6f3.svg",
     "static/media/deleteIcon.455a9a63.svg": "/static/media/deleteIcon.455a9a63.svg",
     "static/media/faqPattern.ed9d4615.svg": "/static/media/faqPattern.ed9d4615.svg",
+    "static/media/leftArrow.266cc822.svg": "/static/media/leftArrow.266cc822.svg",
     "static/media/quarterEllipse.c73c7fea.svg": "/static/media/quarterEllipse.c73c7fea.svg",
+    "static/media/rightArrow.85089f0f.svg": "/static/media/rightArrow.85089f0f.svg",
     "static/media/searchIcon.709f9899.svg": "/static/media/searchIcon.709f9899.svg"
   },
   "entrypoints": [
     "static/js/runtime-main.397f66a4.js",
     "static/css/2.4be38407.chunk.css",
-    "static/js/2.78885976.chunk.js",
-    "static/css/main.b6d7ed35.chunk.css",
-    "static/js/main.ddf89dd6.chunk.js"
+    "static/js/2.5f9c1212.chunk.js",
+    "static/css/main.678246c6.chunk.css",
+    "static/js/main.ea8beff6.chunk.js"
   ]
 }

@@ -1,3 +1,8 @@
+cd ./server
+rm -rf build
+cd ../client
+yarn run build
+cd ../server
 git init
 git add .
 git add -f data/ build/
