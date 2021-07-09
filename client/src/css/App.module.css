@@ -25,7 +25,10 @@
   --timetable-bg: #a6a6a6;
   --timetable-lab: #45a247;
   --timetable-theory: #92fe9d;
+  --timetable-theory-timing: #ccccff;
+  --timetable-lab-timing: #99ccff;
   --red: #de350b;
+  --green: #63de8d;
   --text-input-outline: #a6a6a6;
   --button-font-col: #fff;
   --button-bg: linear-gradient(86.21deg, #8c7eee 5.73%, #4d60c7 99.22%);

@@ -28,6 +28,12 @@ const Timetable = ({ slots, selectedClasses, hoveredSlots }) => {
       className += `${timetableStyles.headDay}`;
       return className;
     }
+    if (rowIndex < 2) {
+      className += ` ${timetableStyles.theoryTiming} `;
+    }
+    if (rowIndex >= 2 && rowIndex < 4) {
+      className += ` ${timetableStyles.labTiming} `;
+    }
     if (rowIndex < 4) {
       className += ` ${timetableStyles.cell} ${timetableStyles.headTop} `;
       return className;

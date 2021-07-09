@@ -8,6 +8,12 @@ const TimetablePreview = ({ slots, id, select }) => {
       className += `${styles.headDay}`;
       return className;
     }
+    if (rowIndex < 2) {
+      className += ` ${styles.theoryTiming} `;
+    }
+    if (rowIndex >= 2 && rowIndex < 4) {
+      className += ` ${styles.labTiming} `;
+    }
     if (rowIndex < 4) {
       className += ` ${styles.cell} ${styles.headTop} `;
       return className;

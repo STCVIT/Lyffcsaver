@@ -22,8 +22,11 @@
   border-radius: 6px;
 }
 .submitBtn {
-  padding: 10px;
-  background-color: var(--button-col);
+  padding: 10px 30px;
+  background: var(--button-bg);
+  box-shadow: var(--button-shadow);
+  color: var(--button-font-col);
+  border-radius: 35px;
 }
 .submitBtn:hover {
   cursor: pointer;

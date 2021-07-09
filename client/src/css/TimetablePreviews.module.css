@@ -10,6 +10,32 @@
   flex-direction: column;
 }
 .paginatedPreviews {
+  padding: 0;
+  margin: 10px 0;
+  display: flex;
+
+  width: 100%;
+  gap: 10px;
+  list-style: none;
+  justify-content: center;
+}
+.paginatedPreviews,
+.paginatedPreviews li {
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+}
+.paginatedPreviews li {
+  margin: 0 5px;
+}
+.paginatedPreviews .page {
+  padding: 5px;
+  border: solid var(--green) 2px;
+}
+.paginatedPreviews .active {
+  background: var(--green);
+}
+/* .paginatedPreviews {
   margin-top: 20px;
   display: flex;
 
@@ -30,4 +56,4 @@
 }
 .active > a {
   background-color: #ccf !important;
-}
+} */

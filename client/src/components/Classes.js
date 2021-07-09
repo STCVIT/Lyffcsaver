@@ -3,6 +3,8 @@ import InfoCols from "./InfoCols";
 import styles from "../css/Classes.module.css";
 import { getCourseID } from "../utils/generalUtils";
 import { useEffect, useState } from "react";
+import leftArrow from "../assets/leftArrow.svg";
+import rightArrow from "../assets/rightArrow.svg";
 const Classes = ({
   schedules,
   slots,
@@ -295,22 +297,32 @@ const Classes = ({
         </div>
       );
     });
+  const leftArrowNode = <img src={leftArrow} alt="<" />;
+  const rightArrowNode = <img src={rightArrow} alt=">" />;
   return schedules === undefined ? (
     <></>
   ) : (
     <div className={styles.panel}>
       <ReactPaginate
-        previousLabel="<"
-        nextLabel=">"
+        previousLabel={leftArrowNode}
+        nextLabel={rightArrowNode}
         pageCount={pageCount}
         onPageChange={({ selected }) => {
           setCurrentPage(selected);
         }}
-        containerClassName={styles.schedules}
+        pageLabelBuilder={(page) => {
+          console.log("course ids are", courseIDs, page, courseIDs[page - 1]);
+          return courseIDs[page - 1];
+        }}
+        initialPage={1}
+        disableInitialCallback={false}
+        containerClassName={styles.schedulesPagination}
+        pageClassName={styles.page}
         previousLinkClassName={styles.previous}
         nextLinkClassName={styles.next}
         disabledClassName={styles.disabled}
         activeClassName={styles.active}
+        marginPagesDisplayed={1}
       ></ReactPaginate>
       <div className={styles.container}>{currentPageData}</div>
     </div>

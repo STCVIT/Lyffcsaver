@@ -7,7 +7,7 @@
   position: relative;
   max-height: 300px;
   overflow: auto;
-  width: min-content;
+  width: 100%;
 
   margin-bottom: 10px;
 }
@@ -19,7 +19,6 @@
 }
 .tableWrapper {
   margin-top: 20px;
-  max-width: 40vw;
   min-width: fit-content(500px);
   max-height: 40vh;
   overflow: auto;
@@ -67,8 +66,10 @@
   display: flex;
   flex-direction: column;
   flex: 1;
+  width: 100%;
 }
-.schedules {
+.schedulesPagination {
+  padding: 0;
   margin: 10px 0;
   display: flex;
 
@@ -77,7 +78,23 @@
   list-style: none;
   justify-content: center;
 }
-.schedules a {
+.schedulesPagination,
+.schedulesPagination li {
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+}
+.schedulesPagination li {
+  margin: 0 5px;
+}
+.schedulesPagination .page {
+  padding: 5px;
+  border: solid var(--green) 2px;
+}
+.schedulesPagination .active {
+  background: var(--green);
+}
+/* .schedules a {
   padding: 5px;
   border-radius: 3px;
   border: 1px solid #6c7ac9;
@@ -93,4 +110,4 @@
 .faded {
   background-color: lightgray;
   color: gray;
-}
+} */

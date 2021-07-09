@@ -32,15 +32,30 @@
   /* margin: -2px; */
 }
 .headTop {
-  background-color: var(--timetable-head-bg);
-  border: var(--border-size) var(--timetable-head-bg) solid;
-  color: var(--primary-font-color);
+  /* background-color: var(--timetable-head-bg); */
+  /* border: var(--border-size) var(--timetable-head-bg) solid; */
+  /* color: var(--primary-font-color); */
 }
 .headDay {
   background-color: var(--timetable-bg);
 }
 .lunch {
   background-color: var(--timetable-bg);
+}
+.theoryTiming {
+  background-color: var(--timetable-theory-timing);
+  border-left: var(--border-size) var(--timetable-theory-timing) solid;
+  border-right: var(--border-size) var(--timetable-theory-timing) solid;
+  border-top: var(--border-size) var(--timetable-bg) solid;
+  border-bottom: var(--border-size) var(--timetable-bg) solid;
+}
+.labTiming {
+  background-color: var(--timetable-lab-timing);
+  /* border: var(--border-size) var(--timetable-lab-timing) solid; */
+  border-left: var(--border-size) var(--timetable-lab-timing) solid;
+  border-right: var(--border-size) var(--timetable-lab-timing) solid;
+  border-top: var(--border-size) var(--timetable-bg) solid;
+  border-bottom: var(--border-size) var(--timetable-bg) solid;
 }
 .oddDay,
 .evenDay {
