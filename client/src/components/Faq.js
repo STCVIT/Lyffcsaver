@@ -3,7 +3,6 @@ import styles from "../css/Faq.module.css";
 import { Accordion, Card } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
 
-// TODO: + becomes - on opening answer
 const Faq = (/*{ logoVariant }*/) => {
   const questions = ["question 1", "question 2", "question 3", "question 4"];
   const answers = ["answer 1", "answer 2", "answer 3", "answer 4"];

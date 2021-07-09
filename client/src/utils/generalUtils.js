@@ -1,11 +1,6 @@
 import axios from "axios";
 import timetableTemplateData from "./timetableTemplateData";
 
-// TODO: Find a better method to approximate time taken in finding valid timetables (verifyNumberOfClasses())
-
-// TODO: getSlotCombinations needs to be fixed. It's generating impossible slot combinations (not all courses
-// TODO: are accounted for)
-
 const mapping = {};
 
 /**

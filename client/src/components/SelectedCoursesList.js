@@ -2,7 +2,6 @@ import styles from "../css/SelectedCoursesList.module.css";
 import { getCourseID } from "../utils/generalUtils";
 import deleteIcon from "../assets/deleteIcon.svg";
 
-// TODO: Delete button picture should have transparent corners
 const SelectedCoursesList = ({
   removeCourse,
   onSelect,

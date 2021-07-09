@@ -2,7 +2,7 @@ import { useState } from "react";
 import styles from "../css/ReservedSlots.module.css";
 import timetableStyles from "../css/Timetable.module.css";
 import timetableTemplateData from "../utils/timetableTemplateData";
-// TODO: Clicking on row or column should select everything in that row or column
+
 const ReserveSlots = ({ reservedSlots, toggleReserve }) => {
   let dayCount = 0;
   const id = "reserve-slots";
@@ -80,7 +80,10 @@ const ReserveSlots = ({ reservedSlots, toggleReserve }) => {
                         cellIndex
                       )}`}
                       rowSpan={cell === "Lunch" ? 14 : cellIndex === 0 ? 2 : 1}
-                      onClick={() => toggleReserve(cell)}
+                      onMouseDown={() => toggleReserve(cell)}
+                      onMouseEnter={(e) => {
+                        if (e.buttons === 1) toggleReserve(cell);
+                      }}
                     >
                       {cell}
                     </td>

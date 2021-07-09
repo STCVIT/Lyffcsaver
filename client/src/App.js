@@ -8,14 +8,6 @@ import Header from "./components/Header";
 
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
-// // TODO: Make separate list components instead of just one that changes according to the props passed in
-// // TODO: Generate timetables based on preferences (generator function)
-// // TODO: Figure out how to work with timetables (slots, timings)
-// // TODO: Render timetables
-// // TODO: Reorder faculty list by dragging (react-beautiful-dnd)
-// TODO: Refactor and make classes for schedules, faculties and classes
-// TODO: Add jsdoc wherever necessary
-
 function App() {
   return (
     <>

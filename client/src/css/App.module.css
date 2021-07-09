@@ -18,8 +18,14 @@
   --add-hover-bg: #63de8d;
   --remove-hover-bg: rgb(248, 194, 163);
   --button-col: rgb(113, 241, 124);
-  --table-head-bg: #333;
   --table-bg: #d5dcff;
+  --table-head-bg: #333;
+  --timetable-head-bg: #333;
+  --timetable-cell-bg: #ffc;
+  --timetable-bg: #a6a6a6;
+  --timetable-lab: #45a247;
+  --timetable-theory: #92fe9d;
+  --red: #de350b;
   --text-input-outline: #a6a6a6;
   --button-font-col: #fff;
   --button-bg: linear-gradient(86.21deg, #8c7eee 5.73%, #4d60c7 99.22%);

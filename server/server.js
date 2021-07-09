@@ -1,9 +1,6 @@
 // includes code from
 // https://medium.com/stackfame/get-list-of-all-files-in-a-directory-in-node-js-befd31677ec5
 
-// // TODO: Clean data. Remove data with important fields as NIL.
-// TODO: better error handling
-
 const express = require("express");
 const app = express();
 const port = process.env.PORT || 3001;
