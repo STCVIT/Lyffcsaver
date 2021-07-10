@@ -1,11 +1,37 @@
 import Header from "./Header";
 import styles from "../css/Faq.module.css";
-import { Accordion, Card } from "react-bootstrap";
+import {
+  Accordion,
+  AccordionContext,
+  Card,
+  useAccordionToggle,
+} from "react-bootstrap";
 import { NavLink } from "react-router-dom";
+import { useContext } from "react";
 
 const Faq = (/*{ logoVariant }*/) => {
   const questions = ["question 1", "question 2", "question 3", "question 4"];
   const answers = ["answer 1", "answer 2", "answer 3", "answer 4"];
+  function ContextAwareToggle({ children, eventKey, callback }) {
+    const currentEventKey = useContext(AccordionContext);
+
+    const decoratedOnClick = useAccordionToggle(
+      eventKey,
+      () => callback && callback(eventKey)
+    );
+
+    const isCurrentEventKey = currentEventKey === eventKey;
+
+    return (
+      <button
+        type="button"
+        style={{ backgroundColor: isCurrentEventKey ? "pink" : "lavender" }}
+        onClick={decoratedOnClick}
+      >
+        {children}
+      </button>
+    );
+  }
   return (
     <>
       {/* <Header logoVariant={logoVariant} /> */}
@@ -24,12 +50,12 @@ const Faq = (/*{ logoVariant }*/) => {
                   <Card className={styles.questionCard} key={index + question}>
                     <Card.Header className={styles.header}>
                       <div className={styles.headerText}>{question}</div>
-                      <Accordion.Toggle
+                      {/* <Accordion.Toggle
                         eventKey={index + 1}
                         className={styles.toggle}
                       >
                         +
-                      </Accordion.Toggle>
+                      </Accordion.Toggle> */}
                     </Card.Header>
                     <Accordion.Collapse eventKey={index + 1}>
                       <Card.Body>{answers[index]}</Card.Body>

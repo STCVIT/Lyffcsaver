@@ -82,14 +82,18 @@ const getNumberOfTotalPossibleSelections = (classes) => {
   }
 };
 
-const verifyNumberOfClasses = (classes) => {
+const verifyNumberOfClasses = (classes, courseIDs) => {
   let courseIDWithTooFewClasses;
 
   if (
-    Object.keys(classes).find((courseID) => {
+    courseIDs.find((courseID) => {
       courseIDWithTooFewClasses = courseID;
-      return classes[courseID].length === 0;
+      return classes[courseID] === undefined || classes[courseID].length === 0;
     })
+    // Object.keys(classes).find((courseID) => {
+    //   courseIDWithTooFewClasses = courseID;
+    //   return classes[courseID].length === 0;
+    // })
   ) {
     alert(
       `No valid classes found for ${courseIDWithTooFewClasses}\n` +
@@ -99,8 +103,8 @@ const verifyNumberOfClasses = (classes) => {
   }
 
   const numberOfPossibilities = getNumberOfTotalPossibleSelections(classes);
-  if (numberOfPossibilities > 20000000) {
-    const minutes = numberOfPossibilities / 50000000;
+  if (numberOfPossibilities > 200_000_000) {
+    const minutes = numberOfPossibilities / 50_000_000;
     return confirm(
       `Number of Possibilities: ${numberOfPossibilities.toLocaleString()}\n` +
         `Time required: (approx) ${minutes.toLocaleString()} minutes (Actual time required might be much less)\n` +
@@ -138,7 +142,7 @@ const populateSlotCombination = async (
     const courseIDs = Object.keys(faculties);
     const classes = await getClasses(faculties);
     removeReservedSlots(classes, reservedSlots);
-    // if (!verifyNumberOfClasses(classes)) return {};
+    if (!verifyNumberOfClasses(classes, courseIDs)) return {};
 
     // sorting courseIDs in ascending order of the number of classes
     // with that courseID.
@@ -205,7 +209,7 @@ const getSlotCombinations = async (courses, faculties, reservedSlots) => {
     if (!verifyPreferencesSet(courses, faculties)) return {};
 
     removeReservedSlots(classes, reservedSlots);
-    if (!verifyNumberOfClasses(classes)) return {};
+    if (!verifyNumberOfClasses(classes, courseIDs)) return {};
 
     // sorting courseIDs in ascending order of the number of classes
     // with that courseID.
@@ -276,7 +280,7 @@ const getTimetables = async (courses, faculties, reservedSlots) => {
     if (!verifyPreferencesSet(courses, faculties)) return [];
 
     removeReservedSlots(classes, reservedSlots);
-    if (!verifyNumberOfClasses(classes)) return [];
+    if (!verifyNumberOfClasses(classes, courseIDs)) return [];
 
     // sorting courseIDs in ascending order of the number of classes
     // with that courseID.
