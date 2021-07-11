@@ -10,7 +10,7 @@ import rightArrow from "../assets/rightArrow.svg";
 const TimetablePreviews = ({ schedulesSlots, select }) => {
   const previewsPerPage = 12;
   const pageCount = Math.ceil(schedulesSlots.length / previewsPerPage);
-  const [currentPage, setCurrentPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState(0);
   const currentPageData = schedulesSlots
     .slice(currentPage * previewsPerPage, (currentPage + 1) * previewsPerPage)
     .map((slotsString) => {
@@ -34,7 +34,7 @@ const TimetablePreviews = ({ schedulesSlots, select }) => {
         nextLabel={rightArrowNode}
         pageCount={pageCount}
         onPageChange={({ selected }) => {
-          console.log("page change");
+          // console.log("page change");
           setCurrentPage(selected);
           select([]);
         }}

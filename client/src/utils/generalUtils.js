@@ -117,15 +117,18 @@ const verifyNumberOfClasses = (classes, courseIDs) => {
 };
 
 const removeReservedSlots = (classes, reservedSlots) => {
-  Object.keys(classes).forEach((courseID) => {
-    classes[courseID] = classes[courseID].filter((classToBeChecked) => {
+  const newClasses = JSON.parse(JSON.stringify(classes));
+  for (const courseID of Object.keys(newClasses)) {
+    newClasses[courseID] = newClasses[courseID].filter((classToBeChecked) => {
       return (
         classToBeChecked["SLOT"].split("+").find((slot) => {
           if (reservedSlots.includes(slot)) return reservedSlots.includes(slot);
         }) === undefined
       );
     });
-  });
+  }
+
+  return newClasses;
 };
 
 const populateSlotCombination = async (
@@ -140,8 +143,8 @@ const populateSlotCombination = async (
     getSlotMapping();
 
     const courseIDs = Object.keys(faculties);
-    const classes = await getClasses(faculties);
-    removeReservedSlots(classes, reservedSlots);
+    let classes = await getClasses(faculties);
+    classes = removeReservedSlots(classes, reservedSlots);
     if (!verifyNumberOfClasses(classes, courseIDs)) return {};
 
     // sorting courseIDs in ascending order of the number of classes
@@ -198,17 +201,18 @@ const populateSlotCombination = async (
   return {};
 };
 const getSlotCombinations = async (courses, faculties, reservedSlots) => {
+  console.log(courses, faculties, reservedSlots);
   if (window.Worker) {
     const worker = new Worker("workers/worker.js");
 
     getSlotMapping();
 
     const courseIDs = Object.keys(faculties);
-    const classes = await getClasses(faculties);
+    let classes = await getClasses(faculties);
 
     if (!verifyPreferencesSet(courses, faculties)) return {};
 
-    removeReservedSlots(classes, reservedSlots);
+    classes = removeReservedSlots(classes, reservedSlots);
     if (!verifyNumberOfClasses(classes, courseIDs)) return {};
 
     // sorting courseIDs in ascending order of the number of classes
@@ -229,7 +233,7 @@ const getSlotCombinations = async (courses, faculties, reservedSlots) => {
         const channel = new MessageChannel();
 
         channel.port1.onmessage = ({ data }) => {
-          console.log(data);
+          // console.log(data);
           channel.port1.close();
           if (data.error) {
             rej(data.error);
@@ -275,11 +279,11 @@ const getTimetables = async (courses, faculties, reservedSlots) => {
     getSlotMapping();
 
     const courseIDs = Object.keys(faculties);
-    const classes = await getClasses(faculties);
+    let classes = await getClasses(faculties);
 
     if (!verifyPreferencesSet(courses, faculties)) return [];
 
-    removeReservedSlots(classes, reservedSlots);
+    classes = removeReservedSlots(classes, reservedSlots);
     if (!verifyNumberOfClasses(classes, courseIDs)) return [];
 
     // sorting courseIDs in ascending order of the number of classes
@@ -290,10 +294,10 @@ const getTimetables = async (courses, faculties, reservedSlots) => {
       return classes[courseIDa].length - classes[courseIDb].length;
     });
 
-    console.log(
-      "All Possible Selections:",
-      getNumberOfTotalPossibleSelections(classes)
-    );
+    // console.log(
+    //   "All Possible Selections:",
+    //   getNumberOfTotalPossibleSelections(classes)
+    // );
     // using code from https://advancedweb.hu/how-to-use-async-await-with-postmessage/
     // to use async await with worker.
     const selectClasses = (mapping, courseIDs, classes) =>
@@ -320,7 +324,7 @@ const getTimetables = async (courses, faculties, reservedSlots) => {
         const channel = new MessageChannel();
 
         channel.port1.onmessage = ({ data }) => {
-          console.log(data);
+          // console.log(data);
           channel.port1.close();
           if (data.error) {
             rej(data.error);
@@ -344,7 +348,7 @@ const getTimetables = async (courses, faculties, reservedSlots) => {
         const channel = new MessageChannel();
 
         channel.port1.onmessage = ({ data }) => {
-          console.log(data);
+          // console.log(data);
           channel.port1.close();
           if (data.error) {
             rej(data.error);
@@ -379,27 +383,29 @@ const getTimetables = async (courses, faculties, reservedSlots) => {
     );
     console.timeEnd("selectClasses");
 
-    console.log("Possible slot combinations", possibleSlotCombinations);
+    // console.log("Possible slot combinations", possibleSlotCombinations);
     let first = true;
-    if (Object.keys(possibleClassSelections).length > 0)
-      console.log(
-        "all possible class selections",
-        possibleClassSelections,
-        "Groups:",
-        Object.keys(possibleClassSelections).length,
-        "Possible Schedules:",
-        Object.keys(possibleClassSelections).reduce((total, key) => {
-          if (first) {
-            first = false;
-            return (
-              possibleClassSelections[Object.keys(possibleClassSelections)[0]]
-                .length + possibleClassSelections[key].length
-            );
-          }
-          return total + possibleClassSelections[key].length;
-        })
-      );
-    else alert("No valid schedules found.");
+    if (Object.keys(possibleClassSelections).length > 0);
+    else
+      // Remove the semicolon at the end of the if statement when you uncomment this
+      // console.log(
+      //   "all possible class selections",
+      //   possibleClassSelections,
+      //   "Groups:",
+      //   Object.keys(possibleClassSelections).length,
+      //   "Possible Schedules:",
+      //   Object.keys(possibleClassSelections).reduce((total, key) => {
+      //     if (first) {
+      //       first = false;
+      //       return (
+      //         possibleClassSelections[Object.keys(possibleClassSelections)[0]]
+      //           .length + possibleClassSelections[key].length
+      //       );
+      //     }
+      //     return total + possibleClassSelections[key].length;
+      //   })
+      // );
+      alert("No valid schedules found.");
 
     const actualSlotCombinations = Object.keys(possibleClassSelections);
     const possibleSlotCombinationStrings = possibleSlotCombinations.map(
@@ -423,14 +429,14 @@ const getTimetables = async (courses, faculties, reservedSlots) => {
       if (!actualSlotCombinations.includes(slotCombination))
         impossibleSlotCombinations.push(slotCombination);
     });
-    console.log(
-      "Possible Slot combinations",
-      possibleSlotCombinationsObject,
-      "Missed Slot Combinations",
-      missedSlotCombinations,
-      "Impossible Slot Combinations",
-      impossibleSlotCombinations
-    );
+    // console.log(
+    //   "Possible Slot combinations",
+    //   possibleSlotCombinationsObject,
+    //   "Missed Slot Combinations",
+    //   missedSlotCombinations,
+    //   "Impossible Slot Combinations",
+    //   impossibleSlotCombinations
+    // );
 
     console.time("populatedSlotCombination");
     const populatedSlotCombinationsObject = await populateSlotCombination(
@@ -439,12 +445,12 @@ const getTimetables = async (courses, faculties, reservedSlots) => {
       possibleSlotCombinationStrings[0],
       possibleSlotCombinationsObject
     );
-    console.log(
-      "Actual Schedules",
-      possibleClassSelections[possibleSlotCombinationStrings[0]],
-      "Possible Schedules",
-      populatedSlotCombinationsObject[possibleSlotCombinationStrings[0]]
-    );
+    // console.log(
+    //   "Actual Schedules",
+    //   possibleClassSelections[possibleSlotCombinationStrings[0]],
+    //   "Possible Schedules",
+    //   populatedSlotCombinationsObject[possibleSlotCombinationStrings[0]]
+    // );
     console.timeEnd("populatedSlotCombination");
 
     return possibleClassSelections;

@@ -13,7 +13,7 @@ const Classes = ({
   setHoveredSlots,
   faculties,
 }) => {
-  console.log("rendering classes", slots);
+  // console.log("rendering classes", slots);
   const ignoreCols = [
     "REGISTERED SEATS",
     "ASSO CLASS ID",
@@ -322,7 +322,6 @@ const Classes = ({
           setCurrentPage(selected);
         }}
         pageLabelBuilder={(page) => {
-          console.log("course ids are", courseIDs, page, courseIDs[page - 1]);
           return courseIDs[page - 1];
         }}
         containerClassName={styles.schedulesPagination}

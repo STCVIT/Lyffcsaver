@@ -55,3 +55,46 @@
   bottom: 0;
   z-index: -1000;
 }
+
+/* code from https://stackoverflow.com/a/38136283/13378825 */
+.btn {
+  /* color: #000; */
+  /* background: #e74c3c; */
+  width: 50px;
+  height: 50px;
+  border: 0;
+  font-size: 1.5em;
+  position: relative;
+}
+
+.btn span {
+  position: absolute;
+  transition: 300ms ease-out;
+  background: black;
+  border-radius: 3px;
+}
+
+/* Create the "+" shape by positioning the spans absolutely */
+.btn span:first-child {
+  top: 25%;
+  bottom: 25%;
+  width: 10%;
+  left: 45%;
+}
+
+.btn span:last-child {
+  left: 25%;
+  right: 25%;
+  height: 10%;
+  top: 45%;
+}
+
+/* Morph the shape when the button is hovered over */
+.btn.clicked span {
+  transform: rotate(90deg);
+}
+
+.btn.clicked span:last-child {
+  left: 50%;
+  right: 50%;
+}

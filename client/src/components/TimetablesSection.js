@@ -3,39 +3,44 @@ import styles from "../css/TimetablesSection.module.css";
 import TimetablePreviews from "./TimetablePreviews";
 import Timetables from "./Timetables";
 
-const TimetablesSection = ({ schedules, faculties, getSchedulesForSlots }) => {
+const TimetablesSection = ({
+  schedules,
+  faculties,
+  selectSlots,
+  currentlySelectedSlots,
+}) => {
   /**
    * Array containing slots of each schedule type
    */
   const schedulesSlots = Object.keys(schedules);
-  const [currentlySelectedSlots, setCurrentlySelectedSlots] = useState([]);
   useEffect(() => {
     // setCurrentlySelectedSlots([]);
   }, [schedules]);
-  const selectSlots = async (slots) => {
-    console.log("selectSlots ", slots);
-    getSchedulesForSlots(slots.join("+"));
-    setCurrentlySelectedSlots(slots);
-  };
+  // console.log({ schedulesSlots });
 
   return (
     <div
       className={`${styles.screen} ${
-        Object.keys(schedules).length > 0 ? "" : styles.disableScreen
+        schedulesSlots.length > 0 ? "" : styles.disableScreen
       }`}
-      id="screen2"
     >
-      <div className={styles.twoCols}>
-        <TimetablePreviews
-          schedulesSlots={schedulesSlots}
-          select={selectSlots}
-        ></TimetablePreviews>
-        <Timetables
-          schedules={schedules}
-          slots={currentlySelectedSlots}
-          faculties={faculties}
-        ></Timetables>
-      </div>
+      <span className={styles.goto} id="timetable-previews">
+        &nbsp;
+      </span>
+      <TimetablePreviews
+        schedulesSlots={schedulesSlots}
+        select={selectSlots}
+      ></TimetablePreviews>
+      <span className={styles.goto} id="timetable">
+        &nbsp;
+      </span>
+      <Timetables
+        schedules={schedules}
+        slots={currentlySelectedSlots}
+        faculties={faculties}
+      ></Timetables>
+
+      {/* <div className={styles.twoCols}></div> */}
     </div>
   );
 };

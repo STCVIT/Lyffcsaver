@@ -9,14 +9,14 @@ import InitialSelect from "./InitialSelect";
 import axios from "axios";
 import { getCourseID } from "../utils/generalUtils";
 
-const Options = ({ generateTimetables }) => {
+const Options = ({ generateTimetables, selectSlots }) => {
   const [selectedCourses, setSelectedCourses] = useState([]);
   const [selectedFaculties, setSelectedFaculties] = useState({});
   const [currentlySelectedCourseID, setCurrentlySelectedCourseID] =
     useState("");
   const [reservedSlots, setReservedSlots] = useState([]);
   useEffect(() => {
-    console.log({ currentlySelectedCourseID });
+    // console.log({ currentlySelectedCourseID });
   }, [currentlySelectedCourseID]);
   const toggleReserve = (slot) => {
     const pattern = /[A-Z]+\d+/;
@@ -103,12 +103,17 @@ const Options = ({ generateTimetables }) => {
       <div className={styles.row}>
         <button
           className={styles.submitBtn}
-          onClick={() => {
-            generateTimetables(
+          onClick={async () => {
+            console.log("CLICKED");
+            await generateTimetables(
               selectedCourses,
               selectedFaculties,
               reservedSlots
             );
+            selectSlots([]);
+            document
+              .querySelector("#timetable-previews")
+              ?.scrollIntoView({ behavior: "smooth" });
           }}
         >
           Generate Timetables

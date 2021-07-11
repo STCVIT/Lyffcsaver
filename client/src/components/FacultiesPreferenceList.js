@@ -97,7 +97,7 @@ const FacultiesPreferenceList = ({
       ) !== undefined
     );
   };
-  const facultyRows = (provided) => {
+  const selectedFacultyRows = (provided) => {
     return (
       <>
         {selectedFaculties[currentlySelectedCourseID]?.map((faculty, index) => {
@@ -112,7 +112,7 @@ const FacultiesPreferenceList = ({
                 index={index}
               >
                 {(provided) => (
-                  <div
+                  <li
                     ref={(node) => {
                       lastElementRef(node);
                       provided.innerRef(node);
@@ -134,7 +134,7 @@ const FacultiesPreferenceList = ({
                     <div className={styles.bodyCol}>
                       {faculty["EMPLOYEE SCHOOL"]}
                     </div>
-                  </div>
+                  </li>
                 )}
               </Draggable>
             );
@@ -146,7 +146,7 @@ const FacultiesPreferenceList = ({
                 index={index}
               >
                 {(provided) => (
-                  <div
+                  <li
                     className={`${styles.card} ${styles.selected}`}
                     id={faculty["ERP ID"]}
                     key={`${faculty["ERP ID"]}-sc`}
@@ -166,59 +166,57 @@ const FacultiesPreferenceList = ({
                     <div className={styles.bodyCol}>
                       {faculty["EMPLOYEE SCHOOL"]}
                     </div>
-                  </div>
+                  </li>
                 )}
               </Draggable>
             );
           }
         })}
         {provided.placeholder}
-        {faculties.map((faculty, index) => {
-          if (isSelectedFaculty(faculty)) return <></>;
-          // Rendering unselected faculties
-          if (faculties.length === index + 1) {
-            return (
-              <div
-                ref={lastElementRef}
-                className={`${styles.card} ${styles.notSelected}`}
-                id={faculty["ERP ID"]}
-                key={`${faculty["ERP ID"]}-ue`}
-              >
-                <InteractionElement
-                  faculty={faculty}
-                  customKey={`${faculty["ERP ID"]}-ue-i`}
-                ></InteractionElement>
-
-                <div className={styles.bodyCol}>{faculty["ERP ID"]}</div>
-                <div className={styles.bodyCol}>{faculty["EMPLOYEE NAME"]}</div>
-                <div className={styles.bodyCol}>
-                  {faculty["EMPLOYEE SCHOOL"]}
-                </div>
-              </div>
-            );
-          } else {
-            return (
-              <div
-                id={faculty["ERP ID"]}
-                className={`${styles.card} ${styles.notSelected}`}
-                key={`${faculty["ERP ID"]}-u`}
-              >
-                <InteractionElement
-                  faculty={faculty}
-                  customKey={`${faculty["ERP ID"]}-u-i`}
-                ></InteractionElement>
-
-                <div className={styles.bodyCol}>{faculty["ERP ID"]}</div>
-                <div className={styles.bodyCol}>{faculty["EMPLOYEE NAME"]}</div>
-                <div className={styles.bodyCol}>
-                  {faculty["EMPLOYEE SCHOOL"]}
-                </div>
-              </div>
-            );
-          }
-        })}
       </>
     );
+  };
+  const facultyRows = () => {
+    return faculties.map((faculty, index) => {
+      if (isSelectedFaculty(faculty)) return <></>;
+      // Rendering unselected faculties
+      if (faculties.length === index + 1) {
+        return (
+          <li
+            ref={lastElementRef}
+            className={`${styles.card} ${styles.notSelected}`}
+            id={faculty["ERP ID"]}
+            key={`${faculty["ERP ID"]}-ue`}
+          >
+            <InteractionElement
+              faculty={faculty}
+              customKey={`${faculty["ERP ID"]}-ue-i`}
+            ></InteractionElement>
+
+            <div className={styles.bodyCol}>{faculty["ERP ID"]}</div>
+            <div className={styles.bodyCol}>{faculty["EMPLOYEE NAME"]}</div>
+            <div className={styles.bodyCol}>{faculty["EMPLOYEE SCHOOL"]}</div>
+          </li>
+        );
+      } else {
+        return (
+          <li
+            id={faculty["ERP ID"]}
+            className={`${styles.card} ${styles.notSelected}`}
+            key={`${faculty["ERP ID"]}-u`}
+          >
+            <InteractionElement
+              faculty={faculty}
+              customKey={`${faculty["ERP ID"]}-u-i`}
+            ></InteractionElement>
+
+            <div className={styles.bodyCol}>{faculty["ERP ID"]}</div>
+            <div className={styles.bodyCol}>{faculty["EMPLOYEE NAME"]}</div>
+            <div className={styles.bodyCol}>{faculty["EMPLOYEE SCHOOL"]}</div>
+          </li>
+        );
+      }
+    });
   };
   const handleOnDragEnd = (result) => {
     if (!result.destination) return;
@@ -250,20 +248,21 @@ const FacultiesPreferenceList = ({
         </div>
       </div>
 
-      <div className={styles.body}>
+      <div className={styles.bodySection}>
         <DragDropContext onDragEnd={handleOnDragEnd}>
           <Droppable droppableId="faculties">
             {(provided) => (
-              <div
+              <ul
                 key={"faculties-list"}
                 ref={provided.innerRef}
                 {...provided.droppableProps}
               >
-                {facultyRows(provided)}
-              </div>
+                {selectedFacultyRows(provided)}
+              </ul>
             )}
           </Droppable>
         </DragDropContext>
+        {facultyRows()}
         <div className={styles.loading}>{loading && "Loading..."}</div>
         <div className={styles.error}>{error && "Error..."}</div>
         <div className={styles.noResults}>

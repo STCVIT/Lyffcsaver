@@ -1,3 +1,6 @@
+ul {
+  padding: 0;
+}
 .container {
   --container-radius: 5px;
   --template: 1fr 2fr 3fr 2fr;
@@ -29,10 +32,10 @@
   background-color: var(--table-bg);
   padding: 20px;
 }
-.body {
+.bodySection {
   --card-side-padding: 10px;
   padding: var(--card-side-padding);
-  overflow-y: auto;
+  overflow: auto;
   height: calc(450px - 170px);
 }
 .card {
@@ -49,10 +52,10 @@
 .bodyCol > input {
   cursor: pointer;
 }
-.notSelected {
-  /* background-color: lightgray;
-  color: gray; */
-}
+/* .notSelected {
+  background-color: lightgray;
+  color: gray;
+}*/
 .selected {
   cursor: grab;
   background-color: var(--active-bg);

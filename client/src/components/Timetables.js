@@ -4,7 +4,7 @@ import Classes from "./Classes";
 import styles from "../css/Timetables.module.css";
 
 const Timetables = ({ schedules, slots, faculties }) => {
-  console.log("rerendering Timetables(", schedules, slots, faculties, ")");
+  // console.log("rerendering Timetables(", schedules, slots, faculties, ")");
   const [selectedClasses, setSelectedClasses] = useState({});
   const [hoveredSlots, setHoveredSlots] = useState([]);
   useEffect(() => {

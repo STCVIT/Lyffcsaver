@@ -44,7 +44,7 @@ const TimetablePreview = ({ slots, id, select }) => {
       <table
         className={styles.timetablePreview}
         onClick={async (e) => {
-          console.log("event", e, JSON.stringify(slots));
+          // console.log("event", e, JSON.stringify(slots));
           await select(slots);
 
           document
@@ -61,6 +61,9 @@ const TimetablePreview = ({ slots, id, select }) => {
             }
             element = element.parentNode;
           }
+          document
+            .getElementById("timetable")
+            ?.scrollIntoView({ behavior: "smooth" });
         }}
       >
         <thead>

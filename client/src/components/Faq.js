@@ -25,10 +25,15 @@ const Faq = (/*{ logoVariant }*/) => {
     return (
       <button
         type="button"
-        style={{ backgroundColor: isCurrentEventKey ? "pink" : "lavender" }}
+        // style={{
+        //   backgroundColor: isCurrentEventKey ? "lavender" : "transparent",
+        // }}
+        className={`${styles.btn} ${isCurrentEventKey ? styles.clicked : ""}`}
         onClick={decoratedOnClick}
       >
-        {children}
+        <span></span>
+        <span></span>
+        {/* {isCurrentEventKey ? "^" : "v"} */}
       </button>
     );
   }
@@ -50,6 +55,9 @@ const Faq = (/*{ logoVariant }*/) => {
                   <Card className={styles.questionCard} key={index + question}>
                     <Card.Header className={styles.header}>
                       <div className={styles.headerText}>{question}</div>
+                      <ContextAwareToggle
+                        eventKey={index + 1}
+                      ></ContextAwareToggle>
                       {/* <Accordion.Toggle
                         eventKey={index + 1}
                         className={styles.toggle}

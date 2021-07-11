@@ -233,37 +233,41 @@ const populateSlotCombination = (
       if (scheduleIDs.size > previousSize) newSchedules.push(schedule);
     }
   };
-  for (const schedule of possibleClassSelections[slotCombinationString]) {
-    addSchedules(schedule);
+  if (
+    possibleClassSelections[slotCombinationString] !== undefined &&
+    possibleClassSelections[slotCombinationString] !== null
+  )
+    for (const schedule of possibleClassSelections[slotCombinationString]) {
+      addSchedules(schedule);
 
-    const findEquivalentSchedules = (courseIDs, schedule, similarClasses) => {
-      const scheduleCopy = JSON.parse(JSON.stringify(schedule));
-      if (courseIDs.length === 0) return [scheduleCopy];
+      const findEquivalentSchedules = (courseIDs, schedule, similarClasses) => {
+        const scheduleCopy = JSON.parse(JSON.stringify(schedule));
+        if (courseIDs.length === 0) return [scheduleCopy];
 
-      const courseID = courseIDs[0];
-      const slot = scheduleCopy[courseID]["SLOT"];
-      const allSimilarSchedules = [];
+        const courseID = courseIDs[0];
+        const slot = scheduleCopy[courseID]["SLOT"];
+        const allSimilarSchedules = [];
 
-      const filteredClasses = classes[courseID].filter(
-        (testingClass) => testingClass["SLOT"] === slot
-      );
-
-      for (const similarClass of filteredClasses) {
-        scheduleCopy[courseID] = similarClass;
-        allSimilarSchedules.push(scheduleCopy);
-        const similarSchedules = findEquivalentSchedules(
-          courseIDs.slice(1),
-          scheduleCopy,
-          similarClasses
+        const filteredClasses = classes[courseID].filter(
+          (testingClass) => testingClass["SLOT"] === slot
         );
-        allSimilarSchedules.push(...similarSchedules);
-      }
-      return allSimilarSchedules;
-    };
-    addSchedules(
-      ...findEquivalentSchedules(courseIDs, schedule, similarClasses)
-    );
-  }
+
+        for (const similarClass of filteredClasses) {
+          scheduleCopy[courseID] = similarClass;
+          allSimilarSchedules.push(scheduleCopy);
+          const similarSchedules = findEquivalentSchedules(
+            courseIDs.slice(1),
+            scheduleCopy,
+            similarClasses
+          );
+          allSimilarSchedules.push(...similarSchedules);
+        }
+        return allSimilarSchedules;
+      };
+      addSchedules(
+        ...findEquivalentSchedules(courseIDs, schedule, similarClasses)
+      );
+    }
   possibleSlotCombinations[slotCombinationString] = newSchedules;
   return possibleSlotCombinations;
 };
@@ -289,13 +293,13 @@ onmessage = (event) => {
       const classes = event.data[3];
       const slotCombinationString = event.data[4];
       const possibleSlotCombinations = event.data[5];
-      console.log(
-        "in worker",
-        courseIDs,
-        classes,
-        slotCombinationString,
-        possibleSlotCombinations
-      );
+      // console.log(
+      //   "in worker",
+      //   courseIDs,
+      //   classes,
+      //   slotCombinationString,
+      //   possibleSlotCombinations
+      // );
 
       const possibleClassSelections = populateSlotCombination(
         courseIDs,
