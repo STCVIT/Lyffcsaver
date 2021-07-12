@@ -1,7 +1,7 @@
 import Header from "./Header";
 import styles from "../css/About.module.css";
 import lady from "../assets/aboutPageLady.svg";
-import man from "../assets/aboutPageMan.svg";
+import schedules from "../assets/aboutPageSchedules.svg";
 
 const About = () => {
   return (
@@ -21,7 +21,7 @@ const About = () => {
                 <h2>Our Vision</h2>
               </div>
               <p>
-                Lyffcsaver aims at providing a user- friendly interface using
+                lyFFCSaver aims at providing a user-friendly interface using
                 which students can prepare their own timetables for the upcoming
                 semesters with ease, saving them the hassle of using the fully
                 flexible credit system.
@@ -30,7 +30,7 @@ const About = () => {
             <img src={lady} alt="" />
           </div>
           <div className={`${styles.col} ${styles.features}`}>
-            <img src={man} alt="" />
+            <img src={schedules} alt="" />
             <div className={styles.content}>
               <div className={styles.title}>
                 <h2>Features</h2>

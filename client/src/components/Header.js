@@ -3,7 +3,6 @@ import { Navbar, Nav, Container, Na } from "react-bootstrap";
 import logo from "../assets/logo.svg";
 import { NavLink } from "react-router-dom";
 const Header = ({ location }) => {
-  console.log("rerender header");
   return (
     <>
       <Navbar
@@ -34,7 +33,6 @@ const Header = ({ location }) => {
               <NavLink activeClassName={styles.active} to="/contact">
                 Contact Us
               </NavLink>
-              {/* <NavLink.Divider></NavLink.Divider> */}
             </Nav>
             <a href="#" className={styles.blockLink}>
               HOW THIS WORKS?
