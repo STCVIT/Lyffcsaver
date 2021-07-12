@@ -9,7 +9,7 @@ import {
 import { NavLink } from "react-router-dom";
 import { useContext } from "react";
 
-const Faq = (/*{ logoVariant }*/) => {
+const Faq = () => {
   const questions = ["question 1", "question 2", "question 3", "question 4"];
   const answers = ["answer 1", "answer 2", "answer 3", "answer 4"];
   function ContextAwareToggle({ children, eventKey, callback }) {
@@ -39,7 +39,6 @@ const Faq = (/*{ logoVariant }*/) => {
   }
   return (
     <>
-      {/* <Header logoVariant={logoVariant} /> */}
       <div className={styles.container}>
         <div className={styles.title}>
           <span className={styles.goto} id="faq">

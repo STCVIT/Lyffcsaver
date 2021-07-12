@@ -3,7 +3,12 @@ import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
-
+import Header from "../src/components/Header";
+import { withRouter } from "react-router-dom";
+import "bootstrap/dist/css/bootstrap.min.css";
+// import { Navbar, Nav, Container } from "react-bootstrap";
+// import logo from "../src/assets/logo.svg";
+// import styles from "../src/css/Header.module.css";
 ReactDOM.render(
   <React.StrictMode>
     <App />

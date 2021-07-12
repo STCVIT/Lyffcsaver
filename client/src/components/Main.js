@@ -10,7 +10,7 @@ import {
   populateSlotCombination,
 } from "../utils/generalUtils";
 import styles from "../css/Main.module.css";
-const Main = ({ logoVariant }) => {
+const Main = () => {
   const [allSchedules, setAllSchedules] = useState({});
   const [faculties, setFaculties] = useState({});
   const [reservedSlots, setReservedSlots] = useState([]);
@@ -67,6 +67,7 @@ const Main = ({ logoVariant }) => {
 
   return (
     <div className={styles.appContainer}>
+      {/* <Header /> */}
       <QuarterEllipse className={styles.ellipse}></QuarterEllipse>
       <Options
         getCourseID={getCourseID}

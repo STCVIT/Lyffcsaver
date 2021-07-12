@@ -5,11 +5,11 @@ import contactIllustration from "../assets/contactIllustration.svg";
 import contactNameIcon from "../assets/contactNameIcon.svg";
 import contactEmailIcon from "../assets/contactEmailIcon.svg";
 import contactMessageIcon from "../assets/contactMessageIcon.svg";
-const Contact = (/*{ logoVariant } */) => {
+const Contact = () => {
   return (
     <>
       <div className={styles.wrapper}>
-        {/* <Header logoVariant={logoVariant} /> */}
+        {/* <Header /> */}
         <div className={styles.container}>
           <div className={styles.title}>
             <span className={styles.goto} id="contact">

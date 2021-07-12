@@ -3,10 +3,10 @@ import styles from "../css/About.module.css";
 import lady from "../assets/aboutPageLady.svg";
 import man from "../assets/aboutPageMan.svg";
 
-const About = (/*{ logoVariant }*/) => {
+const About = () => {
   return (
     <>
-      {/* <Header logoVariant={logoVariant} /> */}
+      {/* <Header /> */}
       <div className={styles.container}>
         <div className={styles.title}>
           <span className={styles.goto} id="about">
