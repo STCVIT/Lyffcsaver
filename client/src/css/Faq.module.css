@@ -3,98 +3,70 @@
   flex-direction: column;
   align-items: center;
   margin: 0 50px;
-  padding-bottom: 50px;
+  padding-top: 72px;
   /* position: relative; */
+}
+.title {
+  margin-bottom: 30px;
+  text-align: center;
 }
 .faqContainer {
   margin: 1em;
   width: 70%;
 }
-.goto {
-  display: block;
-  padding-top: 100px;
-  margin-top: -100px;
-}
-.header {
-  display: flex;
-  width: 100%;
-  justify-content: space-between;
-  align-items: center;
-}
-.toggle {
-  font-size: 30px;
-  font-weight: 600;
-  color: var(--primary-color);
-}
-.title {
-  text-align: center;
-  display: block;
-  padding-top: 1000px;
-  margin: -1000px 20px 20px 20px;
-}
-.btn-link {
-  text-decoration: none !important;
-}
 .questionCard {
   margin-bottom: 30px;
-  min-width: 170px;
 }
-.fadedText {
+.header {
+  position: relative;
   display: flex;
-  flex-direction: column;
   align-items: center;
-  color: var(--faded-font-color);
+  justify-content: start;
+  background-color: var(--white) !important;
+  border: none !important;
 }
-.fadedText > * {
-  max-width: 600px;
-  text-align: center;
+.bodyText {
+  padding: 20px 40px;
 }
-.pattern {
+.btn {
+  background: var(--white);
+}
+.btn > span {
+  background: var(--primary);
+  transition: width 0.35s cubic-bezier(0.42, 0, 0.24, 2.36);
   position: absolute;
   left: 0;
+  top: 0;
   bottom: 0;
-  z-index: -1000;
+  width: 0;
+  /* width: 10px;
+  height: 0; */
 }
-
-/* code from https://stackoverflow.com/a/38136283/13378825 */
-.btn {
-  /* color: #000; */
-  /* background: #e74c3c; */
-  width: 50px;
-  height: 50px;
-  border: 0;
-  font-size: 1.5em;
-  position: relative;
+.btn.clicked > span {
+  width: 10px;
+  /* height: 40px; */
 }
-
-.btn span {
-  position: absolute;
-  transition: 300ms ease-out;
-  background: black;
-  border-radius: 3px;
+.btn > img {
+  transition: transform 0.35s ease;
+  margin: 0 20px 0 15px;
 }
-
-/* Create the "+" shape by positioning the spans absolutely */
-.btn span:first-child {
-  top: 25%;
-  bottom: 25%;
-  width: 10%;
-  left: 45%;
+.btn.clicked > img {
+  transform: rotateZ(90deg);
 }
-
-.btn span:last-child {
-  left: 25%;
-  right: 25%;
-  height: 10%;
-  top: 45%;
+.fadedText > p {
+  text-align: center;
 }
-
-/* Morph the shape when the button is hovered over */
-.btn.clicked span {
-  transform: rotate(90deg);
-}
-
-.btn.clicked span:last-child {
-  left: 50%;
-  right: 50%;
+@media only screen and (max-width: 500px) {
+  .faqContainer {
+    padding: 0;
+    margin: 1em 0;
+    width: 100%;
+  }
+  .accordion {
+    width: 100%;
+    margin: 0;
+  }
+  .container {
+    padding-top: 30px;
+  }
 }

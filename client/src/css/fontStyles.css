@@ -1,0 +1,52 @@
+.heading1 {
+  font-size: 33px;
+  font-weight: bold;
+}
+.heading2 {
+  font-size: 24px;
+  font-weight: bold;
+}
+.heading3 {
+  font-size: 20px;
+  /* font-weight: bo; */
+}
+
+.body1-bold {
+  font-size: 16px;
+  font-weight: bold;
+}
+.body1-bold-underlined {
+  font-size: 16px;
+  font-weight: bold;
+  text-decoration: underline;
+}
+.body1-medium {
+  font-size: 16px;
+  font-weight: normal;
+}
+.body1-light {
+  font-size: 16px;
+  font-weight: lighter;
+}
+
+.body2-bold {
+  font-size: 14px;
+  font-weight: bold;
+}
+.body2-medium {
+  font-size: 14px;
+  font-weight: normal;
+}
+.body2-light {
+  font-size: 14px;
+  font-weight: lighter;
+}
+
+.caption {
+  font-size: 12px;
+  font-weight: lighter;
+}
+.button {
+  font-size: 14px;
+  font-weight: bold lighter;
+}
