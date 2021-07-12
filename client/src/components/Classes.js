@@ -100,7 +100,7 @@ const Classes = ({
     return (
       <td className={styles.cell}>
         <input
-          type="checkbox"
+          type="radio"
           name="selected"
           id={`${customKey}-selected`}
           key={customKey}

@@ -145,7 +145,6 @@ const populateSlotCombination = async (
     const courseIDs = Object.keys(faculties);
     let classes = await getClasses(faculties);
     classes = removeReservedSlots(classes, reservedSlots);
-    if (!verifyNumberOfClasses(classes, courseIDs)) return {};
 
     // sorting courseIDs in ascending order of the number of classes
     // with that courseID.

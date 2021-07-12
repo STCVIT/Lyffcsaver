@@ -3,6 +3,11 @@
   flex-direction: row;
   gap: 10px;
 }
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 .colorExample {
   width: 30px;
   height: 30px;
@@ -99,4 +104,10 @@
   background-color: var(--timetable-lab);
   /* border: var(--border-size) #5f7716 solid; */
   color: white;
+}
+.buttons {
+  display: flex;
+  align-self: center;
+  justify-self: center;
+  padding: 10px 0px 20px 0px;
 }

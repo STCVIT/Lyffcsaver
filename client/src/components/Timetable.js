@@ -1,5 +1,7 @@
-import timetableStyles from "../css/Timetable.module.css";
+import styles from "../css/Timetable.module.css";
 import timetableTemplateData from "../utils/timetableTemplateData";
+import cameraImg from "../assets/camera.svg";
+import html2canvas from "html2canvas";
 
 const Timetable = ({ slots, selectedClasses, hoveredSlots }) => {
   // console.log("rendering timetable", slots);
@@ -23,64 +25,54 @@ const Timetable = ({ slots, selectedClasses, hoveredSlots }) => {
     return `${cell}-${courseID}-${schedule[courseID]["ROOM NUMBER"]}`;
   };
   const getClassName = (cellContent, rowIndex, cellIndex) => {
-    let className = `${timetableStyles.cell} `;
+    let className = `${styles.cell} `;
     if (cellIndex < 2) {
-      className += `${timetableStyles.headDay}`;
+      className += `${styles.headDay}`;
       return className;
     }
     if (rowIndex < 2) {
-      className += ` ${timetableStyles.theoryTiming} `;
+      className += ` ${styles.theoryTiming} `;
     }
     if (rowIndex >= 2 && rowIndex < 4) {
-      className += ` ${timetableStyles.labTiming} `;
+      className += ` ${styles.labTiming} `;
     }
     if (rowIndex < 4) {
-      className += ` ${timetableStyles.cell} ${timetableStyles.headTop} `;
+      className += ` ${styles.cell} ${styles.headTop} `;
       return className;
     }
     if (cellContent === "Lunch") {
-      className += `${timetableStyles.lunch}`;
+      className += `${styles.lunch}`;
       return className;
     }
     if (hoveredSlots.includes(cellContent)) {
       if (rowIndex % 2 === 0) {
-        className += `${timetableStyles.theory} ${timetableStyles.hoveredTheory}`;
+        className += `${styles.theory} ${styles.hoveredTheory}`;
         return className;
       } else {
-        className += `${timetableStyles.lab} ${timetableStyles.hoveredLab}`;
+        className += `${styles.lab} ${styles.hoveredLab}`;
         return className;
       }
     }
     if (slots.includes(cellContent)) {
       if (rowIndex % 2 === 0) {
-        className += `${timetableStyles.theory}`;
+        className += `${styles.theory}`;
         return className;
       } else {
-        className += `${timetableStyles.lab}`;
+        className += `${styles.lab}`;
         return className;
       }
     }
     if (dayCount % 2 === 0) {
-      className += `${timetableStyles.evenDay}`;
+      className += `${styles.evenDay}`;
       return className;
     } else {
-      className += `${timetableStyles.oddDay}`;
+      className += `${styles.oddDay}`;
       return className;
     }
   };
   return (
-    <div className={timetableStyles.container}>
-      <div className={timetableStyles.legend}>
-        <div className={timetableStyles.theoryLegend}>
-          <div className={timetableStyles.colorExample}></div>
-          <div className={timetableStyles.legendLabel}>Theory Slot</div>
-        </div>
-        <div className={timetableStyles.labLegend}>
-          <div className={timetableStyles.colorExample}></div>
-          <div className={timetableStyles.legendLabel}>Lab Slot</div>
-        </div>
-      </div>
-      <table className={timetableStyles.timetable}>
+    <div className={styles.container}>
+      <table className={styles.timetable} id="filled-out-timetable">
         <thead>
           {timetableTemplateData.slice(0, 4).map((row, rowIndex) => {
             return (
@@ -131,6 +123,30 @@ const Timetable = ({ slots, selectedClasses, hoveredSlots }) => {
           })}
         </tbody>
       </table>
+      <div className={styles.buttons}>
+        <input
+          type="image"
+          src={cameraImg}
+          alt="Download timetable image"
+          onClick={() => {
+            // const help = document.querySelector("#help");
+            // html2canvas(help, {
+            //   // allowTaint: true,
+            //   backgroundColor: "#000",
+            //   // foreignObjectRendering: true,
+            //   // logging: true,
+            //   // useCORS: true,
+            // }).then((canvas) => {
+            //   console.log(help, canvas);
+            //   const a = document.createElement("a");
+            //   a.href = canvas.toDataURL("image/png");
+            //   // a.download = `timetable-${slots.join("+")}.png`;
+            //   a.download = "help.png";
+            //   a.click();
+            // });
+          }}
+        />
+      </div>
     </div>
   );
 };

@@ -16,11 +16,13 @@
 }
 .table {
   border-spacing: 0;
+  border-collapse: separate;
 }
+
 .tableWrapper {
   margin-top: 20px;
   min-width: fit-content(500px);
-  max-height: 40vh;
+  /* max-height: 40vh; */
   overflow: auto;
 }
 .tableRow {

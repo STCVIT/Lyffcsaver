@@ -1,5 +1,6 @@
 import TimetablePreview from "./TimetablePreview";
 import styles from "../css/TimetablePreviews.module.css";
+import timetableStyles from "../css/Timetable.module.css";
 import { useState } from "react";
 import ReactPaginate from "react-paginate";
 import leftArrow from "../assets/leftArrow.svg";
@@ -28,6 +29,16 @@ const TimetablePreviews = ({ schedulesSlots, select }) => {
   const rightArrowNode = <img src={rightArrow} alt=">" />;
   return (
     <div className={styles.panel}>
+      <div className={timetableStyles.legend}>
+        <div className={timetableStyles.theoryLegend}>
+          <div className={timetableStyles.colorExample}></div>
+          <div className={timetableStyles.legendLabel}>Theory Slot</div>
+        </div>
+        <div className={timetableStyles.labLegend}>
+          <div className={timetableStyles.colorExample}></div>
+          <div className={timetableStyles.legendLabel}>Lab Slot</div>
+        </div>
+      </div>
       <div className={styles.container}>{currentPageData}</div>
       <ReactPaginate
         previousLabel={leftArrowNode}
