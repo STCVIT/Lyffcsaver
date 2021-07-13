@@ -18,14 +18,15 @@ const ReserveSlots = ({ reservedSlots, toggleReserve }) => {
           <a className={`${styles.btn} body1-medium`}>Skip</a>
         </div>
       </div>
-      <ReserveSlotsTable
-        reservedSlots={reservedSlots}
-        toggleReserve={toggleReserve}
-      ></ReserveSlotsTable>
+
       <ReserveSlotsBubbles
         reservedSlots={reservedSlots}
         toggleReserve={toggleReserve}
       ></ReserveSlotsBubbles>
+      <ReserveSlotsTable
+        reservedSlots={reservedSlots}
+        toggleReserve={toggleReserve}
+      ></ReserveSlotsTable>
     </div>
   );
 };

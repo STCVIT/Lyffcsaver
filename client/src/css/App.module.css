@@ -8,13 +8,16 @@
   background: hsla(56, 100%, 50%, 0.5);
 }
 :root {
-  --primary: #7302f2;
-  --primary-faded: #ab67f7;
-  --black: #000;
+  --primary: hsl(268, 98%, 48%);
+  --primary-faded: hsl(268, 90%, 69%);
+  --black: hsl(0, 0%, 0%);
   --black-faded: hsl(0, 0%, 15%);
-  --white: #fff;
+  --white: hsl(0, 0%, 100%);
   --white-faded: hsl(0, 0%, 85%);
   --red: hsl(0, 100%, 50%);
+  --red-faded: hsl(0, 100%, 70%);
+  --orange: hsl(45, 100%, 51%);
+  --orange-faded: hsl(45, 100%, 66%);
 
   --text-input-outline: #a6a6a6;
   /* --button-bg: linear-gradient(86.21deg, #8c7eee 5.73%, #4d60c7 99.22%);
