@@ -4,7 +4,20 @@
   justify-content: center;
   align-items: center;
   position: relative;
+}
+.timetableWrapper {
+  overflow: auto;
+  width: 100%;
+}
+.timetable {
+  width: 100%;
+  min-width: 650px;
+}
+/* .timetable > td {
+} */
+td.cell {
   user-select: none;
+  padding: 10px 0;
 }
 .label {
   margin-bottom: 10px;

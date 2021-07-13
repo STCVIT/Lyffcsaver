@@ -73,6 +73,10 @@ const Options = ({ generateTimetables, selectSlots }) => {
   return (
     <Container className={styles.container}>
       <CampusToggle></CampusToggle>
+      <ReserveSlots
+        reservedSlots={reservedSlots}
+        toggleReserve={toggleReserve}
+      ></ReserveSlots>
     </Container>
   );
   // return (

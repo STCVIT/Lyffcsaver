@@ -66,9 +66,9 @@
   border-radius: 35px;
   padding: 10px 35px;
   width: fit-content;
-  background: var(--button-bg);
+  /* background: var(--button-bg);
   box-shadow: var(--button-shadow);
-  color: var(--button-font-col);
+  color: var(--button-font-col); */
 }
 .inputField {
   border: 2px solid var(--text-input-outline);

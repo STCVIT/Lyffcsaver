@@ -4,13 +4,30 @@
   padding: 0;
   box-sizing: border-box;
 }
+*::selection {
+  background: hsla(56, 100%, 50%, 0.5);
+}
 :root {
   --primary: #7302f2;
   --primary-faded: #ab67f7;
   --black: #000;
+  --black-faded: hsl(0, 0%, 15%);
   --white: #fff;
+  --white-faded: hsl(0, 0%, 85%);
+  --red: hsl(0, 100%, 50%);
 
-  --logo-font-color: #fff;
+  --text-input-outline: #a6a6a6;
+  /* --button-bg: linear-gradient(86.21deg, #8c7eee 5.73%, #4d60c7 99.22%);
+  --button-shadow: 0px 0px 20px rgba(77, 96, 199, 0.3); */
+
+  --timetable-cell-bg: #ffc;
+  --timetable-bg: #a6a6a6;
+  --timetable-lab: #45a247;
+  --timetable-theory: #92fe9d;
+  --timetable-theory-timing: #ccccff;
+  --timetable-lab-timing: #99ccff;
+
+  /* --logo-font-color: #fff;
   --label-font-color: #000;
   --primary-font-color: #fff;
   --secondary-font-color: #000;
@@ -33,10 +50,9 @@
   --timetable-lab-timing: #99ccff;
   --red: #de350b;
   --green: #63de8d;
-  --text-input-outline: #a6a6a6;
   --button-font-col: #fff;
   --button-bg: linear-gradient(86.21deg, #8c7eee 5.73%, #4d60c7 99.22%);
-  --button-shadow: 0px 0px 20px rgba(77, 96, 199, 0.3);
+  --button-shadow: 0px 0px 20px rgba(77, 96, 199, 0.3); */
 }
 body {
   width: 100vw;

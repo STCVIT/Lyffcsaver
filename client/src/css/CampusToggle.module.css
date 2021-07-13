@@ -1,7 +1,7 @@
 .toggle {
   display: flex;
   align-items: center;
-  width: max-content;
+  width: min(max-content, 100vw);
   position: relative;
   border: 1px var(--primary) solid;
 }
@@ -20,6 +20,7 @@
 .toggle > div {
   padding: 14px 73px;
   transition: color 200ms ease-out;
+  cursor: pointer;
 }
 .toggle.selected1 > span {
   left: 0;
@@ -41,6 +42,15 @@
 .toggle.selected2 > :last-child {
   color: var(--white);
 }
-/* .selected {
 
-} */
+@media only screen and (max-width: 550px) {
+  .toggle > div {
+    padding: 14px 40px;
+  }
+}
+
+@media only screen and (max-width: 350px) {
+  .toggle > div {
+    padding: 7px 20px;
+  }
+}
