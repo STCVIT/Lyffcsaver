@@ -6,6 +6,8 @@ import SelectedCoursesList from "./SelectedCoursesList";
 import ReserveSlots from "./ReserveSlots";
 import Instructions from "./Instructions";
 import InitialSelect from "./InitialSelect";
+import CampusToggle from "./CampusToggle";
+import { Container } from "react-bootstrap";
 import axios from "axios";
 import { getCourseID } from "../utils/generalUtils";
 
@@ -67,60 +69,66 @@ const Options = ({ generateTimetables, selectSlots }) => {
     if (courseID === currentlySelectedCourseID || courseID === undefined)
       setCurrentlySelectedCourseID("");
   };
+
   return (
-    <div className={styles.screen}>
-      <div className={styles.row}>
-        <Instructions></Instructions>
-        <InitialSelect></InitialSelect>
-      </div>
-      {/* <div className={styles.selectionTablesRow}> */}
-      <div className={styles.row}>
-        <AvailableCoursesList
-          addCourse={addCourse}
-          selectedCourses={selectedCourses}
-          getCourseID={getCourseID}
-        ></AvailableCoursesList>
-        <SelectedCoursesList
-          removeCourse={removeCourse}
-          onSelect={selectCourse}
-          onDeselect={deselectCourse}
-          getCourseID={getCourseID}
-          selectedCourses={selectedCourses}
-        ></SelectedCoursesList>
-        <FacultiesPreferenceList
-          currentlySelectedCourseID={currentlySelectedCourseID}
-          selectedFaculties={selectedFaculties}
-          setSelectedFaculties={setSelectedFaculties}
-          getCourseID={getCourseID}
-        ></FacultiesPreferenceList>
-      </div>
-      <div className={styles.row}>
-        <ReserveSlots
-          reservedSlots={reservedSlots}
-          toggleReserve={toggleReserve}
-        ></ReserveSlots>
-      </div>
-      <div className={styles.row}>
-        <button
-          className={styles.submitBtn}
-          onClick={async () => {
-            console.log("CLICKED");
-            await generateTimetables(
-              selectedCourses,
-              selectedFaculties,
-              reservedSlots
-            );
-            selectSlots([]);
-            document
-              .querySelector("#timetable-previews")
-              ?.scrollIntoView({ behavior: "smooth" });
-          }}
-        >
-          Generate Timetables
-        </button>
-      </div>
-    </div>
+    <Container className={styles.container}>
+      <CampusToggle></CampusToggle>
+    </Container>
   );
+  // return (
+  // <div className={styles.screen}>
+  //   <div className={styles.row}>
+  //     <Instructions></Instructions>
+  //     <InitialSelect></InitialSelect>
+  //   </div>
+  //   {/* <div className={styles.selectionTablesRow}> */}
+  //   <div className={styles.row}>
+  //     <AvailableCoursesList
+  //       addCourse={addCourse}
+  //       selectedCourses={selectedCourses}
+  //       getCourseID={getCourseID}
+  //     ></AvailableCoursesList>
+  //     <SelectedCoursesList
+  //       removeCourse={removeCourse}
+  //       onSelect={selectCourse}
+  //       onDeselect={deselectCourse}
+  //       getCourseID={getCourseID}
+  //       selectedCourses={selectedCourses}
+  //     ></SelectedCoursesList>
+  //     <FacultiesPreferenceList
+  //       currentlySelectedCourseID={currentlySelectedCourseID}
+  //       selectedFaculties={selectedFaculties}
+  //       setSelectedFaculties={setSelectedFaculties}
+  //       getCourseID={getCourseID}
+  //     ></FacultiesPreferenceList>
+  //   </div>
+  //   <div className={styles.row}>
+  //     <ReserveSlots
+  //       reservedSlots={reservedSlots}
+  //       toggleReserve={toggleReserve}
+  //     ></ReserveSlots>
+  //   </div>
+  //   <div className={styles.row}>
+  //     <button
+  //       className={styles.submitBtn}
+  //       onClick={async () => {
+  //         console.log("CLICKED");
+  //         await generateTimetables(
+  //           selectedCourses,
+  //           selectedFaculties,
+  //           reservedSlots
+  //         );
+  //         selectSlots([]);
+  //         document
+  //           .querySelector("#timetable-previews")
+  //           ?.scrollIntoView({ behavior: "smooth" });
+  //       }}
+  //     >
+  //       Generate Timetables
+  //     </button>
+  //   </div>
+  // </div>
+  // );
 };
 
 export default Options;

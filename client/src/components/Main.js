@@ -68,7 +68,7 @@ const Main = () => {
   return (
     <div className={styles.appContainer}>
       {/* <Header /> */}
-      <QuarterEllipse className={styles.ellipse}></QuarterEllipse>
+      {/* <QuarterEllipse className={styles.ellipse}></QuarterEllipse> */}
       <Options
         getCourseID={getCourseID}
         generateTimetables={getAllSlotCombinations}

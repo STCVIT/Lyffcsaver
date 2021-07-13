@@ -21,7 +21,7 @@
   position: relative;
   display: flex;
   align-items: center;
-  justify-content: start;
+  justify-content: flex-start;
   background-color: var(--white) !important;
   border: none !important;
 }
