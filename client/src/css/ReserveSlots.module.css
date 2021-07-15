@@ -1,45 +1,6 @@
 .container {
-  margin-top: 50px;
   width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
-}
-.sectionTitle {
-  width: 100%;
-  background: var(--primary);
-  color: var(--white);
-  text-align: center;
-  padding: 24px;
-  position: relative;
-}
-.title {
-  width: 70%;
-  text-align: center;
-  margin: auto;
-}
-.btns {
-  position: absolute;
-  right: 0;
-  top: 0;
-  bottom: 0;
-  display: flex;
-  align-items: center;
-  margin-right: 30px;
-  gap: 10px;
-}
-.btn {
-  text-decoration: none;
-  color: var(--white);
-  cursor: pointer;
-}
-.btn:hover {
-  color: var(--white-faded);
-}
-
-@media only screen and (max-width: 500px) {
-  .btns {
-    flex-direction: column;
-    justify-content: center;
-  }
 }

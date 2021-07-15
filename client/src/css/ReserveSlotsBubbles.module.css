@@ -1,13 +1,14 @@
 .container {
   display: flex;
   /* flex-direction: column; */
-  flex-wrap: wrap;
+  /* flex-wrap: wrap; */
   /* gap: 30px; */
   /* position: relative; */
   width: 100%;
   justify-content: space-between;
   gap: 30px;
   margin: 30px;
+  overflow: auto;
 }
 .col {
   display: flex;
@@ -15,6 +16,7 @@
   /* flex-wrap: wrap; */
   flex-grow: 1;
   gap: 10px;
+  min-width: 400px;
 }
 .separator {
   width: 2px;

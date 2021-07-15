@@ -1,0 +1,93 @@
+.container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  padding: 50px 0;
+}
+.addedCourses {
+  width: 100%;
+  height: 50vh;
+  border: 1px solid hsl(0, 0%, 49%);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.title {
+  margin-bottom: 10px;
+}
+.buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 30px;
+  padding: 10px 20px;
+}
+.buttons > a {
+  padding: 10px 20px;
+  cursor: pointer;
+  text-decoration: none;
+  color: var(--color);
+}
+.buttons > a:hover {
+  background: var(--faded);
+  color: var(--color);
+}
+
+.clearButton {
+  border: 1px solid black;
+  background-color: var(--white);
+  --faded: var(--white-faded);
+  --color: var(--black-faded);
+}
+.primaryButton {
+  background-color: var(--primary);
+  --color: var(--white);
+  --faded: var(--primary-faded);
+}
+.courseSuggestion {
+  display: grid;
+  grid-template-columns: 1fr 6fr;
+}
+.resultsWrapper {
+  flex: 1;
+  overflow: auto;
+  padding: 20px;
+}
+.results {
+  display: flex;
+  flex-direction: column;
+  height: max-content;
+  gap: 10px;
+}
+.course {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-template-rows: 1fr 1fr;
+  border: 1px solid var(--black);
+  padding: 5px;
+}
+.courseTitle {
+  grid-column: 1 / span 4;
+  grid-row: 1 / span 1;
+}
+.courseCode {
+  grid-row: 2 / span 1;
+  grid-column: 1 / span 2;
+}
+.courseType {
+  grid-row: 2 / span 1;
+  grid-column: 3 / span 2;
+}
+.delete {
+  grid-row: 1 / span 2;
+  text-decoration: none;
+  font-weight: 1000;
+  color: var(--red);
+  cursor: pointer;
+  margin-left: auto;
+  margin-top: auto;
+  margin-bottom: auto;
+}
+.delete:hover {
+  color: var(--red-faded);
+}

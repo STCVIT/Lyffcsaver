@@ -160,7 +160,7 @@ const Contact = () => {
             </div>
           </div>
         </div>
-        <img className={styles.pattern} src={pattern} alt="" />
+        {/* <img className={styles.pattern} src={pattern} alt="" /> */}
       </div>
     </>
   );

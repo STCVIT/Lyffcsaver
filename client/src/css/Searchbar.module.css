@@ -1,24 +1,30 @@
-.form {
+.container {
   position: relative;
-  height: min-content;
-  width: min-content;
-  --radius: 16px;
-}
-.button {
-  position: absolute;
-  right: 0;
-  height: 100%;
-  border-radius: 0px var(--radius) var(--radius) 0px;
-  border: 2px solid var(--outline-color);
-  border-left: 0px;
-  padding: 6px;
-  background-color: #fff;
+  --border: 2px solid var(--black);
 }
 .input {
   padding: 6px;
   margin: 0;
-  width: 230px;
+  /* width: 230px; */
+  width: 100%;
   height: 40px;
-  border-radius: var(--radius);
-  border: 2px solid var(--outline-color);
+  border: var(--border);
+}
+.suggestions {
+  border-top: none;
+  /* max-height: 100px; */
+  overflow: auto;
+  z-index: 10000;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background-color: var(--white);
+  border: var(--border);
+}
+.notFocused > .suggestions {
+  display: none;
+}
+.current {
+  background: var(--white-faded);
 }
