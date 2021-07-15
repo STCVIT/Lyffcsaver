@@ -17,14 +17,12 @@ import { getCourseID } from "../utils/generalUtils";
 const Options = ({ generateTimetables, selectSlots }) => {
   const [reservedSlots, setReservedSlots] = useState([]);
 
-  const [selectedCourses, setSelectedCourses] = useState([]);
+  const [stagedCourses, setStagedCourses] = useState([]);
   const [selectedFaculties, setSelectedFaculties] = useState({});
   const [currentlySelectedCourseID, setCurrentlySelectedCourseID] =
     useState("");
+
   const [finalizedCourses, setFinalizedCourses] = useState([]);
-  useEffect(() => {
-    // console.log({ currentlySelectedCourseID });
-  }, [currentlySelectedCourseID]);
   const toggleReserve = (slot) => {
     const pattern = /[A-Z]+\d+/;
     if (pattern.test(slot)) {
@@ -39,7 +37,7 @@ const Options = ({ generateTimetables, selectSlots }) => {
       }
     }
   };
-  const addCourse = (course) => {
+  const stageCourse = (course) => {
     // try {
     //   let res = await axios.get(`/courses?courseID=${courseID}`);
     //   if (res.data !== undefined) {
@@ -54,7 +52,7 @@ const Options = ({ generateTimetables, selectSlots }) => {
     // } catch (error) {
     //   console.error(error);
     // }
-    setSelectedCourses((prevSelectedCourses) => [
+    setStagedCourses((prevSelectedCourses) => [
       ...prevSelectedCourses.filter(
         (prevCourse) => getCourseID(prevCourse) !== getCourseID(course)
       ),
@@ -62,11 +60,11 @@ const Options = ({ generateTimetables, selectSlots }) => {
     ]);
   };
 
-  const removeCourse = (object) => {
+  const unstageCourse = (object) => {
     let courseID;
     if (typeof object === "string") courseID = object;
     else courseID = getCourseID(object);
-    setSelectedCourses((prevSelectedCourses) =>
+    setStagedCourses((prevSelectedCourses) =>
       prevSelectedCourses.filter((course) => courseID !== getCourseID(course))
     );
 
@@ -75,11 +73,17 @@ const Options = ({ generateTimetables, selectSlots }) => {
     setSelectedFaculties(newSelectedFaculties);
   };
 
-  const selectCourse = (courseID) => {
+  const selectCourse = (object) => {
+    let courseID;
+    if (typeof object === "string") courseID = object;
+    else courseID = getCourseID(object);
     setCurrentlySelectedCourseID(courseID);
   };
 
-  const deselectCourse = (courseID) => {
+  const deselectCourse = (object) => {
+    let courseID;
+    if (typeof object === "string") courseID = object;
+    else courseID = getCourseID(object);
     if (courseID === currentlySelectedCourseID || courseID === undefined)
       setCurrentlySelectedCourseID("");
   };
@@ -121,14 +125,21 @@ const Options = ({ generateTimetables, selectSlots }) => {
       </div>
       <div className={styles.coursePreferences}>
         <CourseSelect
-          addCourse={addCourse}
-          removeCourse={removeCourse}
+          stageCourse={stageCourse}
+          unstageCourse={unstageCourse}
           getCourseID={getCourseID}
-          selectedCourses={selectedCourses}
+          stagedCourses={stagedCourses}
+          selectCourse={selectCourse}
+          deselectCourse={deselectCourse}
+          selectedCourseID={currentlySelectedCourseID}
         ></CourseSelect>
-        <FacultyPreference></FacultyPreference>
+        <FacultyPreference
+          selectedCourseID={currentlySelectedCourseID}
+        ></FacultyPreference>
       </div>
-      <FacultySelect></FacultySelect>
+      <FacultySelect
+        selectedCourseID={currentlySelectedCourseID}
+      ></FacultySelect>
     </Container>
   );
   // return (

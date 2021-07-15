@@ -22,28 +22,6 @@
   gap: 30px;
   padding: 10px 20px;
 }
-.buttons > a {
-  padding: 10px 20px;
-  cursor: pointer;
-  text-decoration: none;
-  color: var(--color);
-}
-.buttons > a:hover {
-  background: var(--faded);
-  color: var(--color);
-}
-
-.clearButton {
-  border: 1px solid black;
-  background-color: var(--white);
-  --faded: var(--white-faded);
-  --color: var(--black-faded);
-}
-.primaryButton {
-  background-color: var(--primary);
-  --color: var(--white);
-  --faded: var(--primary-faded);
-}
 .courseSuggestion {
   display: grid;
   grid-template-columns: 1fr 6fr;
@@ -60,11 +38,13 @@
   gap: 10px;
 }
 .course {
+  --border-size: 2px;
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   grid-template-rows: 1fr 1fr;
-  border: 1px solid var(--black);
+  border: var(--border-size) solid var(--black);
   padding: 5px;
+  cursor: pointer;
 }
 .courseTitle {
   grid-column: 1 / span 4;
@@ -90,4 +70,8 @@
 }
 .delete:hover {
   color: var(--red-faded);
+}
+.selectedCourse {
+  border: var(--primary) var(--border-size) solid;
+  background-color: var(--primary-very-faded);
 }

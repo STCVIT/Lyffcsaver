@@ -9,6 +9,7 @@
 }
 .logo {
   margin: 10px;
+  margin-left: 0px;
 }
 .logoType .highlight {
   color: var(--primary);

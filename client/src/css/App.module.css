@@ -11,6 +11,7 @@
 :root {
   --primary: hsl(268, 98%, 48%);
   --primary-faded: hsl(268, 90%, 69%);
+  --primary-very-faded: hsl(267, 100%, 98%);
   --black: hsl(0, 0%, 0%);
   --black-faded: hsl(0, 0%, 15%);
   --white: hsl(0, 0%, 100%);

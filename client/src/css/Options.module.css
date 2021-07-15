@@ -2,12 +2,13 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-top: 50px;
+  padding: 50px 0;
 }
 .coursePreferences {
   width: 100%;
   display: grid;
   grid-template-columns: 2fr 1fr;
+  gap: 30px;
 }
 .sectionTitle {
   margin-top: 50px;

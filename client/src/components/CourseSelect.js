@@ -1,18 +1,21 @@
 import styles from "../css/CourseSelect.module.css";
 import Searchbar from "./Searchbar";
 import coursesData from "../data/courses.json";
+import Button from "./Button";
 
 const CourseSelect = ({
-  addCourse,
-  removeCourse,
-  selectedCourses,
+  stageCourse,
+  unstageCourse,
+  stagedCourses,
   getCourseID,
+  selectCourse,
+  deselectCourse,
+  selectedCourseID,
 }) => {
   let filteredCourses = coursesData.filter(
     (course) =>
-      selectedCourses.find(
-        (selectedCourse) =>
-          selectedCourse["COURSE CODE"] === course["COURSE CODE"]
+      stagedCourses.find(
+        (stagedCourse) => stagedCourse["COURSE CODE"] === course["COURSE CODE"]
       ) === undefined
   );
   const seenCourses = new Set();
@@ -37,14 +40,14 @@ const CourseSelect = ({
             );
             coursesData.forEach((course) => {
               if (selectedString.startsWith(course["COURSE CODE"]))
-                addCourse(course);
+                stageCourse(course);
             });
           }}
           getUnique={(course) =>
             `${course["COURSE CODE"]} - ${course["COURSE TITLE"]}`
           }
           placeholder="Eg: CSE1002 or Problem Solving and Programming"
-          threshold={0.9}
+          threshold={0.4}
           suggestionElement={(course, classNames, value, onSelect, key) => {
             return (
               <div
@@ -63,33 +66,42 @@ const CourseSelect = ({
           maxResults={4}
         ></Searchbar>
       </div>
-      <div className={styles.selectedCourses}>
+      <div className={styles.stagedCourses}>
         <div className={`${styles.title} body1-bold`}>Selected Courses</div>
         <div className={styles.addedCourses}>
           <div className={styles.resultsWrapper}>
             <div className={styles.results}>
-              {selectedCourses.map((selectedCourse) => {
+              {stagedCourses.map((stagedCourse) => {
                 return (
                   <div
-                    className={styles.course}
-                    key={`selected-course-${getCourseID(selectedCourse)}`}
+                    className={`${styles.course} ${
+                      getCourseID(stagedCourse) === selectedCourseID
+                        ? styles.selectedCourse
+                        : ""
+                    }`}
+                    key={`selected-course-${getCourseID(stagedCourse)}`}
+                    onClick={(e) => {
+                      selectCourse(stagedCourse);
+                    }}
                   >
-                    {/* {getCourseID(selectedCourse)}-
-                    {selectedCourse["COURSE TITLE"]} */}
                     <div className={`${styles.courseTitle} body1-bold`}>
-                      {selectedCourse["COURSE TITLE"]}
+                      {stagedCourse["COURSE TITLE"]}
                     </div>
                     <a
                       className={styles.delete}
-                      onClick={() => removeCourse(selectedCourse)}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        unstageCourse(stagedCourse);
+                        deselectCourse(stagedCourse);
+                      }}
                     >
                       X
                     </a>
                     <div className={styles.courseCode}>
-                      {selectedCourse["COURSE CODE"]}
+                      {stagedCourse["COURSE CODE"]}
                     </div>
                     <div className={styles.courseType}>
-                      {selectedCourse["COURSE TYPE"]}
+                      {stagedCourse["COURSE TYPE"]}
                     </div>
                   </div>
                 );
@@ -97,15 +109,15 @@ const CourseSelect = ({
             </div>
           </div>
           <div className={styles.buttons}>
-            <a
-              className={styles.clearButton}
+            <Button
               onClick={() =>
-                selectedCourses.forEach((course) => removeCourse(course))
+                stagedCourses.forEach((course) => unstageCourse(course))
               }
+              type="clear"
             >
               CLEAR
-            </a>
-            <a className={styles.primaryButton}>ADD COURSE</a>
+            </Button>
+            <Button type="primary">ADD COURSES</Button>
           </div>
         </div>
       </div>

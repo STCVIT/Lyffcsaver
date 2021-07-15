@@ -12,7 +12,7 @@ const Searchbar = ({
   onSelect,
   keys,
   suggestionElement,
-  threshold,
+  threshold = 0.6,
   shouldSort,
   maxResults = 10,
 }) => {
@@ -22,11 +22,11 @@ const Searchbar = ({
   const [currentItem, setCurrentItem] = useState(0);
   const fuse = new Fuse(data, {
     keys: keys,
-    threshold: threshold || 0.6,
+    threshold: threshold,
     shouldSort: shouldSort || true,
   });
   useEffect(() => {
-    console.log(currentItem);
+    // console.log(currentItem);
   }, [currentItem]);
 
   useEffect(() => {
@@ -79,7 +79,7 @@ const Searchbar = ({
               return prevItem;
             });
           } else if (e.code === "Enter") {
-            console.log(document.querySelector(`.${styles.current}`));
+            // console.log(document.querySelector(`.${styles.current}`));
             document.querySelector(`.${styles.current}`)?.click();
             document.querySelector(`#${selector}`)?.blur();
           }
