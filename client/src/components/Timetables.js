@@ -23,7 +23,6 @@ const Timetables = ({ schedules, slots, classes }) => {
           slots={slots}
           selectedClasses={selectedClasses}
           setSelectedClasses={setSelectedClasses}
-          classesData={classes}
           setHoveredSlots={setHoveredSlots}
         ></Classes>
       ) : (

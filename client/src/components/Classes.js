@@ -11,7 +11,6 @@ const Classes = ({
   selectedClasses,
   setSelectedClasses,
   setHoveredSlots,
-  classesData,
 }) => {
   // console.log("rendering classes", slots);
   const ignoreCols = [
@@ -60,19 +59,19 @@ const Classes = ({
     setSelectedClasses(newSelectedClasses);
   }, [slots, schedules]);
 
-  const getFacultyByID = (erpID, courseID) => {
-    if (courseID !== undefined)
-      return classesData[courseID].find(
-        (element) => element["ERP ID"] === erpID
-      );
-    for (const courseID of courseIDs) {
-      const foundElement = classesData[courseID].find(
-        (element) => element["ERP ID"] === erpID
-      );
-      if (foundElement !== undefined) return foundElement;
-    }
-    return undefined;
-  };
+  // const getFacultyByID = (erpID, courseID) => {
+  //   if (courseID !== undefined)
+  //     return classesData[courseID].find(
+  //       (element) => element["ERP ID"] === erpID
+  //     );
+  //   for (const courseID of courseIDs) {
+  //     const foundElement = classesData[courseID].find(
+  //       (element) => element["ERP ID"] === erpID
+  //     );
+  //     if (foundElement !== undefined) return foundElement;
+  //   }
+  //   return undefined;
+  // };
 
   const isSelectedClass = (classToBeChecked, currentCourseID) => {
     return (
@@ -214,9 +213,7 @@ const Classes = ({
 
               <tr>
                 <th className={`${styles.cell} ${styles.headRow}`}></th>
-                <th className={`${styles.cell} ${styles.headRow}`}>
-                  EMPLOYEE NAME
-                </th>
+
                 {colsHeadings()}
               </tr>
             </thead>
@@ -244,14 +241,7 @@ const Classes = ({
                     }`}
                     currentCourseID={courseID}
                   ></InteractionElement>
-                  <td className={`${styles.cell}`}>
-                    {
-                      getFacultyByID(
-                        selectedClasses[courseID]["ERP ID"],
-                        courseID
-                      )["EMPLOYEE NAME"]
-                    }
-                  </td>
+
                   <InfoCols
                     keys={columnKeys}
                     entry={selectedClasses[courseID]}
@@ -284,13 +274,7 @@ const Classes = ({
                         }`}
                         currentCourseID={courseID}
                       ></InteractionElement>
-                      <td className={`${styles.cell}`}>
-                        {
-                          getFacultyByID(currentClass["ERP ID"], courseID)[
-                            "EMPLOYEE NAME"
-                          ]
-                        }
-                      </td>
+
                       <InfoCols
                         keys={columnKeys}
                         entry={currentClass}
