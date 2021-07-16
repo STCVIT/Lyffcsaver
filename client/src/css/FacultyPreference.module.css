@@ -12,13 +12,14 @@
   display: flex;
   flex-direction: column;
   flex-grow: 1;
-  align-items: stretch;
+  /* align-items: stretch; */
 }
 .addFacultiesButton {
   /* width: 100%; */
   /* margin: 0 auto; */
   /* padding: 0 auto; */
   text-align: center;
+  /* align-self: flex-start; */
   margin: 20px;
 }
 .title {
@@ -31,22 +32,58 @@
   display: flex;
   flex-direction: column;
   flex-grow: 1;
-  justify-content: space-between;
+  /* justify-content: space-between; */
 }
 .buttons {
   display: flex;
   justify-content: flex-end;
   gap: 30px;
   padding: 10px 20px;
+  margin-top: auto;
 }
 .resultsWrapper {
-  flex: 1;
+  /* flex: 1; */
+  max-height: 350px;
   overflow: auto;
-  padding: 20px;
+  /* padding: 20px; */
 }
 .results {
   display: flex;
   flex-direction: column;
   height: max-content;
   gap: 10px;
+}
+
+.classesList {
+  margin: 0;
+  padding: 10px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.class {
+  border: 2px var(--black-faded) solid;
+  padding: 5px;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  background: var(--white);
+}
+.facultyName {
+  grid-column: 1 / span 4;
+  grid-row: 1 / span 1;
+}
+
+.delete {
+  grid-row: 1 / span 2;
+  text-decoration: none;
+  /* font-weight: 1000; */
+  color: var(--red);
+  cursor: pointer;
+  margin-left: auto;
+  margin-top: auto;
+  margin-bottom: auto;
+  font-size: 24px;
+}
+.delete:hover {
+  color: var(--red-faded);
 }

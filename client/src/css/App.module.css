@@ -3,7 +3,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  scroll-padding-top: 50px;
+  scroll-padding-top: 100px;
 }
 *::selection {
   background: hsla(56, 100%, 50%, 0.5);
@@ -16,10 +16,12 @@
   --black-faded: hsl(0, 0%, 15%);
   --white: hsl(0, 0%, 100%);
   --white-faded: hsl(0, 0%, 85%);
-  --red: hsl(0, 100%, 50%);
+  --red: hsl(0, 100%, 45%);
   --red-faded: hsl(0, 100%, 70%);
   --orange: hsl(45, 100%, 51%);
   --orange-faded: hsl(45, 100%, 66%);
+  --green: hsl(121, 40%, 45%);
+  --green-faded: hsl(121, 40%, 70%);
 
   --text-input-outline: #a6a6a6;
   /* --button-bg: linear-gradient(86.21deg, #8c7eee 5.73%, #4d60c7 99.22%);
@@ -60,8 +62,8 @@
   --button-shadow: 0px 0px 20px rgba(77, 96, 199, 0.3); */
 }
 body {
-  width: 100vw;
-  overflow-x: hidden;
+  width: 100%;
+  /* overflow-x: hidden; */
 }
 .screen {
   /* padding: 0 60px 30px 60px; */

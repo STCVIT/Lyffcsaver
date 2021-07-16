@@ -59,7 +59,7 @@ const FacultySelect = ({ selectedCourseID, addClass, selectedClasses }) => {
     );
   }, [query]);
   return (
-    <div className={styles.container}>
+    <div className={styles.container} id="class-selection-section">
       <div className={styles.queryRow}>
         <div className={styles.search}>
           <label

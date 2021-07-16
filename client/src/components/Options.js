@@ -124,6 +124,14 @@ const Options = ({ generateTimetables, selectSlots }) => {
     });
   };
 
+  const setReorderedClasses = (reorderedClasses) => {
+    setSelectedClasses((prevSelectedClasses) => {
+      const obj = { ...prevSelectedClasses };
+      obj[currentlySelectedCourseID] = reorderedClasses;
+      return obj;
+    });
+  };
+
   return (
     <Container className={styles.container}>
       <CampusToggle></CampusToggle>
@@ -149,6 +157,7 @@ const Options = ({ generateTimetables, selectSlots }) => {
           </a>
         </div>
       </div>
+
       <ReserveSlots
         reservedSlots={reservedSlots}
         toggleReserve={toggleReserve}
@@ -159,6 +168,7 @@ const Options = ({ generateTimetables, selectSlots }) => {
       >
         <div className={styles.title}>Add courses</div>
       </div>
+
       <div className={styles.coursePreferences}>
         <CourseSelect
           stageCourse={stageCourse}
@@ -170,7 +180,9 @@ const Options = ({ generateTimetables, selectSlots }) => {
           selectedCourseID={currentlySelectedCourseID}
         ></CourseSelect>
         <FacultyPreference
-          selectedCourseID={currentlySelectedCourseID}
+          classes={selectedClasses[currentlySelectedCourseID]}
+          removeClass={removeClass}
+          setReorderedClasses={setReorderedClasses}
         ></FacultyPreference>
       </div>
       <FacultySelect

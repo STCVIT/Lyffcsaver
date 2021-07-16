@@ -1,26 +1,103 @@
 import styles from "../css/FacultyPreference.module.css";
+import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import Button from "./Button";
-const FacultyPreference = ({ selectedFaculties }) => {
+const FacultyPreference = ({ classes, removeClass, setReorderedClasses }) => {
+  const handleOnDragEnd = (result) => {
+    if (!result.destination) return;
+
+    const [reorderedItem] = classes.splice(result.source.index, 1);
+    classes.splice(result.destination.index, 0, reorderedItem);
+    setReorderedClasses(classes);
+  };
   return (
     <div className={styles.container}>
       <div className={styles.facultyPriority}>
         <div className={`${styles.title} body1-bold`}>Faculty Priority</div>
         <div className={styles.addedFaculties}>
           <div className={styles.resultsWrapper}>
-            {selectedFaculties?.map((selectedFaculty) => {
+            {classes?.length > 0 ? (
+              <DragDropContext onDragEnd={handleOnDragEnd}>
+                <Droppable droppableId="classes-priority-list">
+                  {(provided) => (
+                    <ul
+                      key={"classes-list"}
+                      className={styles.classesList}
+                      ref={provided.innerRef}
+                      {...provided.droppableProps}
+                    >
+                      {classes?.map((classData, index) => {
+                        return (
+                          <Draggable
+                            draggableId={`${classData["CLASS ID"]}-priority-select`}
+                            key={`${classData["CLASS ID"]}-priority-select`}
+                            index={index}
+                          >
+                            {(provided) => (
+                              <li
+                                ref={provided.innerRef}
+                                key={`${classData["CLASS ID"]}-priority-select-c`}
+                                className={`${styles.class}`}
+                                {...provided.draggableProps}
+                                {...provided.dragHandleProps}
+                              >
+                                <div
+                                  className={`${styles.facultyName} body1-bold`}
+                                >
+                                  {classData["EMPLOYEE NAME"]}
+                                </div>
+                                <a
+                                  className={styles.delete}
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    removeClass(classData);
+                                  }}
+                                >
+                                  X
+                                </a>
+                                <div className={styles.erpId}>
+                                  {classData["ERP ID"]}
+                                </div>
+                                <div className={styles.classSlots}>
+                                  {classData["SLOT"]}
+                                </div>
+                              </li>
+                            )}
+                          </Draggable>
+                        );
+                      })}
+                      {provided.placeholder}
+                    </ul>
+                  )}
+                </Droppable>
+              </DragDropContext>
+            ) : (
+              <></>
+            )}
+            {/* {classes?.map((classData) => {
               return (
                 <div
-                  className={styles.faculty}
-                  key={`selected-faculty-${selectedFaculty["ERP ID"]}`}
+                  className={styles.class}
+                  key={`selected-class-${classData["CLASS ID"]}`}
                 ></div>
               );
-            })}
+            })} */}
           </div>
-          <Button classes={styles.addFacultiesButton} type="primary">
+          <Button
+            classes={styles.addFacultiesButton}
+            type="primary"
+            href="#class-selection-section"
+          >
             ADD FACULTIES +
           </Button>
           <div className={styles.buttons}>
-            <Button type="clear">CLEAR</Button>
+            <Button
+              type="clear"
+              onClick={() => {
+                classes.forEach((classData) => removeClass(classData));
+              }}
+            >
+              CLEAR
+            </Button>
           </div>
         </div>
       </div>
