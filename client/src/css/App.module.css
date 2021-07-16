@@ -34,20 +34,20 @@
   --timetable-theory-timing: #ccccff;
   --timetable-lab-timing: #99ccff;
 
+  --primary-font-color: #fff;
+  --outline-color: #000;
+  --table-bg: #d5dcff;
+  --table-head-bg: #333;
   /* --logo-font-color: #fff;
   --label-font-color: #000;
-  --primary-font-color: #fff;
   --secondary-font-color: #000;
   --faded-font-color: rgb(88, 87, 87);
-  --outline-color: #000;
   --active-bg: #63de8d;
   --active-hover-bg: #63de8d;
   --selectable-row-hover-bg: rgb(211, 208, 252);
   --add-hover-bg: #63de8d;
   --remove-hover-bg: rgb(248, 194, 163);
   --button-col: rgb(113, 241, 124);
-  --table-bg: #d5dcff;
-  --table-head-bg: #333;
   --timetable-head-bg: #333;
   --timetable-cell-bg: #ffc;
   --timetable-bg: #a6a6a6;

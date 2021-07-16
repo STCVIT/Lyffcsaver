@@ -11,7 +11,7 @@ const Classes = ({
   selectedClasses,
   setSelectedClasses,
   setHoveredSlots,
-  faculties,
+  classesData,
 }) => {
   // console.log("rendering classes", slots);
   const ignoreCols = [
@@ -62,9 +62,11 @@ const Classes = ({
 
   const getFacultyByID = (erpID, courseID) => {
     if (courseID !== undefined)
-      return faculties[courseID].find((element) => element["ERP ID"] === erpID);
+      return classesData[courseID].find(
+        (element) => element["ERP ID"] === erpID
+      );
     for (const courseID of courseIDs) {
-      const foundElement = faculties[courseID].find(
+      const foundElement = classesData[courseID].find(
         (element) => element["ERP ID"] === erpID
       );
       if (foundElement !== undefined) return foundElement;

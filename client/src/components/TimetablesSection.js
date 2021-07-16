@@ -5,7 +5,7 @@ import Timetables from "./Timetables";
 
 const TimetablesSection = ({
   schedules,
-  faculties,
+  classes,
   selectSlots,
   currentlySelectedSlots,
 }) => {
@@ -37,7 +37,7 @@ const TimetablesSection = ({
       <Timetables
         schedules={schedules}
         slots={currentlySelectedSlots}
-        faculties={faculties}
+        classes={classes}
       ></Timetables>
 
       {/* <div className={styles.twoCols}></div> */}

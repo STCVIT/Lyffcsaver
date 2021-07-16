@@ -12,9 +12,10 @@ import {
 import styles from "../css/Main.module.css";
 const Main = () => {
   const [allSchedules, setAllSchedules] = useState({});
-  const [faculties, setFaculties] = useState({});
+  const [classes, setClasses] = useState({});
   const [reservedSlots, setReservedSlots] = useState([]);
   const [currentlySelectedSlots, setCurrentlySelectedSlots] = useState([]);
+  const [finalizedClasses, setFinalizedClasses] = useState([]);
   // const populateAllSchedules = async (courses, faculties, reservedSlots) => {
   //   setAllSchedules([]);
   //   setAllSchedules(await getTimetables(courses, faculties, reservedSlots));
@@ -36,18 +37,16 @@ const Main = () => {
   useEffect(() => {
     console.log("updated allSchedules", allSchedules);
   }, [allSchedules]);
-  const getAllSlotCombinations = async (courses, faculties, reservedSlots) => {
+  const getAllSlotCombinations = async (classes, reservedSlots) => {
     setAllSchedules({});
-    setAllSchedules(
-      await getSlotCombinations(courses, faculties, reservedSlots)
-    );
-    setFaculties({ ...faculties });
+    setAllSchedules(await getSlotCombinations(classes, reservedSlots));
+    setClasses({ ...classes });
     setReservedSlots([...reservedSlots]);
   };
 
   const getSchedulesForSlots = async (newSlotsString) => {
     const result = await populateSlotCombination(
-      faculties,
+      classes,
       reservedSlots,
       newSlotsString,
       allSchedules
@@ -73,10 +72,11 @@ const Main = () => {
         getCourseID={getCourseID}
         generateTimetables={getAllSlotCombinations}
         selectSlots={selectSlots}
+        setFinalizedClasses={setFinalizedClasses}
       />
       <TimetablesSection
         schedules={allSchedules}
-        faculties={faculties}
+        classes={classes}
         getSchedulesForSlots={getSchedulesForSlots}
         currentlySelectedSlots={currentlySelectedSlots}
         selectSlots={selectSlots}

@@ -132,7 +132,7 @@ const removeReservedSlots = (classes, reservedSlots) => {
 };
 
 const populateSlotCombination = async (
-  faculties,
+  classes,
   reservedSlots,
   slotsString,
   objectToPopulate
@@ -142,8 +142,8 @@ const populateSlotCombination = async (
 
     getSlotMapping();
 
-    const courseIDs = Object.keys(faculties);
-    let classes = await getClasses(faculties);
+    const courseIDs = Object.keys(classes);
+    // let classes = await getClasses(faculties);
     classes = removeReservedSlots(classes, reservedSlots);
 
     // sorting courseIDs in ascending order of the number of classes
@@ -199,20 +199,20 @@ const populateSlotCombination = async (
   }
   return {};
 };
-const getSlotCombinations = async (courses, faculties, reservedSlots) => {
-  console.log(courses, faculties, reservedSlots);
+const getSlotCombinations = async (classes, reservedSlots) => {
+  // console.log(courses, faculties, reservedSlots);
   if (window.Worker) {
     const worker = new Worker("workers/worker.js");
 
     getSlotMapping();
 
-    const courseIDs = Object.keys(faculties);
-    let classes = await getClasses(faculties);
+    const courseIDs = Object.keys(classes);
+    // let classes = await getClasses(faculties);
 
-    if (!verifyPreferencesSet(courses, faculties)) return {};
+    // if (!verifyPreferencesSet(courses, faculties)) return {};
 
     classes = removeReservedSlots(classes, reservedSlots);
-    if (!verifyNumberOfClasses(classes, courseIDs)) return {};
+    // if (!verifyNumberOfClasses(classes, courseIDs)) return {};
 
     // sorting courseIDs in ascending order of the number of classes
     // with that courseID.

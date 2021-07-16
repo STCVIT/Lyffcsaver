@@ -10,20 +10,18 @@ import CampusToggle from "./CampusToggle";
 import CourseSelect from "./CourseSelect";
 import ClassPreference from "./ClassPreference";
 import ClassSelect from "./ClassSelect";
+import Button from "./Button";
 import { Container } from "react-bootstrap";
-import axios from "axios";
 import { getCourseID } from "../utils/generalUtils";
 
-const Options = ({ generateTimetables, selectSlots }) => {
+const Options = ({ generateTimetables, selectSlots, setFinalizedClasses }) => {
   const [reservedSlots, setReservedSlots] = useState([]);
 
   const [stagedCourses, setStagedCourses] = useState([]);
   const [selectedClasses, setSelectedClasses] = useState({});
-  const [selectedFaculties, setSelectedFaculties] = useState({});
+  // const [selectedFaculties, setSelectedFaculties] = useState({});
   const [currentlySelectedCourseID, setCurrentlySelectedCourseID] =
     useState("");
-
-  const [finalizedCourses, setFinalizedCourses] = useState([]);
 
   useEffect(() => {
     console.log(selectedClasses);
@@ -74,9 +72,9 @@ const Options = ({ generateTimetables, selectSlots }) => {
       prevSelectedCourses.filter((course) => courseID !== getCourseID(course))
     );
 
-    const newSelectedFaculties = selectedFaculties;
-    delete newSelectedFaculties[courseID];
-    setSelectedFaculties(newSelectedFaculties);
+    // const newSelectedFaculties = selectedFaculties;
+    // delete newSelectedFaculties[courseID];
+    // setSelectedFaculties(newSelectedFaculties);
     setSelectedClasses((prevSelectedClasses) => {
       const obj = { ...prevSelectedClasses };
       delete obj[courseID];
@@ -131,6 +129,10 @@ const Options = ({ generateTimetables, selectSlots }) => {
       return obj;
     });
   };
+
+  // const finalizeAll = () => {
+
+  // }
 
   return (
     <Container className={styles.container}>
@@ -190,6 +192,19 @@ const Options = ({ generateTimetables, selectSlots }) => {
         addClass={addClass}
         selectedClasses={selectedClasses}
       ></ClassSelect>
+      <Button
+        classes={styles.generateTimetablesButton}
+        type="primary"
+        onClick={async () => {
+          await generateTimetables(selectedClasses, reservedSlots);
+          selectSlots([]);
+          document
+            .querySelector("#timetable-previews")
+            ?.scrollIntoView({ behavior: "smooth" });
+        }}
+      >
+        Generate Timetables
+      </Button>
     </Container>
   );
   // return (

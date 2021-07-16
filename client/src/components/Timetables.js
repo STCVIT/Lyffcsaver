@@ -3,7 +3,7 @@ import Timetable from "./Timetable";
 import Classes from "./Classes";
 import styles from "../css/Timetables.module.css";
 
-const Timetables = ({ schedules, slots, faculties }) => {
+const Timetables = ({ schedules, slots, classes }) => {
   // console.log("rerendering Timetables(", schedules, slots, faculties, ")");
   const [selectedClasses, setSelectedClasses] = useState({});
   const [hoveredSlots, setHoveredSlots] = useState([]);
@@ -23,7 +23,7 @@ const Timetables = ({ schedules, slots, faculties }) => {
           slots={slots}
           selectedClasses={selectedClasses}
           setSelectedClasses={setSelectedClasses}
-          faculties={faculties}
+          classesData={classes}
           setHoveredSlots={setHoveredSlots}
         ></Classes>
       ) : (
