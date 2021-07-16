@@ -7,14 +7,14 @@
   flex-grow: 1;
   align-items: stretch;
 }
-.facultyPriority {
+.classPriority {
   /* flex-grow: 1; */
   display: flex;
   flex-direction: column;
   flex-grow: 1;
   /* align-items: stretch; */
 }
-.addFacultiesButton {
+.addClassesButton {
   /* width: 100%; */
   /* margin: 0 auto; */
   /* padding: 0 auto; */
@@ -25,7 +25,7 @@
 .title {
   margin-bottom: 10px;
 }
-.addedFaculties {
+.addedClasses {
   width: 100%;
   /* height: 50vh; */
   border: 1px solid hsl(0, 0%, 49%);
@@ -56,7 +56,7 @@
 
 .classesList {
   margin: 0;
-  padding: 10px 20px;
+  padding: 20px;
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -67,12 +67,19 @@
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   background: var(--white);
+  gap: 5px;
+}
+.class > * {
+  word-wrap: break-word;
 }
 .facultyName {
   grid-column: 1 / span 4;
   grid-row: 1 / span 1;
 }
-
+.classSlots {
+  max-width: 10px;
+  text-overflow: ellipsis;
+}
 .delete {
   grid-row: 1 / span 2;
   text-decoration: none;

@@ -1,7 +1,7 @@
-import styles from "../css/FacultyPreference.module.css";
+import styles from "../css/ClassPreference.module.css";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import Button from "./Button";
-const FacultyPreference = ({ classes, removeClass, setReorderedClasses }) => {
+const ClassPreference = ({ classes, removeClass, setReorderedClasses }) => {
   const handleOnDragEnd = (result) => {
     if (!result.destination) return;
 
@@ -11,9 +11,9 @@ const FacultyPreference = ({ classes, removeClass, setReorderedClasses }) => {
   };
   return (
     <div className={styles.container}>
-      <div className={styles.facultyPriority}>
-        <div className={`${styles.title} body1-bold`}>Faculty Priority</div>
-        <div className={styles.addedFaculties}>
+      <div className={styles.classPriority}>
+        <div className={`${styles.title} body1-bold`}>Class Priority</div>
+        <div className={styles.addedClasses}>
           <div className={styles.resultsWrapper}>
             {classes?.length > 0 ? (
               <DragDropContext onDragEnd={handleOnDragEnd}>
@@ -83,11 +83,11 @@ const FacultyPreference = ({ classes, removeClass, setReorderedClasses }) => {
             })} */}
           </div>
           <Button
-            classes={styles.addFacultiesButton}
+            classes={styles.addClassesButton}
             type="primary"
             href="#class-selection-section"
           >
-            ADD FACULTIES +
+            ADD CLASSES +
           </Button>
           <div className={styles.buttons}>
             <Button
@@ -105,4 +105,4 @@ const FacultyPreference = ({ classes, removeClass, setReorderedClasses }) => {
   );
 };
 
-export default FacultyPreference;
+export default ClassPreference;

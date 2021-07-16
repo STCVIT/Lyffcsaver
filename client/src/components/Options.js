@@ -8,8 +8,8 @@ import styles from "../css/Options.module.css";
 import ReserveSlots from "./ReserveSlots";
 import CampusToggle from "./CampusToggle";
 import CourseSelect from "./CourseSelect";
-import FacultyPreference from "./FacultyPreference";
-import FacultySelect from "./FacultySelect";
+import ClassPreference from "./ClassPreference";
+import ClassSelect from "./ClassSelect";
 import { Container } from "react-bootstrap";
 import axios from "axios";
 import { getCourseID } from "../utils/generalUtils";
@@ -179,17 +179,17 @@ const Options = ({ generateTimetables, selectSlots }) => {
           deselectCourse={deselectCourse}
           selectedCourseID={currentlySelectedCourseID}
         ></CourseSelect>
-        <FacultyPreference
+        <ClassPreference
           classes={selectedClasses[currentlySelectedCourseID]}
           removeClass={removeClass}
           setReorderedClasses={setReorderedClasses}
-        ></FacultyPreference>
+        ></ClassPreference>
       </div>
-      <FacultySelect
+      <ClassSelect
         selectedCourseID={currentlySelectedCourseID}
         addClass={addClass}
         selectedClasses={selectedClasses}
-      ></FacultySelect>
+      ></ClassSelect>
     </Container>
   );
   // return (

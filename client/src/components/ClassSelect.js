@@ -1,4 +1,4 @@
-import styles from "../css/FacultySelect.module.css";
+import styles from "../css/ClassSelect.module.css";
 import facultiesData from "../data/faculties.json";
 import classesData from "../data/classes.json";
 import { getCourseID } from "../utils/generalUtils";
@@ -66,7 +66,7 @@ const FacultySelect = ({ selectedCourseID, addClass, selectedClasses }) => {
             htmlFor="faculty-search"
             className={`${styles.title} body1-bold`}
           >
-            Search Faculty
+            Search by Faculty
           </label>
           <input
             type="text"
@@ -81,7 +81,7 @@ const FacultySelect = ({ selectedCourseID, addClass, selectedClasses }) => {
                 return obj;
               });
             }}
-            placeholder="FACULTY"
+            placeholder="Eg. 14494 or AKHILA MAHESWARI M"
           />
         </div>
         <div className={styles.slots}>
@@ -106,7 +106,15 @@ const FacultySelect = ({ selectedCourseID, addClass, selectedClasses }) => {
           >
             <option value="">Any Slot</option>
             {Array.from(availableSlots)
-              .sort()
+              .sort((a, b) => {
+                let result = 0;
+                if (a.length > b.length) result += 5;
+                else if (a.length < b.length) result -= 5;
+
+                if (a > b) result += 1;
+                else if (a < b) result -= 1;
+                return result;
+              })
               .map((slot) => {
                 return (
                   <option value={slot} key={`faculty-filter-${slot}`}>
@@ -127,6 +135,18 @@ const FacultySelect = ({ selectedCourseID, addClass, selectedClasses }) => {
                     classData["CLASS ID"] === _classData["CLASS ID"]
                 ) === undefined
             )
+            .sort((a, b) => {
+              let result = 0;
+              if (a["EMPLOYEE NAME"] > b["EMPLOYEE NAME"]) result += 10;
+              else if (a["EMPLOYEE NAME"] < b["EMPLOYEE NAME"]) result -= 10;
+
+              if (a["SLOT"].length > b["SLOT"].length) result += 5;
+              else if (a["SLOT"].length < b["SLOT"].length) result -= 5;
+
+              if (a["SLOT"] > b["SLOT"]) result += 1;
+              else if (a["SLOT"] < b["SLOT"]) result -= 1;
+              return result;
+            })
             .map((classData) => {
               return (
                 <div
