@@ -61,12 +61,13 @@
 .delete {
   grid-row: 1 / span 2;
   text-decoration: none;
-  font-weight: 1000;
+  /* font-weight: 1000; */
   color: var(--red);
   cursor: pointer;
   margin-left: auto;
   margin-top: auto;
   margin-bottom: auto;
+  font-size: 24px;
 }
 .delete:hover {
   color: var(--red-faded);

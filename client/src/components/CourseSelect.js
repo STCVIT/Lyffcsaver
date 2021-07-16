@@ -6,8 +6,8 @@ import Button from "./Button";
 const CourseSelect = ({
   stageCourse,
   unstageCourse,
-  stagedCourses,
   getCourseID,
+  stagedCourses,
   selectCourse,
   deselectCourse,
   selectedCourseID,
@@ -111,7 +111,10 @@ const CourseSelect = ({
           <div className={styles.buttons}>
             <Button
               onClick={() =>
-                stagedCourses.forEach((course) => unstageCourse(course))
+                stagedCourses.forEach((course) => {
+                  unstageCourse(course);
+                  deselectCourse(course);
+                })
               }
               type="clear"
             >

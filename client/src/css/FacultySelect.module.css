@@ -41,8 +41,23 @@
   border: 2px var(--black-faded) solid;
   padding: 5px;
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(5, 1fr);
 }
 .facultyName {
-  grid-column: 1 / span 2;
+  grid-column: 1 / span 4;
+  grid-row: 1 / span 1;
+}
+.add {
+  grid-row: 1 / span 2;
+  text-decoration: none;
+  /* font-weight: 1000; */
+  color: var(--red);
+  cursor: pointer;
+  margin-left: auto;
+  margin-top: auto;
+  margin-bottom: auto;
+  font-size: 32px;
+}
+.add:hover {
+  color: var(--red-faded);
 }

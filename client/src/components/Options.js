@@ -18,11 +18,17 @@ const Options = ({ generateTimetables, selectSlots }) => {
   const [reservedSlots, setReservedSlots] = useState([]);
 
   const [stagedCourses, setStagedCourses] = useState([]);
+  const [selectedClasses, setSelectedClasses] = useState({});
   const [selectedFaculties, setSelectedFaculties] = useState({});
   const [currentlySelectedCourseID, setCurrentlySelectedCourseID] =
     useState("");
 
   const [finalizedCourses, setFinalizedCourses] = useState([]);
+
+  useEffect(() => {
+    console.log(selectedClasses);
+  }, [selectedClasses]);
+
   const toggleReserve = (slot) => {
     const pattern = /[A-Z]+\d+/;
     if (pattern.test(slot)) {
@@ -71,6 +77,11 @@ const Options = ({ generateTimetables, selectSlots }) => {
     const newSelectedFaculties = selectedFaculties;
     delete newSelectedFaculties[courseID];
     setSelectedFaculties(newSelectedFaculties);
+    setSelectedClasses((prevSelectedClasses) => {
+      const obj = { ...prevSelectedClasses };
+      delete obj[courseID];
+      return obj;
+    });
   };
 
   const selectCourse = (object) => {
@@ -86,6 +97,31 @@ const Options = ({ generateTimetables, selectSlots }) => {
     else courseID = getCourseID(object);
     if (courseID === currentlySelectedCourseID || courseID === undefined)
       setCurrentlySelectedCourseID("");
+  };
+
+  const addClass = (classData) => {
+    setSelectedClasses((prevSelectedClasses) => {
+      const obj = { ...prevSelectedClasses };
+      if (obj[currentlySelectedCourseID] === undefined)
+        obj[currentlySelectedCourseID] = [];
+      if (
+        obj[currentlySelectedCourseID].find(
+          (_classData) => _classData["CLASS ID"] === classData["CLASS ID"]
+        ) === undefined
+      )
+        obj[currentlySelectedCourseID].push(classData);
+      return obj;
+    });
+  };
+
+  const removeClass = (classData) => {
+    setSelectedClasses((prevSelectedClasses) => {
+      const obj = { ...prevSelectedClasses };
+      obj[currentlySelectedCourseID] = obj[currentlySelectedCourseID].filter(
+        (_classData) => classData["CLASS ID"] !== _classData["CLASS ID"]
+      );
+      return obj;
+    });
   };
 
   return (
@@ -139,6 +175,8 @@ const Options = ({ generateTimetables, selectSlots }) => {
       </div>
       <FacultySelect
         selectedCourseID={currentlySelectedCourseID}
+        addClass={addClass}
+        selectedClasses={selectedClasses}
       ></FacultySelect>
     </Container>
   );

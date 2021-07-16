@@ -4,7 +4,7 @@ import classesData from "../data/classes.json";
 import { getCourseID } from "../utils/generalUtils";
 import { useEffect, useState } from "react";
 import Fuse from "fuse.js";
-const FacultySelect = ({ selectedCourseID }) => {
+const FacultySelect = ({ selectedCourseID, addClass, selectedClasses }) => {
   const defaultQuery = {
     searchQuery: "",
     slots: "",
@@ -119,27 +119,39 @@ const FacultySelect = ({ selectedCourseID }) => {
       </div>
       <div className={styles.resultsWrapper}>
         <div className={styles.results}>
-          {classesToDisplay.map((classData) => {
-            return (
-              <div
-                className={`${styles.class}`}
-                key={`class-select-${getCourseID(classData)}-${
-                  classData["ERP ID"]
-                }-${classData["SLOT"]}`}
-                onClick={(e) => {
-                  console.log(getCourseID(classData));
-                  // selectCourse(classData);
-                }}
-              >
-                <div className={`${styles.facultyName} body1-bold`}>
-                  {classData["EMPLOYEE NAME"]}
+          {classesToDisplay
+            .filter(
+              (classData) =>
+                selectedClasses[selectedCourseID]?.find(
+                  (_classData) =>
+                    classData["CLASS ID"] === _classData["CLASS ID"]
+                ) === undefined
+            )
+            .map((classData) => {
+              return (
+                <div
+                  className={`${styles.class}`}
+                  key={`class-select-${getCourseID(classData)}-${
+                    classData["ERP ID"]
+                  }-${classData["SLOT"]}`}
+                >
+                  <div className={`${styles.facultyName} body1-bold`}>
+                    {classData["EMPLOYEE NAME"]}
+                  </div>
+                  <a
+                    className={styles.add}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      addClass(classData);
+                    }}
+                  >
+                    +
+                  </a>
+                  <div className={styles.erpId}>{classData["ERP ID"]}</div>
+                  <div className={styles.classSlots}>{classData["SLOT"]}</div>
                 </div>
-
-                <div className={styles.erpId}>{classData["ERP ID"]}</div>
-                <div className={styles.classSlots}>{classData["SLOT"]}</div>
-              </div>
-            );
-          })}
+              );
+            })}
         </div>
       </div>
     </div>
