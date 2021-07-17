@@ -1,0 +1,39 @@
+{
+  "files": {
+    "main.css": "/Lyffcsaver/static/css/main.6c9b7478.chunk.css",
+    "main.js": "/Lyffcsaver/static/js/main.7c59526a.chunk.js",
+    "main.js.map": "/Lyffcsaver/static/js/main.7c59526a.chunk.js.map",
+    "runtime-main.js": "/Lyffcsaver/static/js/runtime-main.5dc19802.js",
+    "runtime-main.js.map": "/Lyffcsaver/static/js/runtime-main.5dc19802.js.map",
+    "static/css/2.4be38407.chunk.css": "/Lyffcsaver/static/css/2.4be38407.chunk.css",
+    "static/js/2.3fac22d4.chunk.js": "/Lyffcsaver/static/js/2.3fac22d4.chunk.js",
+    "static/js/2.3fac22d4.chunk.js.map": "/Lyffcsaver/static/js/2.3fac22d4.chunk.js.map",
+    "static/js/3.aac17acf.chunk.js": "/Lyffcsaver/static/js/3.aac17acf.chunk.js",
+    "static/js/3.aac17acf.chunk.js.map": "/Lyffcsaver/static/js/3.aac17acf.chunk.js.map",
+    "index.html": "/Lyffcsaver/index.html",
+    "static/css/2.4be38407.chunk.css.map": "/Lyffcsaver/static/css/2.4be38407.chunk.css.map",
+    "static/css/main.6c9b7478.chunk.css.map": "/Lyffcsaver/static/css/main.6c9b7478.chunk.css.map",
+    "static/js/2.3fac22d4.chunk.js.LICENSE.txt": "/Lyffcsaver/static/js/2.3fac22d4.chunk.js.LICENSE.txt",
+    "static/media/aboutPageLady.7f303e54.svg": "/Lyffcsaver/static/media/aboutPageLady.7f303e54.svg",
+    "static/media/aboutPageSchedules.4f21dce0.svg": "/Lyffcsaver/static/media/aboutPageSchedules.4f21dce0.svg",
+    "static/media/camera.d811b08a.svg": "/Lyffcsaver/static/media/camera.d811b08a.svg",
+    "static/media/contactEmailIcon.10e29a73.svg": "/Lyffcsaver/static/media/contactEmailIcon.10e29a73.svg",
+    "static/media/contactIllustration.d2aaf54a.svg": "/Lyffcsaver/static/media/contactIllustration.d2aaf54a.svg",
+    "static/media/contactMessageIcon.9f13b164.svg": "/Lyffcsaver/static/media/contactMessageIcon.9f13b164.svg",
+    "static/media/contactNameIcon.6ada76d8.svg": "/Lyffcsaver/static/media/contactNameIcon.6ada76d8.svg",
+    "static/media/faqPattern.ed9d4615.svg": "/Lyffcsaver/static/media/faqPattern.ed9d4615.svg",
+    "static/media/leftArrow.e3b7ae10.svg": "/Lyffcsaver/static/media/leftArrow.e3b7ae10.svg",
+    "static/media/logo.b99510b6.svg": "/Lyffcsaver/static/media/logo.b99510b6.svg",
+    "static/media/quarterEllipse.c73c7fea.svg": "/Lyffcsaver/static/media/quarterEllipse.c73c7fea.svg",
+    "static/media/rightArrow.32621f09.svg": "/Lyffcsaver/static/media/rightArrow.32621f09.svg",
+    "static/media/searchIcon.709f9899.svg": "/Lyffcsaver/static/media/searchIcon.709f9899.svg",
+    "static/media/toggleTriangle.e6996ec4.svg": "/Lyffcsaver/static/media/toggleTriangle.e6996ec4.svg"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.5dc19802.js",
+    "static/css/2.4be38407.chunk.css",
+    "static/js/2.3fac22d4.chunk.js",
+    "static/css/main.6c9b7478.chunk.css",
+    "static/js/main.7c59526a.chunk.js"
+  ]
+}
