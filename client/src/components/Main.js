@@ -3,6 +3,7 @@ import Options from "./Options";
 import TimetablesSection from "./TimetablesSection";
 import { useEffect, useState } from "react";
 import { ReactComponent as QuarterEllipse } from "../assets/quarterEllipse.svg";
+import { Container } from "react-bootstrap";
 import {
   getTimetables,
   getCourseID,
@@ -51,11 +52,9 @@ const Main = () => {
       newSlotsString,
       allSchedules
     );
-    // console.log(newSlotsString, newSlotsString.length > 0);
     if (newSlotsString.length > 0)
       setAllSchedules((prevAllSchedules) => {
         prevAllSchedules[newSlotsString] = result[newSlotsString];
-        // console.log("new all schedules", prevAllSchedules);
         return { ...prevAllSchedules };
       });
   };
@@ -65,14 +64,11 @@ const Main = () => {
   };
 
   return (
-    <div className={styles.appContainer}>
-      {/* <Header /> */}
-      {/* <QuarterEllipse className={styles.ellipse}></QuarterEllipse> */}
+    <Container className={styles.container}>
       <Options
         getCourseID={getCourseID}
         generateTimetables={getAllSlotCombinations}
         selectSlots={selectSlots}
-        setFinalizedClasses={setFinalizedClasses}
       />
       <TimetablesSection
         schedules={allSchedules}
@@ -81,7 +77,7 @@ const Main = () => {
         currentlySelectedSlots={currentlySelectedSlots}
         selectSlots={selectSlots}
       ></TimetablesSection>
-    </div>
+    </Container>
   );
 };
 

@@ -61,7 +61,7 @@
   background-color: var(--active-bg);
 }
 .hoverRow {
-  background-color: lightcoral !important;
+  background-color: var(--red-very-faded) !important;
 }
 
 .panel {
@@ -91,10 +91,11 @@
 }
 .schedulesPagination .page {
   padding: 5px;
-  border: solid var(--green) 2px;
+  border: solid var(--primary) 2px;
 }
 .schedulesPagination .active {
-  background: var(--green);
+  background: var(--primary);
+  color: var(--white);
 }
 /* .schedules a {
   padding: 5px;

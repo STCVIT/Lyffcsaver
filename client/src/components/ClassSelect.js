@@ -89,7 +89,7 @@ const FacultySelect = ({ selectedCourseID, addClass, selectedClasses }) => {
             htmlFor="faculty-slots-filter"
             className={`${styles.title} body1-bold`}
           >
-            Filter faculty by slots
+            Filter classes by slots
           </label>
           <select
             name="faculty-slots-filter"
@@ -153,7 +153,7 @@ const FacultySelect = ({ selectedCourseID, addClass, selectedClasses }) => {
                   className={`${styles.class}`}
                   key={`class-select-${getCourseID(classData)}-${
                     classData["ERP ID"]
-                  }-${classData["SLOT"]}`}
+                  }-${classData["SLOT"]}-${classData["CLASS ID"]}`}
                 >
                   <div className={`${styles.facultyName} body1-bold`}>
                     {classData["EMPLOYEE NAME"]}
@@ -168,7 +168,15 @@ const FacultySelect = ({ selectedCourseID, addClass, selectedClasses }) => {
                     +
                   </a>
                   <div className={styles.erpId}>{classData["ERP ID"]}</div>
-                  <div className={styles.classSlots}>{classData["SLOT"]}</div>
+                  <div className={styles.classSlots}>
+                    {classData["SLOT"]?.split("+").map((slot, index) => (
+                      <>
+                        {index !== 0 ? "+" : ""}
+                        {slot}
+                        <wbr />
+                      </>
+                    ))}
+                  </div>
                 </div>
               );
             })}

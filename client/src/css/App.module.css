@@ -17,7 +17,8 @@
   --white: hsl(0, 0%, 100%);
   --white-faded: hsl(0, 0%, 85%);
   --red: hsl(0, 100%, 45%);
-  --red-faded: hsl(0, 100%, 70%);
+  --red-faded: hsl(0, 100%, 60%);
+  --red-very-faded: hsl(0, 100%, 80%);
   --orange: hsl(45, 100%, 51%);
   --orange-faded: hsl(45, 100%, 66%);
   --green: hsl(121, 40%, 45%);
@@ -29,8 +30,8 @@
 
   --timetable-cell-bg: #ffc;
   --timetable-bg: #a6a6a6;
-  --timetable-lab: #45a247;
-  --timetable-theory: #92fe9d;
+  --timetable-lab: #66d820;
+  --timetable-theory: #ccff33;
   --timetable-theory-timing: #ccccff;
   --timetable-lab-timing: #99ccff;
 
@@ -74,9 +75,9 @@ body {
   width: 0.8em;
 }
 
-::-webkit-scrollbar-track {
-  /* box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3); */
-}
+/* ::-webkit-scrollbar-track {
+box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+}*/
 
 ::-webkit-scrollbar-thumb {
   background-color: var(--primary);

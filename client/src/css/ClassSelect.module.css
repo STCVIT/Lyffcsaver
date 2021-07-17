@@ -61,3 +61,18 @@
 .add:hover {
   color: var(--green-faded);
 }
+.classSlots {
+  transition: max-height 100ms ease;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  grid-column: 2 / span 3;
+  /* overflow-wrap: ; */
+  /* word-break: keep-all; */
+  /*white-space: unset; */
+  /* max-height: 3ch; */
+}
+/* .classSlots:hover {
+  max-width: unset;
+  max-height: 6ch;
+} */

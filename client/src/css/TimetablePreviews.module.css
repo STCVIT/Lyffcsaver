@@ -30,10 +30,11 @@
 }
 .paginatedPreviews .page {
   padding: 5px;
-  border: solid var(--green) 2px;
+  border: solid var(--primary) 2px;
 }
 .paginatedPreviews .active {
-  background: var(--green);
+  background: var(--primary);
+  color: var(--white);
 }
 /* .paginatedPreviews {
   margin-top: 20px;

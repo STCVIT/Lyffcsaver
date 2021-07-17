@@ -14,7 +14,7 @@ import Button from "./Button";
 import { Container } from "react-bootstrap";
 import { getCourseID } from "../utils/generalUtils";
 
-const Options = ({ generateTimetables, selectSlots, setFinalizedClasses }) => {
+const Options = ({ generateTimetables, selectSlots }) => {
   const [reservedSlots, setReservedSlots] = useState([]);
 
   const [stagedCourses, setStagedCourses] = useState([]);
@@ -26,6 +26,24 @@ const Options = ({ generateTimetables, selectSlots, setFinalizedClasses }) => {
   useEffect(() => {
     console.log(selectedClasses);
   }, [selectedClasses]);
+  useEffect(() => {
+    setSelectedClasses((prevSelectedClasses) => {
+      const obj = { ...prevSelectedClasses };
+      stagedCourses.forEach((stagedCourse) => {
+        const courseID = getCourseID(stagedCourse);
+        if (obj[courseID] === undefined) obj[courseID] = [];
+      });
+      const courseIDs = Object.keys(obj);
+      courseIDs.forEach((courseID) => {
+        if (
+          stagedCourses.find((course) => getCourseID(course) === courseID) ===
+          undefined
+        )
+          delete obj[courseID];
+      });
+      return obj;
+    });
+  }, [stagedCourses]);
 
   const toggleReserve = (slot) => {
     const pattern = /[A-Z]+\d+/;
@@ -62,6 +80,14 @@ const Options = ({ generateTimetables, selectSlots, setFinalizedClasses }) => {
       ),
       course,
     ]);
+    // setSelectedClasses((prevSelectedClasses) => {
+    //   let obj;
+    //   obj = { ...prevSelectedClasses };
+    //   if (prevSelectedClasses[getCourseID(course)] === undefined) {
+    //     prevSelectedClasses[getCourseID(course)] = [];
+    //   }
+    //   return obj;
+    // });
   };
 
   const unstageCourse = (object) => {
@@ -72,14 +98,11 @@ const Options = ({ generateTimetables, selectSlots, setFinalizedClasses }) => {
       prevSelectedCourses.filter((course) => courseID !== getCourseID(course))
     );
 
-    // const newSelectedFaculties = selectedFaculties;
-    // delete newSelectedFaculties[courseID];
-    // setSelectedFaculties(newSelectedFaculties);
-    setSelectedClasses((prevSelectedClasses) => {
-      const obj = { ...prevSelectedClasses };
-      delete obj[courseID];
-      return obj;
-    });
+    // setSelectedClasses((prevSelectedClasses) => {
+    //   const obj = { ...prevSelectedClasses };
+    //   delete obj[courseID];
+    //   return obj;
+    // });
   };
 
   const selectCourse = (object) => {
@@ -135,7 +158,7 @@ const Options = ({ generateTimetables, selectSlots, setFinalizedClasses }) => {
   // }
 
   return (
-    <Container className={styles.container}>
+    <>
       <CampusToggle></CampusToggle>
       <div
         className={`${styles.sectionTitle} heading2`}
@@ -205,7 +228,7 @@ const Options = ({ generateTimetables, selectSlots, setFinalizedClasses }) => {
       >
         Generate Timetables
       </Button>
-    </Container>
+    </>
   );
   // return (
   // <div className={styles.screen}>

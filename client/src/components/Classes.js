@@ -11,6 +11,7 @@ const Classes = ({
   selectedClasses,
   setSelectedClasses,
   setHoveredSlots,
+  classPreferences,
 }) => {
   // console.log("rendering classes", slots);
   const ignoreCols = [
@@ -24,6 +25,7 @@ const Classes = ({
     "COURSE MODE",
     "COURSE CODE",
     "BATCH",
+    "ALLOCATED SEATS",
   ];
   const courseIDs = schedules?.length > 0 ? Object.keys(schedules[0]) : [];
   const classes = {};
@@ -36,6 +38,25 @@ const Classes = ({
       (currentElement) => currentElement[fieldName] === element[fieldName]
     );
   };
+  const getScore = (courseID, classData) => {
+    return (
+      (classPreferences[courseID]?.length -
+        classPreferences[courseID]?.findIndex(
+          (_classData) => _classData["CLASS ID"] === classData["CLASS ID"]
+        )) /
+      classPreferences[courseID]?.length
+    );
+  };
+  const getScheduleScore = (schedule) => {
+    let score = 0;
+    Object.keys(schedule).forEach(
+      (courseID) => (score += getScore(courseID, schedule[courseID]))
+    );
+    return score;
+  };
+  schedules?.sort((a, b) => getScheduleScore(b) - getScheduleScore(a));
+  // schedules?.forEach(schedule => console.log())
+  // console.log(schedules?.map((schedule) => getScheduleScore(schedule)));
   schedules?.forEach((schedule) =>
     courseIDs?.forEach((courseID) => {
       if (classes[courseID] === undefined) classes[courseID] = [];
@@ -44,18 +65,31 @@ const Classes = ({
     })
   );
   courseIDs.sort((a, b) => classes[b].length - classes[a].length);
+  courseIDs.forEach((courseID) =>
+    classes[courseID]?.sort(
+      (a, b) => getScore(courseID, b) - getScore(courseID, a)
+    )
+  );
+  // console.log(
+  //   courseIDs.map((courseID) =>
+  //     classes[courseID]?.map((classData) => getScore(courseID, classData))
+  //   )
+  // );
 
   useEffect(() => {
     setCurrentPage(0);
     // useForceUpdate();
   }, [slots, schedules]);
-  useEffect(() => {}, [selectedClasses]);
+  // useEffect(() => {}, [selectedClasses]);
 
   useEffect(() => {
     const newSelectedClasses = {};
-    for (const courseID of Object.keys(classes)) {
-      newSelectedClasses[courseID] = classes[courseID][0];
-    }
+    // console.log("classes", classes);
+    // console.log("schedules[0]", schedules, schedules[0]);
+    if (schedules !== undefined && schedules.length > 0)
+      for (const courseID of Object.keys(schedules[0])) {
+        newSelectedClasses[courseID] = schedules[0][courseID];
+      }
     setSelectedClasses(newSelectedClasses);
   }, [slots, schedules]);
 
@@ -255,7 +289,7 @@ const Classes = ({
                   ></InfoCols>
                 </tr>
               )}
-              {classes[courseID].map((currentClass) => {
+              {classes[courseID]?.map((currentClass) => {
                 if (!isSelectedClass(currentClass, courseID))
                   return (
                     <tr
@@ -296,7 +330,7 @@ const Classes = ({
     });
   const leftArrowNode = <img src={leftArrow} alt="<" />;
   const rightArrowNode = <img src={rightArrow} alt=">" />;
-  return schedules === undefined ? (
+  return schedules === undefined || schedules.length <= 0 ? (
     <></>
   ) : (
     <div className={styles.panel}>

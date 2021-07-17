@@ -1,9 +1,13 @@
 .toggle {
   display: flex;
   align-items: center;
-  width: min(max-content, 100vw);
+  /* width: min(max-content, 100vw); */
   position: relative;
   border: 1px var(--primary) solid;
+  margin-left: auto;
+  margin-right: auto;
+  /* width: 50%; */
+  width: min-content;
 }
 .toggle > span {
   position: absolute;

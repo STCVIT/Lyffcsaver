@@ -15,7 +15,7 @@ const CourseSelect = ({
   let filteredCourses = coursesData.filter(
     (course) =>
       stagedCourses.find(
-        (stagedCourse) => stagedCourse["COURSE CODE"] === course["COURSE CODE"]
+        (stagedCourse) => getCourseID(stagedCourse) === getCourseID(course)
       ) === undefined
   );
   const seenCourses = new Set();
@@ -120,7 +120,7 @@ const CourseSelect = ({
             >
               CLEAR
             </Button>
-            <Button type="primary">ADD COURSES</Button>
+            {/* <Button type="primary">ADD COURSES</Button> */}
           </div>
         </div>
       </div>
