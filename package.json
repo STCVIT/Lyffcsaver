@@ -6,7 +6,6 @@
     "@testing-library/jest-dom": "^5.11.10",
     "@testing-library/react": "^11.2.6",
     "@testing-library/user-event": "^12.8.3",
-    "axios": "^0.21.1",
     "bootstrap": "^5.0.1",
     "fuse.js": "^6.4.6",
     "html2canvas": "^1.0.0",
@@ -17,13 +16,15 @@
     "react-paginate": "^7.1.2",
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.3",
-    "web-vitals": "^1.1.1"
+    "web-vitals": "^1.1.1",
+    "xlsx": "^0.17.0"
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build && move build ../server/",
+    "build": "yarn run load && react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "load": "node .\\scripts\\parseAndLoadExcel.js .\\scripts\\course-allocation\\WINSEM2019-20_ALL_ALLOCATIONREPORT_22-10-2019.xlsx .\\src\\data\\"
   },
   "lint-staged": {
     "*.js": "eslint"

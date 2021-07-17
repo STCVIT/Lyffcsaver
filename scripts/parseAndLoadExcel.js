@@ -49,7 +49,7 @@ const addUnique = async (uniqueField, collectionName, data) => {
   //   }
   // }
 };
-const parseAndLoadExcel = async (filePath) => {
+const parseAndLoadExcel = async (filePath, writeDir) => {
   const courses = [];
   const faculties = [];
   const classes = [];
@@ -149,22 +149,23 @@ const parseAndLoadExcel = async (filePath) => {
   //     if (err !== null) console.log(err);
   //   }
   // );
+  if (!fs.existsSync(writeDir)) fs.mkdirSync(writeDir);
   fs.writeFile(
-    path.join("data", "faculties.json"),
+    path.join(writeDir, "faculties.json"),
     JSON.stringify(faculties),
     (err) => {
       if (err !== null) console.log(err);
     }
   );
   fs.writeFile(
-    path.join("data", "courses.json"),
+    path.join(writeDir, "courses.json"),
     JSON.stringify(courses),
     (err) => {
       if (err !== null) console.log(err);
     }
   );
   fs.writeFile(
-    path.join("data", "classes.json"),
+    path.join(writeDir, "classes.json"),
     JSON.stringify(classes),
     (err) => {
       if (err !== null) console.log(err);
@@ -172,4 +173,5 @@ const parseAndLoadExcel = async (filePath) => {
   );
 };
 
-module.exports = { parseAndLoadExcel, getCourseID };
+// console.log("hello", process.argv);
+parseAndLoadExcel(process.argv[2], process.argv[3]);

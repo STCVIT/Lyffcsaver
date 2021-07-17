@@ -1,4 +1,3 @@
-import axios from "axios";
 import timetableTemplateData from "./timetableTemplateData";
 
 const mapping = {};
@@ -30,22 +29,6 @@ const verifyPreferencesSet = (courseIDs, classes) => {
     return false;
   }
   return true;
-};
-
-const getClasses = async (faculties) => {
-  const requestObject = {};
-  Object.keys(faculties).forEach((courseID) => {
-    faculties[courseID].forEach((faculty) => {
-      if (requestObject[courseID] === undefined) requestObject[courseID] = [];
-      requestObject[courseID].push(faculty["ERP ID"]);
-    });
-  });
-  try {
-    const res = await axios.post("/classes", requestObject);
-    return res.data;
-  } catch (err) {
-    console.error(err);
-  }
 };
 
 const getSlotMapping = () => {

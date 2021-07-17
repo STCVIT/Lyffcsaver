@@ -1,7 +1,0 @@
-node_modules/
-data/
-.~lock.WINSEM2019-20_ALL_ALLOCATIONREPORT_22-10-2019.xlsx#
-*.un~
-.env
-build/
-firebase/
