@@ -1,0 +1,96 @@
+.container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  padding: 50px 0;
+  flex-grow: 1;
+  align-items: stretch;
+}
+.classPriority {
+  /* flex-grow: 1; */
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  /* align-items: stretch; */
+}
+.addClassesButton {
+  /* width: 100%; */
+  /* margin: 0 auto; */
+  /* padding: 0 auto; */
+  text-align: center;
+  /* align-self: flex-start; */
+  margin: 20px;
+}
+.title {
+  margin-bottom: 10px;
+}
+.addedClasses {
+  width: 100%;
+  /* height: 50vh; */
+  border: 1px solid hsl(0, 0%, 49%);
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  /* justify-content: space-between; */
+}
+.buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 30px;
+  padding: 10px 20px;
+  margin-top: auto;
+}
+.resultsWrapper {
+  /* flex: 1; */
+  max-height: 350px;
+  overflow: auto;
+  /* padding: 20px; */
+}
+.results {
+  display: flex;
+  flex-direction: column;
+  height: max-content;
+  gap: 10px;
+}
+
+.classesList {
+  margin: 0;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.class {
+  border: 2px var(--black-faded) solid;
+  padding: 5px;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  background: var(--white);
+  gap: 5px;
+}
+/* .class > * {
+  word-wrap: break-word;
+} */
+.facultyName {
+  grid-column: 1 / span 4;
+  grid-row: 1 / span 1;
+}
+/* .classSlots {
+  max-width: 10px;
+  text-overflow: ellipsis;
+} */
+.delete {
+  grid-row: 1 / span 2;
+  text-decoration: none;
+  /* font-weight: 1000; */
+  color: var(--red);
+  cursor: pointer;
+  margin-left: auto;
+  margin-top: auto;
+  margin-bottom: auto;
+  font-size: 24px;
+}
+.delete:hover {
+  color: var(--red-faded);
+}

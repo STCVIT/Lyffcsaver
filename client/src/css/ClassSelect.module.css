@@ -1,0 +1,78 @@
+.container {
+  width: 100%;
+}
+.queryRow {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 30px;
+  --border: 2px solid var(--black);
+}
+.search,
+.slots {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.search > input {
+  padding: 6px;
+  margin: 0;
+  /* width: 230px; */
+  width: 100%;
+  height: 40px;
+  border: var(--border);
+}
+.slots > select {
+  flex-grow: 1;
+  border: var(--border);
+}
+.resultsWrapper {
+  height: 50vh;
+  overflow: auto;
+  margin: 30px 0;
+  padding: 20px;
+  border: 1px var(--black-faded) solid;
+}
+.results {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+}
+.class {
+  border: 2px var(--black-faded) solid;
+  padding: 5px;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+}
+.facultyName {
+  grid-column: 1 / span 4;
+  grid-row: 1 / span 1;
+}
+.add {
+  grid-row: 1 / span 2;
+  text-decoration: none;
+  /* font-weight: 1000; */
+  color: var(--green);
+  cursor: pointer;
+  margin-left: auto;
+  margin-top: auto;
+  margin-bottom: auto;
+  font-size: 32px;
+}
+.add:hover {
+  color: var(--green-faded);
+}
+.classSlots {
+  transition: max-height 100ms ease;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  grid-column: 2 / span 3;
+  /* overflow-wrap: ; */
+  /* word-break: keep-all; */
+  /*white-space: unset; */
+  /* max-height: 3ch; */
+}
+/* .classSlots:hover {
+  max-width: unset;
+  max-height: 6ch;
+} */

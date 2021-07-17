@@ -1,0 +1,50 @@
+.container {
+  display: flex;
+  /* flex-direction: column; */
+  /* flex-wrap: wrap; */
+  /* gap: 30px; */
+  /* position: relative; */
+  width: 100%;
+  justify-content: space-between;
+  gap: 30px;
+  margin: 30px;
+  overflow: auto;
+}
+.col {
+  display: flex;
+  flex-direction: column;
+  /* flex-wrap: wrap; */
+  flex-grow: 1;
+  gap: 10px;
+  min-width: 400px;
+}
+.separator {
+  width: 2px;
+  background: var(--black-faded);
+  /* flex-grow: 1; */
+}
+.row {
+  /* display: flex; */
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 10px;
+}
+.bubble {
+  padding: 3px 10px;
+  background: var(--orange);
+}
+.reserved {
+  background: var(--red) !important;
+}
+a.bubble {
+  text-align: center;
+  cursor: pointer;
+  color: var(--black);
+  text-decoration: none;
+}
+
+a.bubble:hover {
+  color: var(--black);
+  background: var(--orange-faded);
+}

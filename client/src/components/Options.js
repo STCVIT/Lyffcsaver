@@ -1,23 +1,50 @@
 import { useEffect, useState } from "react";
 import styles from "../css/Options.module.css";
-import AvailableCoursesList from "./AvailableCoursesList";
-import FacultiesPreferenceList from "./FacultiesPreferenceList";
-import SelectedCoursesList from "./SelectedCoursesList";
+// import AvailableCoursesList from "./AvailableCoursesList";
+// import FacultiesPreferenceList from "./FacultiesPreferenceList";
+// import SelectedCoursesList from "./SelectedCoursesList";
+// import Instructions from "./Instructions";
+// import InitialSelect from "./InitialSelect";
 import ReserveSlots from "./ReserveSlots";
-import Instructions from "./Instructions";
-import InitialSelect from "./InitialSelect";
-import axios from "axios";
+import CampusToggle from "./CampusToggle";
+import CourseSelect from "./CourseSelect";
+import ClassPreference from "./ClassPreference";
+import ClassSelect from "./ClassSelect";
+import Button from "./Button";
+import { Container } from "react-bootstrap";
 import { getCourseID } from "../utils/generalUtils";
 
 const Options = ({ generateTimetables, selectSlots }) => {
-  const [selectedCourses, setSelectedCourses] = useState([]);
-  const [selectedFaculties, setSelectedFaculties] = useState({});
+  const [reservedSlots, setReservedSlots] = useState([]);
+
+  const [stagedCourses, setStagedCourses] = useState([]);
+  const [selectedClasses, setSelectedClasses] = useState({});
+  // const [selectedFaculties, setSelectedFaculties] = useState({});
   const [currentlySelectedCourseID, setCurrentlySelectedCourseID] =
     useState("");
-  const [reservedSlots, setReservedSlots] = useState([]);
+
   useEffect(() => {
-    // console.log({ currentlySelectedCourseID });
-  }, [currentlySelectedCourseID]);
+    console.log(selectedClasses);
+  }, [selectedClasses]);
+  useEffect(() => {
+    setSelectedClasses((prevSelectedClasses) => {
+      const obj = { ...prevSelectedClasses };
+      stagedCourses.forEach((stagedCourse) => {
+        const courseID = getCourseID(stagedCourse);
+        if (obj[courseID] === undefined) obj[courseID] = [];
+      });
+      const courseIDs = Object.keys(obj);
+      courseIDs.forEach((courseID) => {
+        if (
+          stagedCourses.find((course) => getCourseID(course) === courseID) ===
+          undefined
+        )
+          delete obj[courseID];
+      });
+      return obj;
+    });
+  }, [stagedCourses]);
+
   const toggleReserve = (slot) => {
     const pattern = /[A-Z]+\d+/;
     if (pattern.test(slot)) {
@@ -32,95 +59,231 @@ const Options = ({ generateTimetables, selectSlots }) => {
       }
     }
   };
-  const addCourse = async (courseID) => {
-    try {
-      let res = await axios.get(`/courses?courseID=${courseID}`);
-      if (res.data !== undefined) {
-        const course = res.data;
-        setSelectedCourses((prevSelectedCourses) => [
-          ...prevSelectedCourses.filter(
-            (prevCourse) => getCourseID(prevCourse) !== getCourseID(course)
-          ),
-          course,
-        ]);
-      }
-    } catch (error) {
-      console.error(error);
-    }
+  const stageCourse = (course) => {
+    // try {
+    //   let res = await axios.get(`/courses?courseID=${courseID}`);
+    //   if (res.data !== undefined) {
+    //     const course = res.data;
+    //     setSelectedCourses((prevSelectedCourses) => [
+    //       ...prevSelectedCourses.filter(
+    //         (prevCourse) => getCourseID(prevCourse) !== getCourseID(course)
+    //       ),
+    //       course,
+    //     ]);
+    //   }
+    // } catch (error) {
+    //   console.error(error);
+    // }
+    setStagedCourses((prevSelectedCourses) => [
+      ...prevSelectedCourses.filter(
+        (prevCourse) => getCourseID(prevCourse) !== getCourseID(course)
+      ),
+      course,
+    ]);
+    // setSelectedClasses((prevSelectedClasses) => {
+    //   let obj;
+    //   obj = { ...prevSelectedClasses };
+    //   if (prevSelectedClasses[getCourseID(course)] === undefined) {
+    //     prevSelectedClasses[getCourseID(course)] = [];
+    //   }
+    //   return obj;
+    // });
   };
 
-  const removeCourse = (courseID) => {
-    setSelectedCourses((prevSelectedCourses) =>
+  const unstageCourse = (object) => {
+    let courseID;
+    if (typeof object === "string") courseID = object;
+    else courseID = getCourseID(object);
+    setStagedCourses((prevSelectedCourses) =>
       prevSelectedCourses.filter((course) => courseID !== getCourseID(course))
     );
 
-    const newSelectedFaculties = selectedFaculties;
-    delete newSelectedFaculties[courseID];
-    setSelectedFaculties(newSelectedFaculties);
+    // setSelectedClasses((prevSelectedClasses) => {
+    //   const obj = { ...prevSelectedClasses };
+    //   delete obj[courseID];
+    //   return obj;
+    // });
   };
 
-  const selectCourse = (courseID) => {
+  const selectCourse = (object) => {
+    let courseID;
+    if (typeof object === "string") courseID = object;
+    else courseID = getCourseID(object);
     setCurrentlySelectedCourseID(courseID);
   };
 
-  const deselectCourse = (courseID) => {
+  const deselectCourse = (object) => {
+    let courseID;
+    if (typeof object === "string") courseID = object;
+    else courseID = getCourseID(object);
     if (courseID === currentlySelectedCourseID || courseID === undefined)
       setCurrentlySelectedCourseID("");
   };
+
+  const addClass = (classData) => {
+    setSelectedClasses((prevSelectedClasses) => {
+      const obj = { ...prevSelectedClasses };
+      if (obj[currentlySelectedCourseID] === undefined)
+        obj[currentlySelectedCourseID] = [];
+      if (
+        obj[currentlySelectedCourseID].find(
+          (_classData) => _classData["CLASS ID"] === classData["CLASS ID"]
+        ) === undefined
+      )
+        obj[currentlySelectedCourseID].push(classData);
+      return obj;
+    });
+  };
+
+  const removeClass = (classData) => {
+    setSelectedClasses((prevSelectedClasses) => {
+      const obj = { ...prevSelectedClasses };
+      obj[currentlySelectedCourseID] = obj[currentlySelectedCourseID].filter(
+        (_classData) => classData["CLASS ID"] !== _classData["CLASS ID"]
+      );
+      return obj;
+    });
+  };
+
+  const setReorderedClasses = (reorderedClasses) => {
+    setSelectedClasses((prevSelectedClasses) => {
+      const obj = { ...prevSelectedClasses };
+      obj[currentlySelectedCourseID] = reorderedClasses;
+      return obj;
+    });
+  };
+
+  // const finalizeAll = () => {
+
+  // }
+
   return (
-    <div className={styles.screen}>
-      <div className={styles.row}>
-        <Instructions></Instructions>
-        <InitialSelect></InitialSelect>
+    <>
+      <CampusToggle></CampusToggle>
+      <div
+        className={`${styles.sectionTitle} heading2`}
+        id="reserve-slots-section"
+      >
+        <div className={styles.title}>Reserve your Slots</div>
+        <div className={styles.btns}>
+          <a
+            className={`${styles.btn} body1-medium`}
+            onClick={() => {
+              reservedSlots.forEach((slot) => toggleReserve(slot));
+            }}
+          >
+            Clear
+          </a>
+          <a
+            className={`${styles.btn} body1-medium`}
+            href="#add-courses-section"
+          >
+            Skip
+          </a>
+        </div>
       </div>
-      {/* <div className={styles.selectionTablesRow}> */}
-      <div className={styles.row}>
-        <AvailableCoursesList
-          addCourse={addCourse}
-          selectedCourses={selectedCourses}
+
+      <ReserveSlots
+        reservedSlots={reservedSlots}
+        toggleReserve={toggleReserve}
+      ></ReserveSlots>
+      <div
+        className={`${styles.sectionTitle} heading2`}
+        id="add-courses-section"
+      >
+        <div className={styles.title}>Add courses</div>
+      </div>
+
+      <div className={styles.coursePreferences}>
+        <CourseSelect
+          stageCourse={stageCourse}
+          unstageCourse={unstageCourse}
           getCourseID={getCourseID}
-        ></AvailableCoursesList>
-        <SelectedCoursesList
-          removeCourse={removeCourse}
-          onSelect={selectCourse}
-          onDeselect={deselectCourse}
-          getCourseID={getCourseID}
-          selectedCourses={selectedCourses}
-        ></SelectedCoursesList>
-        <FacultiesPreferenceList
-          currentlySelectedCourseID={currentlySelectedCourseID}
-          selectedFaculties={selectedFaculties}
-          setSelectedFaculties={setSelectedFaculties}
-          getCourseID={getCourseID}
-        ></FacultiesPreferenceList>
+          stagedCourses={stagedCourses}
+          selectCourse={selectCourse}
+          deselectCourse={deselectCourse}
+          selectedCourseID={currentlySelectedCourseID}
+        ></CourseSelect>
+        <ClassPreference
+          classes={selectedClasses[currentlySelectedCourseID]}
+          removeClass={removeClass}
+          setReorderedClasses={setReorderedClasses}
+        ></ClassPreference>
       </div>
-      <div className={styles.row}>
-        <ReserveSlots
-          reservedSlots={reservedSlots}
-          toggleReserve={toggleReserve}
-        ></ReserveSlots>
-      </div>
-      <div className={styles.row}>
-        <button
-          className={styles.submitBtn}
-          onClick={async () => {
-            console.log("CLICKED");
-            await generateTimetables(
-              selectedCourses,
-              selectedFaculties,
-              reservedSlots
-            );
-            selectSlots([]);
-            document
-              .querySelector("#timetable-previews")
-              ?.scrollIntoView({ behavior: "smooth" });
-          }}
-        >
-          Generate Timetables
-        </button>
-      </div>
-    </div>
+      <ClassSelect
+        selectedCourseID={currentlySelectedCourseID}
+        addClass={addClass}
+        selectedClasses={selectedClasses}
+      ></ClassSelect>
+      <Button
+        classes={styles.generateTimetablesButton}
+        type="primary"
+        onClick={async () => {
+          await generateTimetables(selectedClasses, reservedSlots);
+          selectSlots([]);
+          document
+            .querySelector("#timetable-previews")
+            ?.scrollIntoView({ behavior: "smooth" });
+        }}
+      >
+        Generate Timetables
+      </Button>
+    </>
   );
+  // return (
+  // <div className={styles.screen}>
+  //   <div className={styles.row}>
+  //     <Instructions></Instructions>
+  //     <InitialSelect></InitialSelect>
+  //   </div>
+  //   {/* <div className={styles.selectionTablesRow}> */}
+  //   <div className={styles.row}>
+  //     <AvailableCoursesList
+  //       addCourse={addCourse}
+  //       selectedCourses={selectedCourses}
+  //       getCourseID={getCourseID}
+  //     ></AvailableCoursesList>
+  //     <SelectedCoursesList
+  //       removeCourse={removeCourse}
+  //       onSelect={selectCourse}
+  //       onDeselect={deselectCourse}
+  //       getCourseID={getCourseID}
+  //       selectedCourses={selectedCourses}
+  //     ></SelectedCoursesList>
+  //     <FacultiesPreferenceList
+  //       currentlySelectedCourseID={currentlySelectedCourseID}
+  //       selectedFaculties={selectedFaculties}
+  //       setSelectedFaculties={setSelectedFaculties}
+  //       getCourseID={getCourseID}
+  //     ></FacultiesPreferenceList>
+  //   </div>
+  //   <div className={styles.row}>
+  //     <ReserveSlots
+  //       reservedSlots={reservedSlots}
+  //       toggleReserve={toggleReserve}
+  //     ></ReserveSlots>
+  //   </div>
+  //   <div className={styles.row}>
+  //     <button
+  //       className={styles.submitBtn}
+  //       onClick={async () => {
+  //         console.log("CLICKED");
+  //         await generateTimetables(
+  //           selectedCourses,
+  //           selectedFaculties,
+  //           reservedSlots
+  //         );
+  //         selectSlots([]);
+  //         document
+  //           .querySelector("#timetable-previews")
+  //           ?.scrollIntoView({ behavior: "smooth" });
+  //       }}
+  //     >
+  //       Generate Timetables
+  //     </button>
+  //   </div>
+  // </div>
+  // );
 };
 
 export default Options;

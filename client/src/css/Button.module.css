@@ -1,0 +1,21 @@
+.button {
+  padding: 10px 20px;
+  cursor: pointer;
+  text-decoration: none;
+  color: var(--color);
+}
+.button:hover {
+  background: var(--faded);
+  color: var(--color);
+}
+.clear {
+  border: 1px solid black;
+  background-color: var(--white);
+  --faded: var(--white-faded);
+  --color: var(--black-faded);
+}
+.primary {
+  background-color: var(--primary);
+  --color: var(--white);
+  --faded: var(--primary-faded);
+}

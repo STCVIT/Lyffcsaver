@@ -1,0 +1,60 @@
+.toggle {
+  display: flex;
+  align-items: center;
+  /* width: min(max-content, 100vw); */
+  position: relative;
+  border: 1px var(--primary) solid;
+  margin-left: auto;
+  margin-right: auto;
+  /* width: 50%; */
+  width: min-content;
+}
+.toggle > span {
+  position: absolute;
+  /* width: 50%; */
+  margin: 0;
+  padding: 0;
+  display: block;
+  top: 0;
+  bottom: 0;
+  background: var(--primary);
+  z-index: -1000;
+  transition: left 200ms ease-out, right 200ms ease-out;
+}
+.toggle > div {
+  padding: 14px 73px;
+  transition: color 200ms ease-out;
+  cursor: pointer;
+}
+.toggle.selected1 > span {
+  left: 0;
+  right: 50%;
+}
+.toggle.selected2 > span {
+  left: 50%;
+  right: 0;
+}
+.toggle.selected1 > :first-child {
+  color: var(--white);
+}
+.toggle.selected1 > :last-child {
+  color: var(--primary);
+}
+.toggle.selected2 > :first-child {
+  color: var(--primary);
+}
+.toggle.selected2 > :last-child {
+  color: var(--white);
+}
+
+@media only screen and (max-width: 550px) {
+  .toggle > div {
+    padding: 14px 40px;
+  }
+}
+
+@media only screen and (max-width: 350px) {
+  .toggle > div {
+    padding: 7px 20px;
+  }
+}

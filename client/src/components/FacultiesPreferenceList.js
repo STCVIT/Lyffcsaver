@@ -254,6 +254,7 @@ const FacultiesPreferenceList = ({
             {(provided) => (
               <ul
                 key={"faculties-list"}
+                className={styles.facultiesList}
                 ref={provided.innerRef}
                 {...provided.droppableProps}
               >
@@ -262,7 +263,7 @@ const FacultiesPreferenceList = ({
             )}
           </Droppable>
         </DragDropContext>
-        {facultyRows()}
+        <ul className={styles.facultiesList}> {facultyRows()}</ul>
         <div className={styles.loading}>{loading && "Loading..."}</div>
         <div className={styles.error}>{error && "Error..."}</div>
         <div className={styles.noResults}>

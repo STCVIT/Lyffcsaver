@@ -12,20 +12,20 @@ const getCourseID = (course) => {
   return `${course["COURSE CODE"]}-${course["COURSE TYPE"]}`;
 };
 
-const verifyPreferencesSet = (courses, faculties) => {
-  if (courses.length === 0) {
+const verifyPreferencesSet = (courseIDs, classes) => {
+  if (courseIDs.length === 0) {
     alert(`Please select at least one course.`);
     return false;
   }
   const unsetCourses = [];
-  courses.forEach((course) => {
-    if (faculties[getCourseID(course)] === undefined)
-      unsetCourses.push(getCourseID(course));
+  courseIDs.forEach((courseID) => {
+    if (classes[courseID] === undefined || classes[courseID].length === 0)
+      unsetCourses.push(courseID);
   });
   if (unsetCourses.length > 0) {
     alert(
-      `Please select at least one faculty for each course.
-        Courses with no faculties set yet: ${unsetCourses.join(", ")}`
+      `Please add at least one class for each course.
+        Courses with no classes added yet: ${unsetCourses.join(", ")}`
     );
     return false;
   }
@@ -82,7 +82,7 @@ const getNumberOfTotalPossibleSelections = (classes) => {
   }
 };
 
-const verifyNumberOfClasses = (classes, courseIDs) => {
+const verifyNumberOfClasses = (courseIDs, classes) => {
   let courseIDWithTooFewClasses;
 
   if (
@@ -97,7 +97,7 @@ const verifyNumberOfClasses = (classes, courseIDs) => {
   ) {
     alert(
       `No valid classes found for ${courseIDWithTooFewClasses}\n` +
-        `Please either reduce reserved slots or add more faculties from this course`
+        `Please either reduce reserved slots or add more classes with different slots from this course`
     );
     return false;
   }
@@ -108,8 +108,8 @@ const verifyNumberOfClasses = (classes, courseIDs) => {
     return confirm(
       `Number of Possibilities: ${numberOfPossibilities.toLocaleString()}\n` +
         `Time required: (approx) ${minutes.toLocaleString()} minutes (Actual time required might be much less)\n` +
-        `If you get a message saying "Page Unresponsive" after choosing to proceed, please choose to wait.\n` +
-        `To reduce possibilities, reduce the number of faculties selected or reserve more slots\n` +
+        // `If you get a message saying "Page Unresponsive" after choosing to proceed, please choose to wait.\n` +
+        `To reduce possibilities, reduce the number of classes selected or reserve more slots\n` +
         `Proceed?`
     );
   }
@@ -132,7 +132,7 @@ const removeReservedSlots = (classes, reservedSlots) => {
 };
 
 const populateSlotCombination = async (
-  faculties,
+  classes,
   reservedSlots,
   slotsString,
   objectToPopulate
@@ -142,8 +142,8 @@ const populateSlotCombination = async (
 
     getSlotMapping();
 
-    const courseIDs = Object.keys(faculties);
-    let classes = await getClasses(faculties);
+    const courseIDs = Object.keys(classes);
+    // let classes = await getClasses(faculties);
     classes = removeReservedSlots(classes, reservedSlots);
 
     // sorting courseIDs in ascending order of the number of classes
@@ -199,20 +199,20 @@ const populateSlotCombination = async (
   }
   return {};
 };
-const getSlotCombinations = async (courses, faculties, reservedSlots) => {
-  console.log(courses, faculties, reservedSlots);
+const getSlotCombinations = async (classes, reservedSlots) => {
+  console.log(classes, reservedSlots);
   if (window.Worker) {
     const worker = new Worker("workers/worker.js");
 
     getSlotMapping();
 
-    const courseIDs = Object.keys(faculties);
-    let classes = await getClasses(faculties);
+    const courseIDs = Object.keys(classes);
+    // let classes = await getClasses(faculties);
 
-    if (!verifyPreferencesSet(courses, faculties)) return {};
+    if (!verifyPreferencesSet(courseIDs, classes)) return {};
 
     classes = removeReservedSlots(classes, reservedSlots);
-    if (!verifyNumberOfClasses(classes, courseIDs)) return {};
+    if (!verifyNumberOfClasses(courseIDs, classes)) return {};
 
     // sorting courseIDs in ascending order of the number of classes
     // with that courseID.
@@ -271,19 +271,19 @@ const getSlotCombinations = async (courses, faculties, reservedSlots) => {
  * @param {Array} reservedSlots Contains slots to be excluded while making timetables
  * @returns {Object} Object in the format {slots: [All schedules occupying those slots]}
  */
-const getTimetables = async (courses, faculties, reservedSlots) => {
+const getTimetables = async (classes, reservedSlots) => {
   if (window.Worker) {
     const worker = new Worker("workers/worker.js");
 
     getSlotMapping();
 
-    const courseIDs = Object.keys(faculties);
-    let classes = await getClasses(faculties);
+    const courseIDs = Object.keys(classes);
+    // let classes = await getClasses(faculties);
 
-    if (!verifyPreferencesSet(courses, faculties)) return [];
+    if (!verifyPreferencesSet(courseIDs, classes)) return [];
 
     classes = removeReservedSlots(classes, reservedSlots);
-    if (!verifyNumberOfClasses(classes, courseIDs)) return [];
+    if (!verifyNumberOfClasses(courseIDs, classes)) return [];
 
     // sorting courseIDs in ascending order of the number of classes
     // with that courseID.

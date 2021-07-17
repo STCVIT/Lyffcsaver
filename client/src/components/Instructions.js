@@ -24,6 +24,12 @@ const Instructions = () => {
         </li>
       </ul>
     </div>
+    // <ul id="help">
+    //   <li>Lorem</li>
+    //   <li>lorem</li>
+    //   <li>lorem</li>
+    //   <li>lorem</li>
+    // </ul>
   );
 };
 

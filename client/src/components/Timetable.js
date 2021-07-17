@@ -129,21 +129,21 @@ const Timetable = ({ slots, selectedClasses, hoveredSlots }) => {
           src={cameraImg}
           alt="Download timetable image"
           onClick={() => {
-            // const help = document.querySelector("#help");
-            // html2canvas(help, {
-            //   // allowTaint: true,
-            //   backgroundColor: "#000",
-            //   // foreignObjectRendering: true,
-            //   // logging: true,
-            //   // useCORS: true,
-            // }).then((canvas) => {
-            //   console.log(help, canvas);
-            //   const a = document.createElement("a");
-            //   a.href = canvas.toDataURL("image/png");
-            //   // a.download = `timetable-${slots.join("+")}.png`;
-            //   a.download = "help.png";
-            //   a.click();
-            // });
+            const help = document.getElementById("help");
+            html2canvas(help, {
+              // allowTaint: true,
+              // backgroundColor: "#000",
+              // foreignObjectRendering: true,
+              // logging: true,
+              // useCORS: true,
+            }).then((canvas) => {
+              console.log(help, canvas);
+              const a = document.createElement("a");
+              a.href = canvas.toDataURL("image/png");
+              // a.download = `timetable-${slots.join("+")}.png`;
+              a.download = "help.png";
+              a.click();
+            });
           }}
         />
       </div>

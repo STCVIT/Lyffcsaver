@@ -3,6 +3,7 @@ import Options from "./Options";
 import TimetablesSection from "./TimetablesSection";
 import { useEffect, useState } from "react";
 import { ReactComponent as QuarterEllipse } from "../assets/quarterEllipse.svg";
+import { Container } from "react-bootstrap";
 import {
   getTimetables,
   getCourseID,
@@ -10,11 +11,12 @@ import {
   populateSlotCombination,
 } from "../utils/generalUtils";
 import styles from "../css/Main.module.css";
-const Main = ({ logoVariant }) => {
+const Main = () => {
   const [allSchedules, setAllSchedules] = useState({});
-  const [faculties, setFaculties] = useState({});
+  const [classes, setClasses] = useState({});
   const [reservedSlots, setReservedSlots] = useState([]);
   const [currentlySelectedSlots, setCurrentlySelectedSlots] = useState([]);
+  const [finalizedClasses, setFinalizedClasses] = useState([]);
   // const populateAllSchedules = async (courses, faculties, reservedSlots) => {
   //   setAllSchedules([]);
   //   setAllSchedules(await getTimetables(courses, faculties, reservedSlots));
@@ -36,27 +38,23 @@ const Main = ({ logoVariant }) => {
   useEffect(() => {
     console.log("updated allSchedules", allSchedules);
   }, [allSchedules]);
-  const getAllSlotCombinations = async (courses, faculties, reservedSlots) => {
+  const getAllSlotCombinations = async (classes, reservedSlots) => {
     setAllSchedules({});
-    setAllSchedules(
-      await getSlotCombinations(courses, faculties, reservedSlots)
-    );
-    setFaculties({ ...faculties });
+    setAllSchedules(await getSlotCombinations(classes, reservedSlots));
+    setClasses({ ...classes });
     setReservedSlots([...reservedSlots]);
   };
 
   const getSchedulesForSlots = async (newSlotsString) => {
     const result = await populateSlotCombination(
-      faculties,
+      classes,
       reservedSlots,
       newSlotsString,
       allSchedules
     );
-    // console.log(newSlotsString, newSlotsString.length > 0);
     if (newSlotsString.length > 0)
       setAllSchedules((prevAllSchedules) => {
         prevAllSchedules[newSlotsString] = result[newSlotsString];
-        // console.log("new all schedules", prevAllSchedules);
         return { ...prevAllSchedules };
       });
   };
@@ -66,8 +64,7 @@ const Main = ({ logoVariant }) => {
   };
 
   return (
-    <div className={styles.appContainer}>
-      <QuarterEllipse className={styles.ellipse}></QuarterEllipse>
+    <Container className={styles.container}>
       <Options
         getCourseID={getCourseID}
         generateTimetables={getAllSlotCombinations}
@@ -75,12 +72,12 @@ const Main = ({ logoVariant }) => {
       />
       <TimetablesSection
         schedules={allSchedules}
-        faculties={faculties}
+        classes={classes}
         getSchedulesForSlots={getSchedulesForSlots}
         currentlySelectedSlots={currentlySelectedSlots}
         selectSlots={selectSlots}
       ></TimetablesSection>
-    </div>
+    </Container>
   );
 };
 

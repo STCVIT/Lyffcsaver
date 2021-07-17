@@ -4,7 +4,20 @@
   justify-content: center;
   align-items: center;
   position: relative;
+}
+.timetableWrapper {
+  overflow: auto;
+  width: 100%;
+}
+.timetable {
+  width: 100%;
+  min-width: 650px;
+}
+/* .timetable > td {
+} */
+td.cell {
   user-select: none;
+  padding: 10px 0;
 }
 .label {
   margin-bottom: 10px;
@@ -17,8 +30,9 @@
   /* border: 2px white solid !important; */
 }
 .slotCell:hover {
-  border: 2px var(--red) dashed !important;
+  /* border: 2px var(--red) dashed !important; */
   /* margin: -3px; */
+  background: var(--red-faded);
 }
 .reserved {
   background-color: var(--red) !important;
