@@ -10,9 +10,22 @@
 .logo {
   margin: 10px;
   margin-left: 0px;
+  text-decoration: none;
+}
+.brand {
+  text-decoration: none;
+}
+.logoType {
+  color: var(--black);
+  text-decoration: none;
+}
+.logoType:hover {
+  color: var(--black);
+  text-decoration: none;
 }
 .logoType .highlight {
   color: var(--primary);
+  text-decoration: none;
 }
 .navLinks {
   margin-left: auto;

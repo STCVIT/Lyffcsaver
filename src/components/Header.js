@@ -15,7 +15,7 @@ const Header = ({ location }) => {
         expanded={expanded}
       >
         <Container>
-          <Navbar.Brand href="/">
+          <Navbar.Brand className={styles.brand} href="#/">
             <img src={logo} alt="" className={styles.logo} />
             <strong className={styles.logoType}>
               ly<span className={styles.highlight}>FFCS</span>aver
