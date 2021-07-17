@@ -1,4 +1,5 @@
 import styles from "../css/Faq.module.css";
+import { NavLink } from "react-router-dom";
 import {
   Accordion,
   AccordionContext,
@@ -74,7 +75,9 @@ const Faq = () => {
           <p className="body1-bold">Still have questions?</p>
           <p className="body2-medium">
             If you cannot find answers to your questions here, you can always{" "}
-            <a href="/contact">contact us</a>
+            <NavLink activeClassName={styles.active} to="/contact">
+              contact us
+            </NavLink>
             . <br />
             We will answer to you shortly!
           </p>
