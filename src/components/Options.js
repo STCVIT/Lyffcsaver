@@ -1,17 +1,11 @@
 import { useEffect, useState } from "react";
 import styles from "../css/Options.module.css";
-// import AvailableCoursesList from "./AvailableCoursesList";
-// import FacultiesPreferenceList from "./FacultiesPreferenceList";
-// import SelectedCoursesList from "./SelectedCoursesList";
-// import Instructions from "./Instructions";
-// import InitialSelect from "./InitialSelect";
 import ReserveSlots from "./ReserveSlots";
 import CampusToggle from "./CampusToggle";
 import CourseSelect from "./CourseSelect";
 import ClassPreference from "./ClassPreference";
 import ClassSelect from "./ClassSelect";
 import Button from "./Button";
-import { Container } from "react-bootstrap";
 import { getCourseID } from "../utils/generalUtils";
 
 const Options = ({ generateTimetables, selectSlots }) => {
@@ -19,7 +13,6 @@ const Options = ({ generateTimetables, selectSlots }) => {
 
   const [stagedCourses, setStagedCourses] = useState([]);
   const [selectedClasses, setSelectedClasses] = useState({});
-  // const [selectedFaculties, setSelectedFaculties] = useState({});
   const [currentlySelectedCourseID, setCurrentlySelectedCourseID] =
     useState("");
 
@@ -60,34 +53,13 @@ const Options = ({ generateTimetables, selectSlots }) => {
     }
   };
   const stageCourse = (course) => {
-    // try {
-    //   let res = await axios.get(`/courses?courseID=${courseID}`);
-    //   if (res.data !== undefined) {
-    //     const course = res.data;
-    //     setSelectedCourses((prevSelectedCourses) => [
-    //       ...prevSelectedCourses.filter(
-    //         (prevCourse) => getCourseID(prevCourse) !== getCourseID(course)
-    //       ),
-    //       course,
-    //     ]);
-    //   }
-    // } catch (error) {
-    //   console.error(error);
-    // }
     setStagedCourses((prevSelectedCourses) => [
       ...prevSelectedCourses.filter(
         (prevCourse) => getCourseID(prevCourse) !== getCourseID(course)
       ),
       course,
     ]);
-    // setSelectedClasses((prevSelectedClasses) => {
-    //   let obj;
-    //   obj = { ...prevSelectedClasses };
-    //   if (prevSelectedClasses[getCourseID(course)] === undefined) {
-    //     prevSelectedClasses[getCourseID(course)] = [];
-    //   }
-    //   return obj;
-    // });
+    setCurrentlySelectedCourseID(getCourseID(course));
   };
 
   const unstageCourse = (object) => {
@@ -97,12 +69,6 @@ const Options = ({ generateTimetables, selectSlots }) => {
     setStagedCourses((prevSelectedCourses) =>
       prevSelectedCourses.filter((course) => courseID !== getCourseID(course))
     );
-
-    // setSelectedClasses((prevSelectedClasses) => {
-    //   const obj = { ...prevSelectedClasses };
-    //   delete obj[courseID];
-    //   return obj;
-    // });
   };
 
   const selectCourse = (object) => {
