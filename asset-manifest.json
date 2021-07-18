@@ -1,19 +1,19 @@
 {
   "files": {
-    "main.css": "/Lyffcsaver/static/css/main.586cc7d9.chunk.css",
-    "main.js": "/Lyffcsaver/static/js/main.f85823f8.chunk.js",
-    "main.js.map": "/Lyffcsaver/static/js/main.f85823f8.chunk.js.map",
+    "main.css": "/Lyffcsaver/static/css/main.9687ca63.chunk.css",
+    "main.js": "/Lyffcsaver/static/js/main.5654cf0b.chunk.js",
+    "main.js.map": "/Lyffcsaver/static/js/main.5654cf0b.chunk.js.map",
     "runtime-main.js": "/Lyffcsaver/static/js/runtime-main.5dc19802.js",
     "runtime-main.js.map": "/Lyffcsaver/static/js/runtime-main.5dc19802.js.map",
     "static/css/2.4be38407.chunk.css": "/Lyffcsaver/static/css/2.4be38407.chunk.css",
-    "static/js/2.dfb0561b.chunk.js": "/Lyffcsaver/static/js/2.dfb0561b.chunk.js",
-    "static/js/2.dfb0561b.chunk.js.map": "/Lyffcsaver/static/js/2.dfb0561b.chunk.js.map",
+    "static/js/2.4dd2de23.chunk.js": "/Lyffcsaver/static/js/2.4dd2de23.chunk.js",
+    "static/js/2.4dd2de23.chunk.js.map": "/Lyffcsaver/static/js/2.4dd2de23.chunk.js.map",
     "static/js/3.aac17acf.chunk.js": "/Lyffcsaver/static/js/3.aac17acf.chunk.js",
     "static/js/3.aac17acf.chunk.js.map": "/Lyffcsaver/static/js/3.aac17acf.chunk.js.map",
     "index.html": "/Lyffcsaver/index.html",
     "static/css/2.4be38407.chunk.css.map": "/Lyffcsaver/static/css/2.4be38407.chunk.css.map",
-    "static/css/main.586cc7d9.chunk.css.map": "/Lyffcsaver/static/css/main.586cc7d9.chunk.css.map",
-    "static/js/2.dfb0561b.chunk.js.LICENSE.txt": "/Lyffcsaver/static/js/2.dfb0561b.chunk.js.LICENSE.txt",
+    "static/css/main.9687ca63.chunk.css.map": "/Lyffcsaver/static/css/main.9687ca63.chunk.css.map",
+    "static/js/2.4dd2de23.chunk.js.LICENSE.txt": "/Lyffcsaver/static/js/2.4dd2de23.chunk.js.LICENSE.txt",
     "static/media/aboutPageLady.7f303e54.svg": "/Lyffcsaver/static/media/aboutPageLady.7f303e54.svg",
     "static/media/aboutPageSchedules.4f21dce0.svg": "/Lyffcsaver/static/media/aboutPageSchedules.4f21dce0.svg",
     "static/media/camera.d811b08a.svg": "/Lyffcsaver/static/media/camera.d811b08a.svg",
@@ -31,8 +31,8 @@
   "entrypoints": [
     "static/js/runtime-main.5dc19802.js",
     "static/css/2.4be38407.chunk.css",
-    "static/js/2.dfb0561b.chunk.js",
-    "static/css/main.586cc7d9.chunk.css",
-    "static/js/main.f85823f8.chunk.js"
+    "static/js/2.4dd2de23.chunk.js",
+    "static/css/main.9687ca63.chunk.css",
+    "static/js/main.5654cf0b.chunk.js"
   ]
 }
