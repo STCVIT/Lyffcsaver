@@ -121,7 +121,7 @@ const populateSlotCombination = async (
   objectToPopulate
 ) => {
   if (window.Worker) {
-    const worker = new Worker("Lyffcsaver/workers/worker.js");
+    const worker = new Worker("/Lyffcsaver/workers/worker.js");
 
     getSlotMapping();
 
