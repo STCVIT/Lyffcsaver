@@ -16,6 +16,5 @@
   "eslint.alwaysShowStatus": true,
   "emmet.includeLanguages": {
     "javascript": "javascriptreact"
-  },
-  "cSpell.words": ["vite"]
+  }
 }

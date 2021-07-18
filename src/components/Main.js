@@ -2,7 +2,7 @@ import Header from "./Header";
 import Options from "./Options";
 import TimetablesSection from "./TimetablesSection";
 import { useEffect, useState } from "react";
-// import { ReactComponent as QuarterEllipse } from "../assets/quarterEllipse.svg";
+import { ReactComponent as QuarterEllipse } from "../assets/quarterEllipse.svg";
 import { Container } from "react-bootstrap";
 import {
   getTimetables,
