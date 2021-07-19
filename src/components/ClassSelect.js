@@ -1,6 +1,7 @@
 import styles from "../css/ClassSelect.module.css";
 import facultiesData from "../data/faculties.json";
 import classesData from "../data/classes.json";
+import coursesData from "../data/courses.json";
 import { getCourseID } from "../utils/generalUtils";
 import { useEffect, useState } from "react";
 import Fuse from "fuse.js";
@@ -14,6 +15,12 @@ const FacultySelect = ({ selectedCourseID, addClass, selectedClasses }) => {
   let filteredClasses = classesData.filter(
     (classData) => getCourseID(classData) === selectedCourseID
   );
+  const getCourseTitle = (classData) => {
+    const course = coursesData.find(
+      (courseData) => getCourseID(courseData) === getCourseID(classData)
+    );
+    if (course !== undefined) return course["COURSE TITLE"];
+  };
   const completeFilteredClasses = [];
   let filteredFaculties = facultiesData.filter((faculty) =>
     filteredClasses.find((classData) => {
@@ -26,6 +33,7 @@ const FacultySelect = ({ selectedCourseID, addClass, selectedClasses }) => {
         completeFilteredClasses.push({
           ...classData,
           "EMPLOYEE NAME": faculty["EMPLOYEE NAME"],
+          "COURSE TITLE": getCourseTitle(classData),
         });
         continue;
       }

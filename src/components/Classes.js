@@ -109,6 +109,7 @@ const Classes = ({
 
   const isSelectedClass = (classToBeChecked, currentCourseID) => {
     return (
+      selectedClasses !== undefined &&
       selectedClasses[currentCourseID] !== undefined &&
       selectedClasses[currentCourseID]["CLASS ID"] ===
         classToBeChecked["CLASS ID"]
@@ -116,9 +117,12 @@ const Classes = ({
   };
 
   const getClassName = (classToBeChecked) => {
+    // console.log(classToBeChecked);
     let className = `${styles.tableRow} `;
     const newSlots = classToBeChecked["SLOT"].split("+");
     const noSlotConflict =
+      selectedClasses !== undefined &&
+      selectedClasses !== null &&
       newSlots.find(
         (slot) =>
           Object.keys(selectedClasses).find(
@@ -252,7 +256,8 @@ const Classes = ({
               </tr>
             </thead>
             <tbody>
-              {selectedClasses[courseID] === undefined ? (
+              {selectedClasses === undefined ||
+              selectedClasses[courseID] === undefined ? (
                 <></>
               ) : (
                 <tr

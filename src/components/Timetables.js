@@ -10,12 +10,29 @@ const Timetables = ({ schedules, slots, classes }) => {
   useEffect(() => {
     setHoveredSlots([]);
   }, [slots]);
+  // useEffect(() => {
+  //   setSelectedClasses((prevSelectedClasses) => {
+  //     const obj = { ...prevSelectedClasses };
+  //     console.log(JSON.stringify(obj));
+  //     Object.keys(obj).forEach((courseID) => {
+  //       const classID = obj[courseID]["CLASS ID"];
+  //       const completeClassData = classes[courseID].find(
+  //         (classData) => classData["CLASS ID"] === classID
+  //       );
+  //       if (completeClassData !== undefined)
+  //         obj["COURSE TITLE"] = completeClassData["COURSE TITLE"];
+  //       console.log(JSON.stringify(obj));
+  //       return obj;
+  //     });
+  //   });
+  // }, [selectedClasses]);
   return (
     <div id="#timetables-screen" className={styles.timetablesScreen}>
       <Timetable
         selectedClasses={selectedClasses}
         slots={slots}
         hoveredSlots={hoveredSlots}
+        classes={classes}
       ></Timetable>
       {slots !== undefined && slots.length > 0 ? (
         <Classes
