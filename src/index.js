@@ -1,10 +1,10 @@
-import "../src/css/fontStyles.css";
-import "bootstrap/dist/css/bootstrap.min.css";
-import "./index.css";
 import React from "react";
 import ReactDOM from "react-dom";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "./index.css";
+import "../src/css/fontStyles.css";
 // import { Navbar, Nav, Container } from "react-bootstrap";
 // import logo from "../src/assets/logo.svg";
 // import styles from "../src/css/Header.module.css";

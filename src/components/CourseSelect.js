@@ -103,6 +103,9 @@ const CourseSelect = ({
                     <div className={styles.courseType}>
                       {stagedCourse["COURSE TYPE"]}
                     </div>
+                    <div className={styles.courseCredits}>
+                      CREDITS: {stagedCourse["CREDITS"]}
+                    </div>
                   </div>
                 );
               })}
