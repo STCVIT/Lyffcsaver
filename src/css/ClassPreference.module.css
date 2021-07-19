@@ -64,10 +64,16 @@
 .class {
   border: 2px var(--black-faded) solid;
   padding: 5px;
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
   background: var(--white);
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+.classContent {
+  display: grid;
   gap: 5px;
+  grid-template-columns: repeat(5, 1fr);
+  flex: 1;
 }
 /* .class > * {
   word-wrap: break-word;

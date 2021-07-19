@@ -1,6 +1,7 @@
 import styles from "../css/ClassPreference.module.css";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import Button from "./Button";
+import dragHandle from "../assets/dragHandle.svg";
 const ClassPreference = ({ classes, removeClass, setReorderedClasses }) => {
   const handleOnDragEnd = (result) => {
     if (!result.destination) return;
@@ -38,27 +39,34 @@ const ClassPreference = ({ classes, removeClass, setReorderedClasses }) => {
                                 key={`${classData["CLASS ID"]}-priority-select-c`}
                                 className={`${styles.class}`}
                                 {...provided.draggableProps}
-                                {...provided.dragHandleProps}
                               >
                                 <div
-                                  className={`${styles.facultyName} body1-bold`}
+                                  {...provided.dragHandleProps}
+                                  className={styles.handle}
                                 >
-                                  {classData["EMPLOYEE NAME"]}
+                                  <img src={dragHandle} alt="drag" />
                                 </div>
-                                <a
-                                  className={styles.delete}
-                                  onClick={(e) => {
-                                    e.stopPropagation();
-                                    removeClass(classData);
-                                  }}
-                                >
-                                  X
-                                </a>
-                                <div className={styles.erpId}>
-                                  {classData["ERP ID"]}
-                                </div>
-                                <div className={styles.classSlots}>
-                                  {classData["SLOT"]}
+                                <div className={styles.classContent}>
+                                  <div
+                                    className={`${styles.facultyName} body1-bold`}
+                                  >
+                                    {classData["EMPLOYEE NAME"]}
+                                  </div>
+                                  <a
+                                    className={styles.delete}
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      removeClass(classData);
+                                    }}
+                                  >
+                                    X
+                                  </a>
+                                  <div className={styles.erpId}>
+                                    {classData["ERP ID"]}
+                                  </div>
+                                  <div className={styles.classSlots}>
+                                    {classData["SLOT"]}
+                                  </div>
                                 </div>
                               </li>
                             )}
