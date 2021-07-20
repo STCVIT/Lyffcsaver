@@ -25,8 +25,8 @@
     "build": "yarn run load && react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "load": "node .\\scripts\\parseAndLoadExcel.js .\\scripts\\course-allocation\\WINSEM2019-20_ALL_ALLOCATIONREPORT_22-10-2019.xlsx .\\src\\data\\",
-    "predeploy": "npm run build",
+    "load": "node .\\scripts\\parseAndLoadExcel.js \".\\scripts\\course-allocation\\Fall 2021-22 Course Allocation Report.xlsx\" .\\src\\data\\",
+    "predeploy": "yarn run build",
     "deploy": "gh-pages -d build"
   },
   "lint-staged": {

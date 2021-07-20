@@ -7,6 +7,7 @@ const FACULTIES = "FACULTIES";
 const COURSES = "COURSES";
 const CLASSES = "CLASSES";
 
+let count = 0;
 let coursesUploaded = 0,
   coursesFailed = 0,
   classesUploaded = 0,
@@ -18,6 +19,10 @@ let failedFacultyData = [],
   failedClassData = [];
 const getCourseID = (course) => {
   return `${course["COURSE CODE"]}-${course["COURSE TYPE"]}`;
+};
+
+const getClassID = (course) => {
+  return `${course["COURSE CODE"]}-${course["COURSE TYPE"]}-${count++}`;
 };
 const addUnique = async (uniqueField, collectionName, data) => {
   // try {
@@ -75,7 +80,10 @@ const parseAndLoadExcel = async (filePath, writeDir) => {
     const newClass = {
       "ERP ID": classInfo["ERP ID"],
       "COURSE CODE": classInfo["COURSE CODE"],
-      "CLASS ID": classInfo["CLASS ID"],
+      "CLASS ID":
+        classInfo["CLASS ID"] === undefined
+          ? getClassID(classInfo)
+          : classInfo["CLASS ID"],
       "ASSO CLASS ID": classInfo["ASSO CLASS ID"],
       SLOT: classInfo["SLOT"],
       "COURSE TYPE": classInfo["COURSE TYPE"],
