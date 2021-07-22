@@ -412,14 +412,14 @@ const getTimetables = async (classes, reservedSlots) => {
       if (!actualSlotCombinations.includes(slotCombination))
         impossibleSlotCombinations.push(slotCombination);
     });
-    // console.log(
-    //   "Possible Slot combinations",
-    //   possibleSlotCombinationsObject,
-    //   "Missed Slot Combinations",
-    //   missedSlotCombinations,
-    //   "Impossible Slot Combinations",
-    //   impossibleSlotCombinations
-    // );
+    console.log(
+      "Possible Slot combinations",
+      possibleSlotCombinationsObject,
+      "Missed Slot Combinations",
+      missedSlotCombinations,
+      "Impossible Slot Combinations",
+      impossibleSlotCombinations
+    );
 
     console.time("populatedSlotCombination");
     const populatedSlotCombinationsObject = await populateSlotCombination(

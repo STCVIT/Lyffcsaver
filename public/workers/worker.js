@@ -1,9 +1,28 @@
-let mapping;
+// let mapping;
+/**
+ *
+ * @typedef {string} courseID
+ * @typedef {string} slot
+ * @typedef {Object<string>} ClassData - All data pertaining to a class
+ * @typedef {Object<ClassData>} ClassSelection - A selection of classes with one class selected for each course component
+ */
+
+/**
+ * Returns a string to uniquely identify a course component..
+ * @param {{"COURSE CODE": string, "COURSE TYPE": string}} course Object with fields "COURSE CODE" and "COURSE TYPE"
+ * @returns {string} courseID
+ */
 const getCourseID = (course) => {
   return `${course["COURSE CODE"]}-${course["COURSE TYPE"]}`;
 };
-const getSlots = (result) => {
-  const classes = Object.values(result);
+
+/**
+ *
+ * @param {ClassSelection} selection
+ * @returns {Array<slot>} slots
+ */
+const getSlots = (selection) => {
+  const classes = Object.values(selection);
   const slots = [];
   classes
     .map((currentClass) => currentClass["SLOT"].split("+"))
@@ -14,23 +33,33 @@ const getSlots = (result) => {
   return slots;
 };
 
-const isPossible = (selection, courseID) => {
-  const allSlots = getSlots(selection);
-  const allSlotsSet = new Set(allSlots);
-  if (allSlots.length > allSlotsSet.size) return false;
+/**
+ *
+ * @param {ClassSelection} selection
+ * @param {courseID} courseID
+ * @returns {boolean}
+ */
+const isPossible = (selection, courseID, mapping) => {
+  try {
+    const allSlots = getSlots(selection);
+    const allSlotsSet = new Set(allSlots);
+    if (allSlots.length > allSlotsSet.size) return false;
 
-  const slotsToBeChecked = getSlots({ courseID: selection[courseID] });
-  for (const slot of slotsToBeChecked) {
-    const equivalentSlots = mapping[slot];
-    if (equivalentSlots === undefined) continue;
-    for (const equivalentSlot of equivalentSlots) {
-      if (allSlots.includes(equivalentSlot)) return false;
+    const slotsToBeChecked = getSlots({ courseID: selection[courseID] });
+    for (const slot of slotsToBeChecked) {
+      const equivalentSlots = mapping[slot];
+      if (equivalentSlots === undefined) continue;
+      for (const equivalentSlot of equivalentSlots) {
+        if (allSlots.includes(equivalentSlot)) return false;
+      }
     }
+    return true;
+  } catch {
+    return false;
   }
-  return true;
 };
 
-const selectClasses = (courseIDs, classes, selection = {}) => {
+const selectClasses = (courseIDs, classes, mapping, selection = {}) => {
   if (courseIDs.length === 0) {
     const slots = [...new Set(getSlots(selection))];
     slots.sort();
@@ -46,10 +75,11 @@ const selectClasses = (courseIDs, classes, selection = {}) => {
 
     // only checking if the change that was made
     // is possible.
-    if (!isPossible(selection, courseID)) continue;
+    if (!isPossible(selection, courseID, mapping)) continue;
     const results = selectClasses(
       courseIDs.slice(1),
       classes,
+      mapping,
       Object.assign({}, selection)
     );
     for (const resultArray of Object.values(results)) {
@@ -97,7 +127,7 @@ const slotsAlreadyConsidered = (
   }
   return equalArrayExists;
 };
-const slotConflict = (slotsA, slotsB) => {
+const slotConflict = (slotsA, slotsB, mapping) => {
   for (const slotA of slotsA) {
     const equivalentSlotsA = mapping[slotA];
     if (equivalentSlotsA === undefined) continue;
@@ -119,7 +149,12 @@ const slotConflict = (slotsA, slotsB) => {
   }
   return false;
 };
-const getSlotCombinations = (courseIDs, classes, combinations = []) => {
+const getSlotCombinations = (
+  courseIDs,
+  classes,
+  mapping,
+  combinations = []
+) => {
   if (courseIDs.length === 0) {
     return combinations;
   }
@@ -139,7 +174,7 @@ const getSlotCombinations = (courseIDs, classes, combinations = []) => {
         if (getCourseID(currentClass) !== courseID) continue;
         const slotsToBeAdded = currentClass["SLOT"].split("+");
 
-        if (slotConflict(slotsToBeAdded, baseSlots)) continue;
+        if (slotConflict(slotsToBeAdded, baseSlots, mapping)) continue;
         const newCombination = [...slotsToBeAdded, ...baseSlots];
 
         if (slotsAlreadyConsidered(newCombination, newCombinations)) continue;
@@ -148,7 +183,12 @@ const getSlotCombinations = (courseIDs, classes, combinations = []) => {
       }
     }
   }
-  return getSlotCombinations(courseIDs.slice(1), classes, newCombinations);
+  return getSlotCombinations(
+    courseIDs.slice(1),
+    classes,
+    mapping,
+    newCombinations
+  );
 };
 
 /**
@@ -159,7 +199,7 @@ const getSlotCombinations = (courseIDs, classes, combinations = []) => {
  */
 const allElementsWithinArray = (arrayToBeTested, testingArray) => {
   return (
-    arrayToBeTested.find((element) => testingArray.includes(element)) !==
+    arrayToBeTested.find((element) => !testingArray.includes(element)) ===
     undefined
   );
 };
@@ -174,6 +214,7 @@ const populateSlotCombination = (
   courseIDs,
   classes,
   slotCombinationString,
+  mapping,
   possibleSlotCombinations = {}
 ) => {
   // if (possibleSlotCombinations[slotCombinationString] === undefined)
@@ -212,7 +253,11 @@ const populateSlotCombination = (
   }
 
   // Object in format { slotCombination: [schedules] } where schedule is in format {courseIDs: class}
-  const possibleClassSelections = selectClasses(courseIDs, uniqueClasses);
+  const possibleClassSelections = selectClasses(
+    courseIDs,
+    uniqueClasses,
+    mapping
+  );
   const newSchedules = [];
   const scheduleIDs = new Set();
   const getScheduleID = (schedule) => {
@@ -276,19 +321,27 @@ onmessage = (event) => {
   const req = event.data[0];
   try {
     if (req === "selectClasses") {
-      mapping = event.data[1];
+      const mapping = event.data[1];
       const courseIDs = event.data[2];
       const classes = event.data[3];
-      const possibleClassSelections = selectClasses(courseIDs, classes);
+      const possibleClassSelections = selectClasses(
+        courseIDs,
+        classes,
+        mapping
+      );
       event.ports[0].postMessage({ result: possibleClassSelections });
     } else if (req === "getSlotCombinations") {
-      mapping = event.data[1];
+      const mapping = event.data[1];
       const courseIDs = event.data[2];
       const classes = event.data[3];
-      const possibleSlotCombinations = getSlotCombinations(courseIDs, classes);
+      const possibleSlotCombinations = getSlotCombinations(
+        courseIDs,
+        classes,
+        mapping
+      );
       event.ports[0].postMessage({ result: possibleSlotCombinations });
     } else if (req === "populateSlotCombination") {
-      mapping = event.data[1];
+      const mapping = event.data[1];
       const courseIDs = event.data[2];
       const classes = event.data[3];
       const slotCombinationString = event.data[4];
@@ -305,6 +358,7 @@ onmessage = (event) => {
         courseIDs,
         classes,
         slotCombinationString,
+        mapping,
         possibleSlotCombinations
       );
       event.ports[0].postMessage({ result: possibleClassSelections });
@@ -315,3 +369,18 @@ onmessage = (event) => {
     event.ports[0].postMessage({ error: e });
   }
 };
+
+// eslint-disable-next-line no-undef
+if (module !== undefined)
+  // eslint-disable-next-line no-undef
+  module.exports = {
+    allElementsWithinArray,
+    getCourseID,
+    getSlotCombinations,
+    getSlots,
+    isPossible,
+    selectClasses,
+    slotConflict,
+    slotsAlreadyConsidered,
+    populateSlotCombination,
+  };

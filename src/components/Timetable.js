@@ -26,7 +26,7 @@ const Timetable = ({ slots, selectedClasses, hoveredSlots, classes }) => {
       ];
   };
   const getClassBySlotInSchedule = (schedule, cell) => {
-    console.log(schedule, cell);
+    // console.log(schedule, cell);
     if (schedule === undefined || schedule === null) return {};
     const courseIDs = Object.keys(schedule);
     const courseID = courseIDs?.find((courseID) =>

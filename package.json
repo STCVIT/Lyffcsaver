@@ -23,7 +23,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "yarn run load && react-scripts build",
-    "test": "react-scripts test",
+    "test": "jest",
     "eject": "react-scripts eject",
     "load": "node .\\scripts\\parseAndLoadExcel.js \".\\scripts\\course-allocation\\Fall 2021-22 Course Allocation Report.xlsx\" .\\src\\data\\",
     "predeploy": "yarn run build",
@@ -62,9 +62,14 @@
     "eslint-plugin-react": "^7.23.2",
     "gh-pages": "^3.2.3",
     "husky": "^6.0.0",
+    "jest": "^27.0.6",
     "lint-staged": "^10.5.4",
     "prettier": "^2.2.1",
     "pretty-quick": "^3.1.0"
+  },
+  "jest": {
+    "verbose": true,
+    "transform": {}
   },
   "proxy": "http://localhost:3001"
 }

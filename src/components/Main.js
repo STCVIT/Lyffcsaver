@@ -37,6 +37,7 @@ const Main = () => {
     console.log("updated allSchedules", allSchedules);
   }, [allSchedules]);
   const getAllSlotCombinations = async (classes, reservedSlots) => {
+    // console.log(await getTimetables(classes, reservedSlots));
     setAllSchedules({});
     setAllSchedules(await getSlotCombinations(classes, reservedSlots));
     setClasses({ ...classes });

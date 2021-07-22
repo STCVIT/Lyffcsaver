@@ -17,7 +17,7 @@ const Options = ({ generateTimetables, selectSlots }) => {
     useState("");
 
   useEffect(() => {
-    console.log(selectedClasses);
+    console.log("selected classes", selectedClasses);
   }, [selectedClasses]);
   useEffect(() => {
     setSelectedClasses((prevSelectedClasses) => {
