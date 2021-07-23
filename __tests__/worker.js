@@ -2,12 +2,12 @@ const timetableTemplateData = require("../.tests.data/timetableTemplateData");
 const {
   allElementsWithinArray,
   getCourseID,
-  getSlotCombinations,
   getSlots,
   isPossible,
-  selectClasses,
   slotConflict,
   slotsAlreadyConsidered,
+  selectClasses,
+  getSlotCombinations,
   populateSlotCombination,
 } = require("../public/workers/worker");
 
@@ -43,6 +43,7 @@ test("check validity of test of slot conflicts", () => {
   const mapping = {};
   getSlotMapping(mapping);
   expect(slotConflict(validSlots[0], ["L59"], mapping)).toBe(false);
+  expect(slotConflict(validSlots[0], ["L37"], mapping)).toBe(false);
   expect(slotConflict(validSlots[0], ["A1"], mapping)).toBe(true);
   expect(slotConflict(validSlots[0], ["B1"], mapping)).toBe(true);
   expect(slotConflict(validSlots[0], [], mapping)).toBe(false);

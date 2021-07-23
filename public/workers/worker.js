@@ -138,7 +138,7 @@ const slotConflict = (slotsA, slotsB, mapping) => {
       for (const equivalentSlotA of equivalentSlotsA) {
         for (const equivalentSlotB of equivalentSlotsB) {
           if (
-            equivalentSlotA === equivalentSlotB ||
+            // equivalentSlotA === equivalentSlotB ||
             slotA === equivalentSlotB ||
             slotB === equivalentSlotA
           )
@@ -183,12 +183,14 @@ const getSlotCombinations = (
       }
     }
   }
-  return getSlotCombinations(
+  const result = getSlotCombinations(
     courseIDs.slice(1),
     classes,
     mapping,
     newCombinations
   );
+  console.log(result, courseIDs.slice(1), classes, mapping, newCombinations);
+  return result;
 };
 
 /**
