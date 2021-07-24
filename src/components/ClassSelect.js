@@ -5,7 +5,7 @@ import coursesData from "../data/courses.json";
 import { getCourseID } from "../utils/generalUtils";
 import { useEffect, useState } from "react";
 import Fuse from "fuse.js";
-const FacultySelect = ({ selectedCourseID, addClass, selectedClasses }) => {
+const ClassSelect = ({ selectedCourseID, addClass, selectedClasses }) => {
   const defaultQuery = {
     searchQuery: "",
     slots: "",
@@ -193,4 +193,4 @@ const FacultySelect = ({ selectedCourseID, addClass, selectedClasses }) => {
     </div>
   );
 };
-export default FacultySelect;
+export default ClassSelect;

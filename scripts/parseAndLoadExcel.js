@@ -97,34 +97,43 @@ const parseAndLoadExcel = async (filePath, writeDir) => {
       "WAITING SEATS": classInfo["WAITING SEATS"],
       "COURSE STATUS": classInfo["COURSE STATUS"],
     };
-    if (classInfo["SLOT"] !== "NIL") {
-      classes.push(newClass);
-      // await addUnique("CLASS ID", CLASSES, newClass);
-      if (matchingFaculty === null) {
-        const newFaculty = {
-          "ERP ID": classInfo["ERP ID"],
-          "EMPLOYEE NAME": classInfo["EMPLOYEE NAME"],
-          "EMPLOYEE SCHOOL": classInfo["EMPLOYEE SCHOOL"],
-        };
-        faculties.push(newFaculty);
-        // await addUnique("ERP ID", FACULTIES, newFaculty);
-      }
-      if (matchingCourse === null) {
-        const newCourse = {
-          "COURSE OWNER": classInfo["COURSE OWNER"],
-          "COURSE CODE": classInfo["COURSE CODE"],
-          "COURSE TITLE": classInfo["COURSE TITLE"],
-          "COURSE TYPE": classInfo["COURSE TYPE"],
-          "LECTURE HOURS": classInfo["LECTURE HOURS"],
-          "PROJECT HOURS": classInfo["PROJECT HOURS"],
-          "TUTORIAL HOURS": classInfo["TUTORIAL HOURS"],
-          "PRACTICAL HOURS": classInfo["PRACTICAL HOURS"],
-          CREDITS: classInfo["CREDITS"],
-        };
-        newCourse["COURSE ID"] = getCourseID(newCourse);
-        courses.push(newCourse);
-        // await addUnique("COURSE ID", COURSES, newCourse);
-      }
+    // if (classInfo["SLOT"] !== "NIL") {
+    classes.push(newClass);
+    // await addUnique("CLASS ID", CLASSES, newClass);
+    // console.assert(classInfo["COURSE TYPE"] !== "EPJ", getCourseID(classInfo));
+    if (matchingFaculty === null) {
+      const newFaculty = {
+        "ERP ID": classInfo["ERP ID"],
+        "EMPLOYEE NAME": classInfo["EMPLOYEE NAME"],
+        "EMPLOYEE SCHOOL": classInfo["EMPLOYEE SCHOOL"],
+      };
+      faculties.push(newFaculty);
+      // await addUnique("ERP ID", FACULTIES, newFaculty);
+      // }
+      // console.assert(
+      //   classInfo["COURSE TYPE"] !== "EPJ",
+      //   getCourseID(classInfo)
+      // );
+      // await addUnique("COURSE ID", COURSES, newCourse);
+    }
+    if (matchingCourse === null) {
+      const newCourse = {
+        "COURSE OWNER": classInfo["COURSE OWNER"],
+        "COURSE CODE": classInfo["COURSE CODE"],
+        "COURSE TITLE": classInfo["COURSE TITLE"],
+        "COURSE TYPE": classInfo["COURSE TYPE"],
+        "LECTURE HOURS": classInfo["LECTURE HOURS"],
+        "PROJECT HOURS": classInfo["PROJECT HOURS"],
+        "TUTORIAL HOURS": classInfo["TUTORIAL HOURS"],
+        "PRACTICAL HOURS": classInfo["PRACTICAL HOURS"],
+        CREDITS: classInfo["CREDITS"],
+      };
+      newCourse["COURSE ID"] = getCourseID(newCourse);
+      courses.push(newCourse);
+      // console.assert(
+      //   classInfo["COURSE TYPE"] !== "EPJ",
+      //   getCourseID(newCourse)
+      // );
     }
   }
   // console.log(`Classes uploaded: ${classesUploaded}`);

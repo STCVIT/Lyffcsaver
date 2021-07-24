@@ -19,6 +19,13 @@ const CourseSelect = ({
         (stagedCourse) => getCourseID(stagedCourse) === getCourseID(course)
       ) === undefined
   );
+  console.log(
+    coursesData,
+    filteredCourses.filter((course) => course["COURSE TYPE"] === "PJT"),
+    coursesData.filter((course) => course["COURSE TYPE"] === "PJT"),
+    filteredCourses.filter((course) => course["COURSE TYPE"] === "EPJ"),
+    coursesData.filter((course) => course["COURSE TYPE"] === "EPJ")
+  );
   const seenCourses = new Set();
   filteredCourses = filteredCourses.filter((course) => {
     const duplicate = seenCourses.has(course["COURSE CODE"]);
