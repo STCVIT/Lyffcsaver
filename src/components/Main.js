@@ -61,23 +61,41 @@ const Main = () => {
     getSchedulesForSlots(slots.join("+"));
     setCurrentlySelectedSlots(slots);
   };
-
+  const isClientMobile = () => {
+    let mql = window.matchMedia("(max-width: 750px)");
+    if (
+      // /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+      //   navigator.userAgent
+      // ) &&
+      mql.matches
+    ) {
+      return true;
+    }
+    return false;
+  };
   return (
     <Container className={styles.container}>
-      <Options
-        getCourseID={getCourseID}
-        generateTimetables={getAllSlotCombinations}
-        selectSlots={selectSlots}
-      />
-      <TimetablesSection
-        schedules={allSchedules}
-        classes={classes}
-        getSchedulesForSlots={getSchedulesForSlots}
-        currentlySelectedSlots={currentlySelectedSlots}
-        selectSlots={selectSlots}
-      ></TimetablesSection>
+      {isClientMobile() ? (
+        <>Site not made for mobile use. Please open on a larger screen.</>
+      ) : (
+        <>
+          <Options
+            getCourseID={getCourseID}
+            generateTimetables={getAllSlotCombinations}
+            selectSlots={selectSlots}
+          />
+          <TimetablesSection
+            schedules={allSchedules}
+            classes={classes}
+            getSchedulesForSlots={getSchedulesForSlots}
+            currentlySelectedSlots={currentlySelectedSlots}
+            selectSlots={selectSlots}
+          ></TimetablesSection>
+        </>
+      )}
     </Container>
   );
+  // return {<>}
 };
 
 export default Main;

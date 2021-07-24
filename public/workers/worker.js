@@ -189,7 +189,7 @@ const getSlotCombinations = (
     mapping,
     newCombinations
   );
-  console.log(result, courseIDs.slice(1), classes, mapping, newCombinations);
+  // console.log(result, courseIDs.slice(1), classes, mapping, newCombinations);
   return result;
 };
 
