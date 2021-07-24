@@ -2,6 +2,7 @@ import styles from "../css/CourseSelect.module.css";
 import Searchbar from "./Searchbar";
 import coursesData from "../data/courses.json";
 import Button from "./Button";
+import { useState } from "react";
 
 const CourseSelect = ({
   stageCourse,
@@ -24,6 +25,10 @@ const CourseSelect = ({
     seenCourses.add(course["COURSE CODE"]);
     return !duplicate;
   });
+  const totalCredits =
+    stagedCourses.reduce((total, current) => {
+      return total + Number(current["CREDITS"]);
+    }, 0) || 0;
   return (
     <div className={styles.container}>
       <div className={styles.search}>
@@ -111,19 +116,24 @@ const CourseSelect = ({
               })}
             </div>
           </div>
-          <div className={styles.buttons}>
-            <Button
-              onClick={() =>
-                stagedCourses.forEach((course) => {
-                  unstageCourse(course);
-                  deselectCourse(course);
-                })
-              }
-              type="clear"
-            >
-              CLEAR
-            </Button>
-            {/* <Button type="primary">ADD COURSES</Button> */}
+          <div className={styles.footer}>
+            <div className={styles.totalCredits}>
+              TOTAL CREDITS: {totalCredits}
+            </div>
+            <div className={styles.buttons}>
+              <Button
+                onClick={() =>
+                  stagedCourses.forEach((course) => {
+                    unstageCourse(course);
+                    deselectCourse(course);
+                  })
+                }
+                type="clear"
+              >
+                CLEAR
+              </Button>
+              {/* <Button type="primary">ADD COURSES</Button> */}
+            </div>
           </div>
         </div>
       </div>

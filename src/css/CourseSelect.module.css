@@ -16,11 +16,17 @@
 .title {
   margin-bottom: 10px;
 }
+.footer {
+  display: flex;
+  padding: 10px 20px;
+  align-items: center;
+  justify-content: space-between;
+}
 .buttons {
   display: flex;
   justify-content: flex-end;
+  align-items: center;
   gap: 30px;
-  padding: 10px 20px;
 }
 .courseSuggestion {
   display: grid;
