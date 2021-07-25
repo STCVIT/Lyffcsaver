@@ -16,6 +16,7 @@
   --primary-very-faded: hsl(267, 100%, 98%);
   --black: hsl(0, 0%, 0%);
   --black-faded: hsl(0, 0%, 15%);
+  --black-very-faded: hsl(0, 0%, 55%);
   --white: hsl(0, 0%, 100%);
   --white-faded: hsl(0, 0%, 85%);
   --white-slightly-faded: hsl(0, 0%, 91%);

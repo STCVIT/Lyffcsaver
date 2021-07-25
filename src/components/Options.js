@@ -17,14 +17,18 @@ const Options = ({ generateTimetables, selectSlots }) => {
     useState("");
 
   useEffect(() => {
-    console.log("selected classes", selectedClasses);
-  }, [selectedClasses]);
+    console.log("selected class", currentlySelectedCourseID);
+  }, [currentlySelectedCourseID]);
+  // useEffect(() => {
+  //   console.log("selected classes", selectedClasses);
+  // }, [selectedClasses]);
   useEffect(() => {
     setSelectedClasses((prevSelectedClasses) => {
       const obj = { ...prevSelectedClasses };
       stagedCourses.forEach((stagedCourse) => {
         const courseID = getCourseID(stagedCourse);
-        if (obj[courseID] === undefined) obj[courseID] = [];
+        if (obj[courseID] === undefined && !isProject(courseID))
+          obj[courseID] = [];
       });
       const courseIDs = Object.keys(obj);
       courseIDs.forEach((courseID) => {
@@ -59,7 +63,8 @@ const Options = ({ generateTimetables, selectSlots }) => {
       ),
       course,
     ]);
-    setCurrentlySelectedCourseID(getCourseID(course));
+    // setCurrentlySelectedCourseID(getCourseID(course));
+    selectCourse(course);
   };
 
   const unstageCourse = (object) => {
@@ -70,11 +75,22 @@ const Options = ({ generateTimetables, selectSlots }) => {
       prevSelectedCourses.filter((course) => courseID !== getCourseID(course))
     );
   };
+  const isProject = (courseID) => {
+    return courseID.endsWith("PJT") || courseID.endsWith("EPJ");
+  };
 
+  /**
+   * Select course and allow user to select faculties for that course
+   *
+   * @param {string|object} object Course ID or Course Data object
+   * @returns undefined
+   */
   const selectCourse = (object) => {
     let courseID;
     if (typeof object === "string") courseID = object;
     else courseID = getCourseID(object);
+    console.log(courseID);
+    if (isProject(courseID)) return;
     setCurrentlySelectedCourseID(courseID);
   };
 
@@ -118,10 +134,6 @@ const Options = ({ generateTimetables, selectSlots }) => {
       return obj;
     });
   };
-
-  // const finalizeAll = () => {
-
-  // }
 
   return (
     <>
@@ -169,6 +181,7 @@ const Options = ({ generateTimetables, selectSlots }) => {
           selectCourse={selectCourse}
           deselectCourse={deselectCourse}
           selectedCourseID={currentlySelectedCourseID}
+          isProject={isProject}
         ></CourseSelect>
         <ClassPreference
           classes={selectedClasses[currentlySelectedCourseID]}

@@ -2,8 +2,6 @@ import styles from "../css/CourseSelect.module.css";
 import Searchbar from "./Searchbar";
 import coursesData from "../data/courses.json";
 import Button from "./Button";
-import { useState } from "react";
-
 const CourseSelect = ({
   stageCourse,
   unstageCourse,
@@ -12,19 +10,13 @@ const CourseSelect = ({
   selectCourse,
   deselectCourse,
   selectedCourseID,
+  isProject,
 }) => {
   let filteredCourses = coursesData.filter(
     (course) =>
       stagedCourses.find(
         (stagedCourse) => getCourseID(stagedCourse) === getCourseID(course)
       ) === undefined
-  );
-  console.log(
-    coursesData,
-    filteredCourses.filter((course) => course["COURSE TYPE"] === "PJT"),
-    coursesData.filter((course) => course["COURSE TYPE"] === "PJT"),
-    filteredCourses.filter((course) => course["COURSE TYPE"] === "EPJ"),
-    coursesData.filter((course) => course["COURSE TYPE"] === "EPJ")
   );
   const seenCourses = new Set();
   filteredCourses = filteredCourses.filter((course) => {
@@ -89,6 +81,10 @@ const CourseSelect = ({
                     className={`${styles.course} ${
                       getCourseID(stagedCourse) === selectedCourseID
                         ? styles.selectedCourse
+                        : ""
+                    } ${
+                      isProject(getCourseID(stagedCourse))
+                        ? styles.disabledCourse
                         : ""
                     }`}
                     key={`selected-course-${getCourseID(stagedCourse)}`}

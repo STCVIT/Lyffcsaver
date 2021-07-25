@@ -83,3 +83,9 @@
   border: var(--primary) var(--border-size) solid;
   background-color: var(--primary-very-faded);
 }
+.disabledCourse {
+  cursor: not-allowed;
+  border: var(--black) var(--border-size) solid;
+  background-color: var(--white-slightly-faded);
+  color: var(--black-very-faded);
+}
