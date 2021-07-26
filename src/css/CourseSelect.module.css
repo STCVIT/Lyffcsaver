@@ -51,6 +51,7 @@
   border: var(--border-size) solid var(--black);
   padding: 5px;
   cursor: pointer;
+  position: relative;
 }
 .courseTitle {
   grid-column: 1 / span 3;
@@ -88,4 +89,31 @@
   border: var(--black) var(--border-size) solid;
   background-color: var(--white-slightly-faded);
   color: var(--black-very-faded);
+}
+:not(.disabledCourse).empty::before {
+  content: "";
+  background: var(--red);
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  position: absolute;
+  /* top: 50%; */
+  top: 0;
+  right: 0;
+  /* padding: inherit; */
+  transform: translateY(-50%) translateX(50%);
+}
+
+:not(.disabledCourse).filled::before {
+  content: "";
+  /* padding: inherit; */
+  background: var(--green);
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  position: absolute;
+  /* top: 50%; */
+  top: 0;
+  right: 0;
+  transform: translateY(-50%) translateX(50%);
 }

@@ -83,6 +83,10 @@ const Options = ({ generateTimetables, selectSlots }) => {
     return courseID.endsWith("PJT") || courseID.endsWith("EPJ");
   };
 
+  const hasSelectedClasses = (courseID) => {
+    return selectedClasses[courseID]?.length > 0;
+  };
+
   /**
    * Select course and allow user to select faculties for that course
    *
@@ -198,6 +202,7 @@ const Options = ({ generateTimetables, selectSlots }) => {
           deselectCourse={deselectCourse}
           selectedCourseID={currentlySelectedCourseID}
           isProject={isProject}
+          hasSelectedClasses={hasSelectedClasses}
         ></CourseSelect>
         <ClassPreference
           classes={selectedClasses[currentlySelectedCourseID]}

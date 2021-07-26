@@ -11,6 +11,7 @@ const CourseSelect = ({
   deselectCourse,
   selectedCourseID,
   isProject,
+  hasSelectedClasses,
 }) => {
   let filteredCourses = coursesData.filter(
     (course) =>
@@ -86,6 +87,10 @@ const CourseSelect = ({
                       isProject(getCourseID(stagedCourse))
                         ? styles.disabledCourse
                         : ""
+                    } ${
+                      hasSelectedClasses(getCourseID(stagedCourse))
+                        ? styles.filled
+                        : styles.empty
                     }`}
                     key={`selected-course-${getCourseID(stagedCourse)}`}
                     onClick={(e) => {
