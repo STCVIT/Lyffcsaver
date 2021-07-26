@@ -39,7 +39,9 @@ const Main = () => {
   const getAllSlotCombinations = async (classes, reservedSlots) => {
     // console.log(await getTimetables(classes, reservedSlots));
     setAllSchedules({});
-    setAllSchedules(await getSlotCombinations(classes, reservedSlots));
+    const result = await getSlotCombinations(classes, reservedSlots);
+    if (result.error !== undefined) return result.error;
+    setAllSchedules(result);
     setClasses({ ...classes });
     setReservedSlots([...reservedSlots]);
   };

@@ -199,11 +199,26 @@ const Options = ({ generateTimetables, selectSlots }) => {
         classes={styles.generateTimetablesButton}
         type="primary"
         onClick={async () => {
-          await generateTimetables(selectedClasses, reservedSlots);
+          const error = await generateTimetables(
+            selectedClasses,
+            reservedSlots
+          );
           selectSlots([]);
-          document
-            .querySelector("#timetable-previews")
-            ?.scrollIntoView({ behavior: "smooth" });
+          // console.log(error);
+
+          // if(error !== undefined)
+          if (error === "NO_CLASSES")
+            document
+              .querySelector("#class-selection-section")
+              ?.scrollIntoView({ behavior: "smooth" });
+          else if (error === "NO_COURSES")
+            document
+              .querySelector("#add-courses-section")
+              ?.scrollIntoView({ behavior: "smooth" });
+          else if (error === undefined)
+            document
+              .querySelector("#timetable-previews")
+              ?.scrollIntoView({ behavior: "smooth" });
         }}
       >
         Generate Timetables

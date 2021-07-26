@@ -14,7 +14,7 @@ const getCourseID = (course) => {
 const verifyPreferencesSet = (courseIDs, classes) => {
   if (courseIDs.length === 0) {
     alert(`Please select at least one course.`);
-    return false;
+    return { proceed: false, error: "NO_COURSES" };
   }
   const unsetCourses = [];
   courseIDs.forEach((courseID) => {
@@ -26,9 +26,10 @@ const verifyPreferencesSet = (courseIDs, classes) => {
       `Please add at least one class for each course.
         Courses with no classes added yet: ${unsetCourses.join(", ")}`
     );
-    return false;
+    return { proceed: false, error: "NO_CLASSES" };
+    // return false;
   }
-  return true;
+  return { proceed: true };
 };
 
 const getSlotMapping = () => {
@@ -82,21 +83,23 @@ const verifyNumberOfClasses = (courseIDs, classes) => {
       `No valid classes found for ${courseIDWithTooFewClasses}\n` +
         `Please either reduce reserved slots or add more classes with different slots from this course`
     );
-    return false;
+    return { proceed: false, error: "NO_VALID_CLASSES" };
   }
 
   const numberOfPossibilities = getNumberOfTotalPossibleSelections(classes);
   if (numberOfPossibilities > 200_000_000) {
     const minutes = numberOfPossibilities / 50_000_000;
-    return confirm(
-      `Number of Possibilities: ${numberOfPossibilities.toLocaleString()}\n` +
-        `Time required: (approx) ${minutes.toLocaleString()} minutes (Actual time required might be much less)\n` +
-        // `If you get a message saying "Page Unresponsive" after choosing to proceed, please choose to wait.\n` +
-        `To reduce possibilities, reduce the number of classes selected or reserve more slots\n` +
-        `Proceed?`
-    );
+    return {
+      proceed: confirm(
+        `Number of Possibilities: ${numberOfPossibilities.toLocaleString()}\n` +
+          `Time required: (approx) ${minutes.toLocaleString()} minutes (Actual time required might be much less)\n` +
+          // `If you get a message saying "Page Unresponsive" after choosing to proceed, please choose to wait.\n` +
+          `To reduce possibilities, reduce the number of classes selected or reserve more slots\n` +
+          `Proceed?`
+      ),
+    };
   }
-  return true;
+  return { proceed: true };
 };
 
 const removeReservedSlots = (classes, reservedSlots) => {
@@ -186,17 +189,24 @@ const getSlotCombinations = async (classes, reservedSlots) => {
   console.log(classes, reservedSlots);
   if (window.Worker) {
     const worker = new Worker("/Lyffcsaver/workers/worker.js");
-    console.log(worker);
 
     getSlotMapping();
 
     const courseIDs = Object.keys(classes);
     // let classes = await getClasses(faculties);
 
-    if (!verifyPreferencesSet(courseIDs, classes)) return {};
+    const { proceed: proceed1, error: error1 } = verifyPreferencesSet(
+      courseIDs,
+      classes
+    );
+    if (!proceed1) return { error: error1 };
 
     classes = removeReservedSlots(classes, reservedSlots);
-    if (!verifyNumberOfClasses(courseIDs, classes)) return {};
+    const { proceed: proceed2, error: error2 } = verifyNumberOfClasses(
+      courseIDs,
+      classes
+    );
+    if (!proceed2) return { error: error2 };
 
     // sorting courseIDs in ascending order of the number of classes
     // with that courseID.
@@ -245,7 +255,7 @@ const getSlotCombinations = async (classes, reservedSlots) => {
     console.timeEnd("getSlotCombinations");
     return possibleSlotCombinationsObject;
   }
-  return {};
+  return { error: "NO_WORKER" };
 };
 
 /**
@@ -264,10 +274,17 @@ const getTimetables = async (classes, reservedSlots) => {
     const courseIDs = Object.keys(classes);
     // let classes = await getClasses(faculties);
 
-    if (!verifyPreferencesSet(courseIDs, classes)) return [];
+    const { proceed, error } = verifyPreferencesSet(courseIDs, classes);
+    if (!proceed) return [];
+    // if (!verifyPreferencesSet(courseIDs, classes)) return [];
 
     classes = removeReservedSlots(classes, reservedSlots);
-    if (!verifyNumberOfClasses(courseIDs, classes)) return [];
+    const { proceed: proceed2, error2 } = verifyNumberOfClasses(
+      courseIDs,
+      classes
+    );
+    if (!proceed2) return [];
+    // if (!verifyNumberOfClasses(courseIDs, classes)) return [];
 
     // sorting courseIDs in ascending order of the number of classes
     // with that courseID.
