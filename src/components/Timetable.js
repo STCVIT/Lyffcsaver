@@ -1,7 +1,5 @@
 import styles from "../css/Timetable.module.css";
 import timetableTemplateData from "../utils/timetableTemplateData";
-import cameraImg from "../assets/camera.svg";
-import html2canvas from "html2canvas";
 
 const Timetable = ({ slots, selectedClasses, hoveredSlots, classes }) => {
   // console.log("rendering timetable", slots);
@@ -205,30 +203,6 @@ const Timetable = ({ slots, selectedClasses, hoveredSlots, classes }) => {
           })}
         </tbody>
       </table>
-      <div className={styles.buttons}>
-        <input
-          type="image"
-          src={cameraImg}
-          alt="Download timetable image"
-          onClick={() => {
-            const help = document.getElementById("filled-out-timetable");
-            html2canvas(help, {
-              // allowTaint: true,
-              // backgroundColor: "#000",
-              foreignObjectRendering: true,
-              // logging: true,
-              // useCORS: true,
-            }).then((canvas) => {
-              console.log(help, canvas);
-              const a = document.createElement("a");
-              a.href = canvas.toDataURL("image/png");
-              a.download = `timetable-${slots.join("+")}.png`;
-              // a.download = "help.png";
-              a.click();
-            });
-          }}
-        />
-      </div>
     </div>
   );
 };
