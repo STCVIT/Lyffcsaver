@@ -142,7 +142,7 @@ const Options = ({ generateTimetables, selectSlots }) => {
 
   return (
     <>
-      <CampusToggle></CampusToggle>
+      {/* <CampusToggle></CampusToggle> */}
       <div
         className={`${styles.sectionTitle} heading2`}
         id="reserve-slots-section"
@@ -214,7 +214,7 @@ const Options = ({ generateTimetables, selectSlots }) => {
         classes={styles.generateTimetablesButton}
         type="primary"
         onClick={async () => {
-          const error = await generateTimetables(
+          const { error, data } = await generateTimetables(
             selectedClasses,
             reservedSlots
           );
@@ -222,11 +222,12 @@ const Options = ({ generateTimetables, selectSlots }) => {
           // console.log(error);
 
           // if(error !== undefined)
-          if (error === "NO_CLASSES")
+          if (error === "NO_CLASSES") {
             document
-              .querySelector("#class-selection-section")
+              .querySelector("#add-courses-section")
               ?.scrollIntoView({ behavior: "smooth" });
-          else if (error === "NO_COURSES")
+            if (data !== undefined) selectCourse(data[0]);
+          } else if (error === "NO_COURSES")
             document
               .querySelector("#add-courses-section")
               ?.scrollIntoView({ behavior: "smooth" });

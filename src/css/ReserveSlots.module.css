@@ -1,12 +1,12 @@
 .container {
+  --transition-time: 200ms;
   width: 100%;
-  margin-bottom: 30px;
   display: flex;
   flex-direction: column;
   align-items: center;
   position: relative;
   overflow: hidden;
-  transition: height 200ms ease;
+  transition: height var(--transition-time) ease;
 }
 .container2 {
   height: 700px;
@@ -16,7 +16,8 @@
 }
 .wrapper1,
 .wrapper2 {
-  transition: all 200ms ease-out;
+  transition: top var(--transition-time) ease,
+    bottom var(--transition-time) ease;
   position: absolute;
   left: 0;
   right: 0;

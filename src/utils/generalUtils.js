@@ -26,7 +26,7 @@ const verifyPreferencesSet = (courseIDs, classes) => {
       `Please add at least one class for each course.
         Courses with no classes added yet: ${unsetCourses.join(", ")}`
     );
-    return { proceed: false, error: "NO_CLASSES" };
+    return { proceed: false, error: "NO_CLASSES", data: unsetCourses };
     // return false;
   }
   return { proceed: true };
@@ -195,11 +195,12 @@ const getSlotCombinations = async (classes, reservedSlots) => {
     const courseIDs = Object.keys(classes);
     // let classes = await getClasses(faculties);
 
-    const { proceed: proceed1, error: error1 } = verifyPreferencesSet(
-      courseIDs,
-      classes
-    );
-    if (!proceed1) return { error: error1 };
+    const {
+      proceed: proceed1,
+      error: error1,
+      data,
+    } = verifyPreferencesSet(courseIDs, classes);
+    if (!proceed1) return { error: error1, data };
 
     classes = removeReservedSlots(classes, reservedSlots);
     const { proceed: proceed2, error: error2 } = verifyNumberOfClasses(

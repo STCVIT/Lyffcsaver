@@ -40,7 +40,7 @@ const Main = () => {
     // console.log(await getTimetables(classes, reservedSlots));
     setAllSchedules({});
     const result = await getSlotCombinations(classes, reservedSlots);
-    if (result.error !== undefined) return result.error;
+    if (result.error !== undefined) return result;
     setAllSchedules(result);
     setClasses({ ...classes });
     setReservedSlots([...reservedSlots]);
