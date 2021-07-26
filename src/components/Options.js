@@ -15,10 +15,14 @@ const Options = ({ generateTimetables, selectSlots }) => {
   const [selectedClasses, setSelectedClasses] = useState({});
   const [currentlySelectedCourseID, setCurrentlySelectedCourseID] =
     useState("");
+  const [reserveView, setReserveView] = useState(0);
 
   useEffect(() => {
     console.log("selected class", currentlySelectedCourseID);
   }, [currentlySelectedCourseID]);
+  useEffect(() => {
+    console.log("reserve view", reserveView);
+  }, [reserveView]);
   // useEffect(() => {
   //   console.log("selected classes", selectedClasses);
   // }, [selectedClasses]);
@@ -143,6 +147,16 @@ const Options = ({ generateTimetables, selectSlots }) => {
         className={`${styles.sectionTitle} heading2`}
         id="reserve-slots-section"
       >
+        <div className={styles.left_btns}>
+          <a
+            className={`${styles.btn} body1-medium`}
+            onClick={() => {
+              setReserveView((prevReserveView) => (prevReserveView + 1) % 2);
+            }}
+          >
+            Change View
+          </a>
+        </div>
         <div className={styles.title}>Reserve your Slots</div>
         <div className={styles.btns}>
           <a
@@ -165,6 +179,7 @@ const Options = ({ generateTimetables, selectSlots }) => {
       <ReserveSlots
         reservedSlots={reservedSlots}
         toggleReserve={toggleReserve}
+        view={reserveView}
       ></ReserveSlots>
       <div
         className={`${styles.sectionTitle} heading2`}
