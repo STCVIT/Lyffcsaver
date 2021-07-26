@@ -9,12 +9,12 @@
   overflow: auto;
   width: 100%;
 }
-.timetable {
+table.timetable {
   width: 100%;
   min-width: 650px;
+  margin: 0;
+  margin-top: 30px;
 }
-/* .timetable > td {
-} */
 td.cell {
   user-select: none;
   padding: 10px 0;
