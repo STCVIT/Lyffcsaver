@@ -220,7 +220,7 @@ const Options = ({ generateTimetables, selectSlots }) => {
         classes={styles.generateTimetablesButton}
         type="primary"
         clickedCallback={async () => {
-          const { error, data } = await generateTimetables(
+          const result = await generateTimetables(
             selectedClasses,
             reservedSlots
           );
@@ -228,6 +228,11 @@ const Options = ({ generateTimetables, selectSlots }) => {
           // console.log(error);
 
           // if(error !== undefined)
+          let error, data;
+          if (result?.error !== undefined) {
+            error = result.error;
+            data = result.data;
+          }
           if (error === "NO_CLASSES") {
             document
               .querySelector("#add-courses-section")
