@@ -203,6 +203,7 @@ const Options = ({ generateTimetables, selectSlots }) => {
           classes={selectedClasses[currentlySelectedCourseID]}
           removeClass={removeClass}
           setReorderedClasses={setReorderedClasses}
+          selectedCourseID={currentlySelectedCourseID}
         ></ClassPreference>
       </div>
       <ClassSelect
@@ -213,7 +214,7 @@ const Options = ({ generateTimetables, selectSlots }) => {
       <Button
         classes={styles.generateTimetablesButton}
         type="primary"
-        onClick={async () => {
+        clickedCallback={async () => {
           const { error, data } = await generateTimetables(
             selectedClasses,
             reservedSlots

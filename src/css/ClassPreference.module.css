@@ -22,6 +22,9 @@
   /* align-self: flex-start; */
   margin: 20px;
 }
+/* .addClassesButton.disabled{
+  background-color: var();
+} */
 .title {
   margin-bottom: 10px;
 }

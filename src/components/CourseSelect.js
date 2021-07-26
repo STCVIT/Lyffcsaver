@@ -125,13 +125,14 @@ const CourseSelect = ({
             </div>
             <div className={styles.buttons}>
               <Button
-                onClick={() =>
+                clickedCallback={() =>
                   stagedCourses.forEach((course) => {
                     unstageCourse(course);
                     deselectCourse(course);
                   })
                 }
                 type="clear"
+                disabled={stagedCourses?.length === 0}
               >
                 CLEAR
               </Button>

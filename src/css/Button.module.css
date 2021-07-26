@@ -19,3 +19,7 @@
   --color: var(--white);
   --faded: var(--primary-faded);
 }
+.disabled {
+  background: var(--faded);
+  cursor: not-allowed;
+}

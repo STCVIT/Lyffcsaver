@@ -2,7 +2,12 @@ import styles from "../css/ClassPreference.module.css";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import Button from "./Button";
 import dragHandle from "../assets/dragHandle.svg";
-const ClassPreference = ({ classes, removeClass, setReorderedClasses }) => {
+const ClassPreference = ({
+  classes,
+  removeClass,
+  setReorderedClasses,
+  selectedCourseID,
+}) => {
   const handleOnDragEnd = (result) => {
     if (!result.destination) return;
 
@@ -91,18 +96,24 @@ const ClassPreference = ({ classes, removeClass, setReorderedClasses }) => {
             })} */}
           </div>
           <Button
-            classes={styles.addClassesButton}
+            classes={`${styles.addClassesButton}`}
             type="primary"
-            href="#class-selection-section"
+            clickedCallback={() => {
+              document
+                .querySelector("#class-selection-section")
+                ?.scrollIntoView({ behavior: "smooth" });
+            }}
+            disabled={selectedCourseID?.length === 0}
           >
             ADD CLASSES +
           </Button>
           <div className={styles.buttons}>
             <Button
               type="clear"
-              onClick={() => {
-                classes.forEach((classData) => removeClass(classData));
+              clickedCallback={() => {
+                classes?.forEach((classData) => removeClass(classData));
               }}
+              disabled={selectedCourseID?.length === 0}
             >
               CLEAR
             </Button>
