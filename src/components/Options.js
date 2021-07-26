@@ -15,7 +15,7 @@ const Options = ({ generateTimetables, selectSlots }) => {
   const [selectedClasses, setSelectedClasses] = useState({});
   const [currentlySelectedCourseID, setCurrentlySelectedCourseID] =
     useState("");
-  const [reserveView, setReserveView] = useState(0);
+  const [reserveView, setReserveView] = useState(1);
 
   useEffect(() => {
     console.log("selected class", currentlySelectedCourseID);

@@ -192,66 +192,6 @@ const Timetable = ({ slots, selectedClasses, hoveredSlots, classes }) => {
                                 ]
                               }
                             </div>
-                            {/* <div className={styles.tooltipLabel}>
-                              COURSE TITLE:
-                            </div>
-                            <div className={styles.tooltipInfo}>
-                              {
-                                getClassBySlotInSchedule(selectedClasses, cell)[
-                                  "COURSE TITLE"
-                                ]
-                              }
-                            </div>
-                            <div className={styles.tooltipLabel}>
-                              EMPLOYEE NAME:
-                            </div>
-                            <div className={styles.tooltipInfo}>
-                              {
-                                getClassBySlotInSchedule(selectedClasses, cell)[
-                                  "EMPLOYEE NAME"
-                                ]
-                              }
-                            </div>
-                            <div className={styles.tooltipLabel}>SLOT:</div>
-                            <div className={styles.tooltipInfo}>{cell}</div>
-                            <div className={styles.tooltipLabel}>TIMING:</div>
-                            <div className={styles.tooltipInfo}>
-                              {getSlotTiming(cell, cellIndex).join(" - ")}
-                            </div> */}
-                            {/* <div className={styles.tooltipCol}>
-                              <div className={styles.tooltipLabel}>
-                                COURSE TITLE:
-                              </div>
-                              <div className={styles.tooltipLabel}>
-                                EMPLOYEE NAME:
-                              </div>
-                              <div className={styles.tooltipLabel}>SLOT:</div>
-                              <div className={styles.tooltipLabel}>TIMING:</div>
-                            </div>
-
-                            <div className={styles.tooltipCol}>
-                              <div className={styles.tooltipInfo}>
-                                {
-                                  getClassBySlotInSchedule(
-                                    selectedClasses,
-                                    cell
-                                  )["COURSE TITLE"]
-                                }
-                              </div>
-
-                              <div className={styles.tooltipInfo}>
-                                {
-                                  getClassBySlotInSchedule(
-                                    selectedClasses,
-                                    cell
-                                  )["EMPLOYEE NAME"]
-                                }
-                              </div>
-                              <div className={styles.tooltipInfo}>{cell}</div>
-                              <div className={styles.tooltipInfo}>
-                                {getSlotTiming(cell, cellIndex).join(" - ")}
-                              </div> */}
-                            {/* </div> */}
                           </div>
                         </div>
                       ) : (
@@ -271,19 +211,19 @@ const Timetable = ({ slots, selectedClasses, hoveredSlots, classes }) => {
           src={cameraImg}
           alt="Download timetable image"
           onClick={() => {
-            const help = document.getElementById("help");
+            const help = document.getElementById("filled-out-timetable");
             html2canvas(help, {
               // allowTaint: true,
               // backgroundColor: "#000",
-              // foreignObjectRendering: true,
+              foreignObjectRendering: true,
               // logging: true,
               // useCORS: true,
             }).then((canvas) => {
               console.log(help, canvas);
               const a = document.createElement("a");
               a.href = canvas.toDataURL("image/png");
-              // a.download = `timetable-${slots.join("+")}.png`;
-              a.download = "help.png";
+              a.download = `timetable-${slots.join("+")}.png`;
+              // a.download = "help.png";
               a.click();
             });
           }}

@@ -96,6 +96,12 @@ const ClassSelect = ({ selectedCourseID, addClass, selectedClasses }) => {
         );
         classData["EMPLOYEE NAME"] = faculty["EMPLOYEE NAME"];
       }
+      if (classData["COURSE TITLE"] === undefined) {
+        const course = coursesData.find(
+          (course) => course["COURSE CODE"] === classData["COURSE CODE"]
+        );
+        classData["COURSE TITLE"] = course["COURSE TITLE"];
+      }
       addClass(classData, courseID);
     });
   };
