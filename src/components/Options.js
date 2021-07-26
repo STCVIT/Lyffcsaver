@@ -102,17 +102,18 @@ const Options = ({ generateTimetables, selectSlots }) => {
       setCurrentlySelectedCourseID("");
   };
 
-  const addClass = (classData) => {
+  const addClass = (classData, courseID = currentlySelectedCourseID) => {
+    console.log(classData, courseID);
+    // if(classData["EMPLOYEE NAME"] === undefined)
     setSelectedClasses((prevSelectedClasses) => {
       const obj = { ...prevSelectedClasses };
-      if (obj[currentlySelectedCourseID] === undefined)
-        obj[currentlySelectedCourseID] = [];
+      if (obj[courseID] === undefined) obj[courseID] = [];
       if (
-        obj[currentlySelectedCourseID].find(
+        obj[courseID].find(
           (_classData) => _classData["CLASS ID"] === classData["CLASS ID"]
         ) === undefined
       )
-        obj[currentlySelectedCourseID].push(classData);
+        obj[courseID].push(classData);
       return obj;
     });
   };

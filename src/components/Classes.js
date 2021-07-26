@@ -19,7 +19,7 @@ const Classes = ({
     "ASSO CLASS ID",
     "COURSE ID",
     "CLASS OPTION",
-    "CLASS TYPE",
+    // "COURSE TYPE",
     "WAITING SEATS",
     "COURSE STATUS",
     "COURSE MODE",
@@ -134,6 +134,10 @@ const Classes = ({
     if (!noSlotConflict) className += `${styles.faded} `;
     return className;
   };
+  const isLabComponent = (classData) => {
+    // if(getCourseID())
+    return classData["COURSE TYPE"] === "ELA";
+  };
 
   const InteractionElement = ({ currentClass, customKey, currentCourseID }) => {
     return (
@@ -144,30 +148,34 @@ const Classes = ({
           id={`${customKey}-selected`}
           key={customKey}
           onClick={(e) => {
-            let newSelectedClasses = selectedClasses;
-            if (newSelectedClasses[currentCourseID] === undefined)
-              newSelectedClasses[currentCourseID] = {};
-            if (e.target.checked) {
-              for (const courseIDToBeChecked of Object.keys(
-                newSelectedClasses
-              )) {
-                if (
-                  currentCourseID !== courseIDToBeChecked &&
-                  newSelectedClasses[courseIDToBeChecked]["SLOT"]
-                    ?.split("+")
-                    ?.find((slot) =>
-                      currentClass["SLOT"].split("+").includes(slot)
-                    )
-                ) {
-                  delete newSelectedClasses[courseIDToBeChecked];
+            setSelectedClasses((prevSelectedClasses) => {
+              let newSelectedClasses = { ...prevSelectedClasses };
+              if (newSelectedClasses[currentCourseID] === undefined)
+                newSelectedClasses[currentCourseID] = {};
+              if (e.target.checked) {
+                for (const courseIDToBeChecked of Object.keys(
+                  newSelectedClasses
+                )) {
+                  if (
+                    currentCourseID !== courseIDToBeChecked &&
+                    newSelectedClasses[courseIDToBeChecked]["SLOT"]
+                      ?.split("+")
+                      ?.find((slot) =>
+                        currentClass["SLOT"].split("+").includes(slot)
+                      )
+                  ) {
+                    delete newSelectedClasses[courseIDToBeChecked];
+                  }
                 }
+                // if(isLabComponent(currentClass))
+                if (!isSelectedClass(currentClass))
+                  newSelectedClasses[currentCourseID] = currentClass;
+              } else {
+                delete newSelectedClasses[currentCourseID];
               }
-              if (!isSelectedClass(currentClass))
-                newSelectedClasses[currentCourseID] = currentClass;
-            } else {
-              delete newSelectedClasses[currentCourseID];
-            }
-            setSelectedClasses({ ...newSelectedClasses });
+              return newSelectedClasses;
+            });
+            // setSelectedClasses({ ...newSelectedClasses });
           }}
           defaultChecked={isSelectedClass(currentClass, currentCourseID)}
           className={styles.checkbox}
@@ -218,17 +226,6 @@ const Classes = ({
         })
       : [];
   };
-
-  // const currentPageData = courseIDs
-  //   ?.slice(currentPage * previewsPerPage, (currentPage + 1) * previewsPerPage)
-  //   ?.map((courseID) => {
-  //     return (
-  //       <div
-  //         className={styles.container}
-  //         key={`${slots.join("")}-${courseID}`}
-  //       ></div>
-  //     );
-  //   });
 
   const currentPageData = courseIDs
     ?.slice(currentPage * previewsPerPage, (currentPage + 1) * previewsPerPage)

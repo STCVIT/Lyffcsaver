@@ -66,6 +66,40 @@ const ClassSelect = ({ selectedCourseID, addClass, selectedClasses }) => {
       )
     );
   }, [query]);
+
+  const isTheoryComponent = (classData) => {
+    return classData["COURSE TYPE"] === "ETH";
+  };
+  const isLabComponent = (classData) => {
+    return classData["COURSE TYPE"] === "ELA";
+  };
+  const getLabComponent = (classData) => {
+    if (!isTheoryComponent(classData)) return;
+    // console.log(selectedClasses);
+    return Object.keys(selectedClasses).find((courseID) => {
+      return (
+        courseID.startsWith(classData["COURSE CODE"]) &&
+        courseID.endsWith("ELA")
+      );
+    });
+  };
+
+  const selectAllWith = (fieldName, value, courseID) => {
+    const validClasses = classesData.filter(
+      (classData) =>
+        getCourseID(classData) === courseID && classData[fieldName] === value
+    );
+    validClasses.forEach((classData) => {
+      if (classData["EMPLOYEE NAME"] === undefined) {
+        const faculty = facultiesData.find(
+          (faculty) => faculty["ERP ID"] === classData["ERP ID"]
+        );
+        classData["EMPLOYEE NAME"] = faculty["EMPLOYEE NAME"];
+      }
+      addClass(classData, courseID);
+    });
+  };
+
   return (
     <div className={styles.container} id="class-selection-section">
       <div className={styles.queryRow}>
@@ -171,6 +205,13 @@ const ClassSelect = ({ selectedCourseID, addClass, selectedClasses }) => {
                     onClick={(e) => {
                       e.stopPropagation();
                       addClass(classData);
+                      const labComponent = getLabComponent(classData);
+                      if (labComponent === undefined) return;
+                      selectAllWith(
+                        "ERP ID",
+                        classData["ERP ID"],
+                        labComponent
+                      );
                     }}
                   >
                     +
