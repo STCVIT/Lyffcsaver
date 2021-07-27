@@ -60,7 +60,7 @@ const Options = ({ generateTimetables, selectSlots }) => {
       }
     }
   };
-  const stageCourse = (course) => {
+  const stageCourse = (course, select = true) => {
     setStagedCourses((prevSelectedCourses) => [
       ...prevSelectedCourses.filter(
         (prevCourse) => getCourseID(prevCourse) !== getCourseID(course)
@@ -68,6 +68,7 @@ const Options = ({ generateTimetables, selectSlots }) => {
       course,
     ]);
     // setCurrentlySelectedCourseID(getCourseID(course));
+    if(select)
     selectCourse(course);
   };
 

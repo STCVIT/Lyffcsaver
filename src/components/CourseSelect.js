@@ -38,14 +38,9 @@ const CourseSelect = ({
           data={filteredCourses}
           keys={["COURSE CODE", "COURSE TITLE"]}
           onSelect={(selectedString) => {
-            // console.log(
-            //   coursesData.filter((course) =>
-            //     selectedString.startsWith(course["COURSE CODE"])
-            //   )
-            // );
             coursesData.forEach((course) => {
               if (selectedString.startsWith(course["COURSE CODE"]))
-                stageCourse(course);
+                stageCourse(course, !course["COURSE TYPE"].endsWith("ELA"));
             });
           }}
           getUnique={(course) =>
