@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import styles from "../css/Options.module.css";
 import ReserveSlots from "./ReserveSlots";
-import CampusToggle from "./CampusToggle";
+// import CampusToggle from "./CampusToggle";
 import CourseSelect from "./CourseSelect";
 import ClassPreference from "./ClassPreference";
 import ClassSelect from "./ClassSelect";
@@ -17,15 +17,6 @@ const Options = ({ generateTimetables, selectSlots }) => {
     useState("");
   const [reserveView, setReserveView] = useState(1);
 
-  useEffect(() => {
-    console.log("selected class", currentlySelectedCourseID);
-  }, [currentlySelectedCourseID]);
-  useEffect(() => {
-    console.log("reserve view", reserveView);
-  }, [reserveView]);
-  // useEffect(() => {
-  //   console.log("selected classes", selectedClasses);
-  // }, [selectedClasses]);
   useEffect(() => {
     setSelectedClasses((prevSelectedClasses) => {
       const obj = { ...prevSelectedClasses };
@@ -67,9 +58,7 @@ const Options = ({ generateTimetables, selectSlots }) => {
       ),
       course,
     ]);
-    // setCurrentlySelectedCourseID(getCourseID(course));
-    if(select)
-    selectCourse(course);
+    if (select) selectCourse(course);
   };
 
   const unstageCourse = (object) => {
@@ -253,60 +242,6 @@ const Options = ({ generateTimetables, selectSlots }) => {
       </Button>
     </>
   );
-  // return (
-  // <div className={styles.screen}>
-  //   <div className={styles.row}>
-  //     <Instructions></Instructions>
-  //     <InitialSelect></InitialSelect>
-  //   </div>
-  //   {/* <div className={styles.selectionTablesRow}> */}
-  //   <div className={styles.row}>
-  //     <AvailableCoursesList
-  //       addCourse={addCourse}
-  //       selectedCourses={selectedCourses}
-  //       getCourseID={getCourseID}
-  //     ></AvailableCoursesList>
-  //     <SelectedCoursesList
-  //       removeCourse={removeCourse}
-  //       onSelect={selectCourse}
-  //       onDeselect={deselectCourse}
-  //       getCourseID={getCourseID}
-  //       selectedCourses={selectedCourses}
-  //     ></SelectedCoursesList>
-  //     <FacultiesPreferenceList
-  //       currentlySelectedCourseID={currentlySelectedCourseID}
-  //       selectedFaculties={selectedFaculties}
-  //       setSelectedFaculties={setSelectedFaculties}
-  //       getCourseID={getCourseID}
-  //     ></FacultiesPreferenceList>
-  //   </div>
-  //   <div className={styles.row}>
-  //     <ReserveSlots
-  //       reservedSlots={reservedSlots}
-  //       toggleReserve={toggleReserve}
-  //     ></ReserveSlots>
-  //   </div>
-  //   <div className={styles.row}>
-  //     <button
-  //       className={styles.submitBtn}
-  //       onClick={async () => {
-  //         console.log("CLICKED");
-  //         await generateTimetables(
-  //           selectedCourses,
-  //           selectedFaculties,
-  //           reservedSlots
-  //         );
-  //         selectSlots([]);
-  //         document
-  //           .querySelector("#timetable-previews")
-  //           ?.scrollIntoView({ behavior: "smooth" });
-  //       }}
-  //     >
-  //       Generate Timetables
-  //     </button>
-  //   </div>
-  // </div>
-  // );
 };
 
 export default Options;

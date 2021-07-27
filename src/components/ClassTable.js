@@ -47,7 +47,6 @@ const ClassTable = ({
         classes[courseID].push(schedule[courseID]);
     })
   );
-  courseIDs.sort((a, b) => classes[b].length - classes[a].length);
   courseIDs.forEach((courseID) =>
     classes[courseID]?.sort(
       (a, b) => getScore(courseID, b) - getScore(courseID, a)

@@ -11,6 +11,7 @@ const Classes = ({
   setSelectedClasses,
   setHoveredSlots,
   getScore,
+  isUnique,
 }) => {
   const courseIDs = schedules?.length > 0 ? Object.keys(schedules[0]) : [];
   const previewsPerPage = 1;
@@ -62,6 +63,15 @@ const Classes = ({
       .querySelectorAll(`.${styles.hoverRow}`)
       .forEach((e) => e.classList.remove(styles.hoverRow));
   };
+  const classes = {};
+  schedules?.forEach((schedule) =>
+    courseIDs?.forEach((courseID) => {
+      if (classes[courseID] === undefined) classes[courseID] = [];
+      if (isUnique("CLASS ID", classes[courseID], schedule[courseID]))
+        classes[courseID].push(schedule[courseID]);
+    })
+  );
+  courseIDs.sort((a, b) => classes[b].length - classes[a].length);
   const currentPageData = courseIDs
     ?.slice(currentPage * previewsPerPage, (currentPage + 1) * previewsPerPage)
     ?.map((courseID) => {
