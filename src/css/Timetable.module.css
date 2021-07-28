@@ -177,3 +177,13 @@
   justify-self: center;
   padding: 10px 0px 20px 0px;
 }
+.disclaimer {
+  border: var(--red) 2px solid;
+  /* background: var(--red);
+  color: var(--white); */
+  background: var(--white);
+  color: var(--red);
+  padding: 5px 10px;
+  margin: 20px;
+  margin-top: 0;
+}

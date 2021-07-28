@@ -1,13 +1,16 @@
 .container {
   display: grid;
   gap: 20px;
-  padding: 20px;
+  padding: 20px 0;
   overflow-x: visible;
   grid-template-columns: repeat(4, 1fr);
+  overflow: auto;
+  width: 100%;
 }
 .panel {
   display: flex;
   flex-direction: column;
+  width: 100%;
 }
 .paginatedPreviews {
   padding: 0;

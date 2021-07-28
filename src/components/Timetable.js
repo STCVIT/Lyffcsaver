@@ -1,7 +1,13 @@
 import styles from "../css/Timetable.module.css";
 import timetableTemplateData from "../utils/timetableTemplateData";
 
-const Timetable = ({ slots, selectedClasses, hoveredSlots, classes }) => {
+const Timetable = ({
+  slots,
+  selectedClasses,
+  hoveredSlots,
+  classes,
+  hasValidSelections,
+}) => {
   // console.log("rendering timetable", slots);
   let dayCount = 0;
   const id = "final-display";
@@ -117,6 +123,26 @@ const Timetable = ({ slots, selectedClasses, hoveredSlots, classes }) => {
       return className;
     }
   };
+  // const getCoursesWithCourseCode = (schedule, courseCode) => {
+  //   const courseIDs = Object.keys(schedule)
+  //   const validCourseIDs = courseIDs.filter(courseID => courseID.startsWith(courseCode))
+  //   return validCourseIDs.map(courseID => schedule[courseID])
+  // }
+
+  const getCoursesWithDifferentFaculties = (schedule) => {
+    const facultiesByCourseCode = {};
+    const courseCodes = new Set();
+    for (const courseID of Object.keys(schedule)) {
+      const courseCode = schedule[courseID]["COURSE CODE"];
+      if (facultiesByCourseCode[courseCode] === undefined)
+        facultiesByCourseCode[courseCode] = schedule[courseID]["ERP ID"];
+      else if (
+        facultiesByCourseCode[courseCode] !== schedule[courseID]["ERP ID"]
+      )
+        courseCodes.add(courseCode);
+    }
+    return Array.from(courseCodes);
+  };
   // console.log(selectedClasses);
   return (
     <div className={styles.container}>
@@ -203,6 +229,24 @@ const Timetable = ({ slots, selectedClasses, hoveredSlots, classes }) => {
           })}
         </tbody>
       </table>
+      {getCoursesWithDifferentFaculties(selectedClasses).length === 0 ? (
+        <></>
+      ) : (
+        <div className={styles.disclaimer}>
+          DISCLAIMER: The currently selected timetable has different faculties
+          in the components of the following courses:-{" "}
+          {getCoursesWithDifferentFaculties(selectedClasses).join(", ")}
+          <br />
+          {hasValidSelections() ? (
+            <>
+              Consider selecting the same faculties for all components of the
+              course.
+            </>
+          ) : (
+            <>No common faculties found</>
+          )}
+        </div>
+      )}
     </div>
   );
 };

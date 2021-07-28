@@ -66,40 +66,49 @@ const Timetables = ({ schedules, slots, classes }) => {
     clone.parentNode.removeChild(clone);
     return canvas;
   };
-  // const PDFDoc = () => {
-  //   const table = document.getElementById("filled-out-timetable");
-  //   // let images = [];
-  //   const [images, setImages] = useState([]);
-  //   useEffect(() => {
-  //     (async () => {
-  //       const canvases = [];
-  //       canvases.push(await getCanvasFromNode(table));
-  //       console.log({ canvases });
-  //       setImages(canvases.map((canvas) => canvas.toDataURL("image/png")));
-  //     })();
-  //   }, []);
-  //   return (
-  //     <Document>
-  //       <Page>
-  //         <View>
-  //           {images?.map((image, index) => (
-  //             // <Image
-  //             //   key={`${index}-${image}-react-pdf-element`}
-  //             //   src={image}
-  //             // ></Image>
-  //             <Text key={`${index}-${image}-react-pdf-element`}>{image}</Text>
-  //           ))}
-  //         </View>
-  //       </Page>
-  //     </Document>
-  //   );
-  // };
   const getScalingFactor = (width, height, maxWidth, maxHeight) => {
     console.log(width, height, maxWidth, maxHeight);
     const fr1 = maxWidth / width;
     const fr2 = maxHeight / height;
     if (fr1 >= 1 && fr2 >= 1) return 1;
     return fr1 < fr2 ? fr1 : fr2;
+  };
+  const hasValidSelections = () => {
+    const currentSchedules = schedules[slots.join("+")];
+    if (currentSchedules === undefined || currentSchedules[0] === undefined)
+      return false;
+    const courseIDs = Object.keys(currentSchedules[0]);
+    const facultiesByCourseCode = {};
+    console.log({ currentSchedules });
+    courseIDs.forEach((courseID) => {
+      // const courseCode = currentSchedules[courseID][0][ "COURSE CODE" ]
+      // const courseType = currentSchedules[courseID][0][ "COURSE TYPE" ]
+      const [courseCode, courseType] = courseID.split("-");
+      if (facultiesByCourseCode[courseCode] === undefined)
+        facultiesByCourseCode[courseCode] = {};
+      if (facultiesByCourseCode[courseCode][courseType] === undefined)
+        facultiesByCourseCode[courseCode][courseType] = new Set();
+      // facultiesByCourseCode[courseCode][courseType].push(currentSchedules)
+      currentSchedules.forEach((schedule) =>
+        facultiesByCourseCode[courseCode][courseType].add(
+          schedule[courseID]["ERP ID"]
+        )
+      );
+    });
+    for (const courseCode of Object.keys(facultiesByCourseCode)) {
+      const faculties = new Set();
+      let totalFacultiesInEachComponent = 0;
+      for (const courseType of Object.keys(facultiesByCourseCode[courseCode])) {
+        facultiesByCourseCode[courseCode][courseType].forEach((erpID) =>
+          faculties.add(erpID)
+        );
+        totalFacultiesInEachComponent +=
+          facultiesByCourseCode[courseCode][courseType].size;
+      }
+      if (faculties.size < totalFacultiesInEachComponent) continue;
+      else return false;
+    }
+    return true;
   };
   return (
     <div id="#timetables-screen" className={styles.timetablesScreen}>
@@ -108,6 +117,7 @@ const Timetables = ({ schedules, slots, classes }) => {
         slots={slots}
         hoveredSlots={hoveredSlots}
         classes={classes}
+        hasValidSelections={hasValidSelections}
       ></Timetable>
       {slots !== undefined && slots.length > 0 ? (
         <>
@@ -196,24 +206,10 @@ const Timetables = ({ schedules, slots, classes }) => {
                 });
                 pdf.deletePage(pdf.getNumberOfPages());
                 pdf.save(`timetable-${slots.join("+")}.pdf`);
-                // const a = document.createElement("a");
-                // a.href = canvas.toDataURL("image/png");
-                // a.download = `timetable-${slots.join("+")}.png`;
-                // a.click();
-                // TODO: Get canvases for each class table and make pdf for user to download
                 const elements = [];
                 elements.push(document.getElementById("filled-out-timetable"));
-                // html2PDF(elements, )
               }}
             />
-            {/* <PDFDownloadLink
-              document={<PDFDoc />}
-              fileName={`timetable-${slots.join("+")}.pdf`}
-            >
-              {({ blob, url, loading, error }) =>
-                loading ? "Loading document..." : "Download now!"
-              }
-            </PDFDownloadLink> */}
           </div>
           <Classes
             schedules={schedules[slots.join("+")]}

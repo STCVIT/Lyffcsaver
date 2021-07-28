@@ -9,12 +9,12 @@ import {
   populateSlotCombination,
 } from "../utils/generalUtils";
 import styles from "../css/Main.module.css";
+
 const Main = () => {
   const [allSchedules, setAllSchedules] = useState({});
   const [classes, setClasses] = useState({});
   const [reservedSlots, setReservedSlots] = useState([]);
   const [currentlySelectedSlots, setCurrentlySelectedSlots] = useState([]);
-  const [finalizedClasses, setFinalizedClasses] = useState([]);
   // const populateAllSchedules = async (courses, faculties, reservedSlots) => {
   //   setAllSchedules([]);
   //   setAllSchedules(await getTimetables(courses, faculties, reservedSlots));

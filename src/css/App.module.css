@@ -23,6 +23,7 @@
   --red: hsl(0, 100%, 45%);
   --red-faded: hsl(0, 100%, 60%);
   --red-very-faded: hsl(0, 100%, 80%);
+  --red-very-faded-transparent: hsla(0, 100%, 80%, 0.466);
   --orange: hsl(45, 100%, 51%);
   --orange-faded: hsl(45, 100%, 66%);
   --green: hsl(121, 40%, 45%);
