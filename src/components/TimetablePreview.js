@@ -42,7 +42,7 @@ const TimetablePreview = ({ slots, id, select }) => {
   return (
     <>
       <table
-        className={styles.timetablePreview}
+        className={`${styles.timetablePreview} timetable-preview`}
         onClick={async (e) => {
           // console.log("event", e, JSON.stringify(slots));
           await select(slots);

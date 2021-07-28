@@ -128,7 +128,7 @@ const Classes = ({
   return schedules === undefined || schedules.length <= 0 ? (
     <></>
   ) : (
-    <div className={styles.panel}>
+    <div className={styles.panel} id="classes">
       <ReactPaginate
         previousLabel={leftArrowNode}
         nextLabel={rightArrowNode}

@@ -108,7 +108,7 @@ const ClassSelect = ({ selectedCourseID, addClass, selectedClasses }) => {
 
   return (
     <div className={styles.container} id="class-selection-section">
-      <div className={styles.queryRow}>
+      <div className={styles.queryRow} id="class-selection-query-row">
         <div className={styles.search}>
           <label
             htmlFor="faculty-search"
@@ -198,7 +198,7 @@ const ClassSelect = ({ selectedCourseID, addClass, selectedClasses }) => {
             .map((classData) => {
               return (
                 <div
-                  className={`${styles.class}`}
+                  className={`${styles.class} selectable-class`}
                   key={`class-select-${getCourseID(classData)}-${
                     classData["ERP ID"]
                   }-${classData["SLOT"]}-${classData["CLASS ID"]}`}

@@ -19,7 +19,7 @@ const ClassPreference = ({
     <div className={styles.container}>
       <div className={styles.classPriority}>
         <div className={`${styles.title} body1-bold`}>Class Priority</div>
-        <div className={styles.addedClasses}>
+        <div className={styles.addedClasses} id="class-priority">
           <div className={styles.resultsWrapper}>
             {classes?.length > 0 ? (
               <DragDropContext onDragEnd={handleOnDragEnd}>
@@ -42,7 +42,7 @@ const ClassPreference = ({
                               <li
                                 ref={provided.innerRef}
                                 key={`${classData["CLASS ID"]}-priority-select-c`}
-                                className={`${styles.class}`}
+                                className={`${styles.class} draggable-class`}
                                 {...provided.draggableProps}
                               >
                                 <div

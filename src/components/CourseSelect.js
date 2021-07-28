@@ -69,7 +69,7 @@ const CourseSelect = ({
       <div className={styles.stagedCourses}>
         <div className={`${styles.title} body1-bold`}>Selected Courses</div>
         <div className={styles.addedCourses}>
-          <div className={styles.resultsWrapper}>
+          <div className={styles.resultsWrapper} id="added-courses">
             <div className={styles.results}>
               {stagedCourses.map((stagedCourse) => {
                 return (
@@ -86,7 +86,7 @@ const CourseSelect = ({
                       hasSelectedClasses(getCourseID(stagedCourse))
                         ? styles.filled
                         : styles.empty
-                    }`}
+                    } staged-course`}
                     key={`selected-course-${getCourseID(stagedCourse)}`}
                     onClick={(e) => {
                       selectCourse(stagedCourse);
@@ -119,7 +119,7 @@ const CourseSelect = ({
               })}
             </div>
           </div>
-          <div className={styles.footer}>
+          <div className={styles.footer} id="staged-courses-footer">
             <div className={styles.totalCredits}>
               TOTAL CREDITS: {totalCredits}
             </div>

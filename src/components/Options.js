@@ -209,6 +209,7 @@ const Options = ({ generateTimetables, selectSlots }) => {
       <Button
         classes={styles.generateTimetablesButton}
         type="primary"
+        id="generate-timetables"
         clickedCallback={async () => {
           const result = await generateTimetables(
             selectedClasses,
