@@ -70,103 +70,144 @@ const Searchbar = ({
     });
   }, []);
   return (
-    <div className={`${styles.container} ${styles.notFocused}`}>
-      <input
-        type="text"
-        name="search"
-        placeholder={placeholder}
-        className={styles.input}
-        id={selector}
-        onInput={(e) => {
-          setQuery(e.target.value);
-          setInputText(e.target.value);
-          setCurrentItem(-1);
-        }}
-        onFocus={(e) => {
-          e.target?.parentElement?.classList.remove(styles.notFocused);
-          setCurrentItem(-1);
-        }}
-        // onBlur={(e) => {
-        // }}
-        // onKeyDown{(e) => {
-        //   console.log("down", e.code)
-        // }}
+      <div className={`${styles.container} ${styles.notFocused}`}>
+          <input
+              type="text"
+              name="search"
+              placeholder={placeholder}
+              className={styles.input}
+              id={selector}
+              onInput={(e) => {
+                  setQuery(e.target.value);
+                  setInputText(e.target.value);
+                  setCurrentItem(-1);
+              }}
+              onFocus={(e) => {
+                  e.target?.parentElement?.classList.remove(styles.notFocused);
+                  setCurrentItem(-1);
+              }}
+              // onBlur={(e) => {
+              // }}
+              // onKeyDown{(e) => {
+              //   console.log("down", e.code)
+              // }}
 
-        // onKeyPressCapture={(e) => {
-        //   console.log("press - c", e.code);
-        // }}
-        // onKeyDownCapture={(e) => {
-        //   console.log("down - c", e.code);
-        // }}
-        // onKeyUpCapture={(e) => {
-        //   console.log("up - c", e.code);
-        // }}
-        // onKeyPress={(e) => {
-        //   console.log("press", e.code);
-        // }}
-        // onKeyUp={(e) => {
-        //   console.log("up", e.code);
-        // }}
-        onKeyDown={(e) => {
-          // console.log("down", e.code);
-          if (e.code === "ArrowDown") {
-            e.preventDefault();
-            setCurrentItem((prevItem) => {
-              if (prevItem + 1 < suggestions.length) {
-                ++prevItem;
-                setInputText(getUnique(suggestions[prevItem]));
-                return prevItem;
-              }
-              return prevItem;
-            });
-          } else if (e.code === "ArrowUp") {
-            e.preventDefault();
-            setCurrentItem((prevItem) => {
-              if (prevItem - 1 >= 0) {
-                --prevItem;
-                setInputText(getUnique(suggestions[prevItem]));
-                return prevItem;
-              }
-              return prevItem;
-            });
-          } else if (e.code === "Enter") {
-            // console.log(document.querySelector(`.${styles.current}`));
-            document.querySelector(`.${styles.current}`)?.click();
-            document.querySelector(`#${selector}`)?.blur();
-          }
-        }}
-        autoComplete="off"
-        value={inputText}
-      ></input>
-      {query.length > 1 ? (
-        <div className={styles.suggestions}>
-          {suggestions.length > 0 ? (
-            suggestions.map((suggestion, index) => {
-              return suggestionElement(
-                suggestion,
-                `${styles.suggestion} ${
-                  currentItem >= 0 &&
-                  suggestions[currentItem] &&
-                  getUnique(suggestion) === getUnique(suggestions[currentItem])
-                    ? styles.current
-                    : ""
-                }`,
-                getUnique(suggestion),
-                (value) => {
-                  onSelect(value);
-                  clearSuggestions();
-                },
-                `${selector}-${suggestion}-${index}`
-              );
-            })
+              // onKeyPressCapture={(e) => {
+              //   console.log("press - c", e.code);
+              // }}
+              // onKeyDownCapture={(e) => {
+              //   console.log("down - c", e.code);
+              // }}
+              // onKeyUpCapture={(e) => {
+              //   console.log("up - c", e.code);
+              // }}
+              // onKeyPress={(e) => {
+              //   console.log("press", e.code);
+              // }}
+              onKeyUp={(e) => {
+                  console.log("up", e.code);
+              }}
+              onKeyDown={(e) => {
+                  switch (e.code) {
+                      case "ArrowDown":
+                          e.preventDefault();
+                          setCurrentItem((prevItem) => {
+                              if (prevItem + 1 < suggestions.length) {
+                                  ++prevItem;
+                                  setInputText(
+                                      getUnique(suggestions[prevItem])
+                                  );
+                                  return prevItem;
+                              }
+                              return prevItem;
+                          });
+                          break;
+                      case "ArrowUp":
+                          e.preventDefault();
+                          setCurrentItem((prevItem) => {
+                              if (prevItem - 1 >= 0) {
+                                  --prevItem;
+                                  setInputText(
+                                      getUnique(suggestions[prevItem])
+                                  );
+                                  return prevItem;
+                              }
+                              return prevItem;
+                          });
+                          break;
+                      case "Enter":
+                          // console.log(document.querySelector(`.${styles.current}`));
+                          document.querySelector(`.${styles.current}`)?.click();
+                          document.querySelector(`#${selector}`)?.blur();
+                          break;
+                      case "Tab":
+                          e.preventDefault();
+                          if (suggestions.length > 0) {
+                              e.target?.focus();
+                              if (e.shiftKey) {
+                                  e.preventDefault();
+                                  setCurrentItem((prevItem) => {
+                                      if (prevItem - 1 >= 0) {
+                                          --prevItem;
+                                          setInputText(
+                                              getUnique(suggestions[prevItem])
+                                          );
+                                          return prevItem;
+                                      }
+                                      return prevItem;
+                                  });
+                              } else {
+                                  e.preventDefault();
+                                  setCurrentItem((prevItem) => {
+                                      if (prevItem + 1 < suggestions.length) {
+                                          ++prevItem;
+                                          setInputText(
+                                              getUnique(suggestions[prevItem])
+                                          );
+                                          return prevItem;
+                                      }
+                                      return prevItem;
+                                  });
+                              }
+                          }
+                          break;
+                      default:
+                          break;
+                  }
+              }}
+              autoComplete="off"
+              value={inputText}
+          ></input>
+          {query.length > 1 ? (
+              <div className={styles.suggestions}>
+                  {suggestions.length > 0 ? (
+                      suggestions.map((suggestion, index) => {
+                          return suggestionElement(
+                              suggestion,
+                              `${styles.suggestion} ${
+                                  currentItem >= 0 &&
+                                  suggestions[currentItem] &&
+                                  getUnique(suggestion) ===
+                                      getUnique(suggestions[currentItem])
+                                      ? styles.current
+                                      : ""
+                              }`,
+                              getUnique(suggestion),
+                              (value) => {
+                                  onSelect(value);
+                                  clearSuggestions();
+                              },
+                              `${selector}-${suggestion}-${index}`
+                          );
+                      })
+                  ) : (
+                      <div>No Results</div>
+                  )}
+              </div>
           ) : (
-            <div>No Results</div>
+              <></>
           )}
-        </div>
-      ) : (
-        <></>
-      )}
-    </div>
+      </div>
   );
 };
 
