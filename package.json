@@ -28,7 +28,7 @@
     "build": "yarn run load && react-scripts build",
     "test": "jest",
     "eject": "react-scripts eject",
-    "load": "node .\\scripts\\parseAndLoadExcel.js \".\\scripts\\course-allocation\\Fall 2021-22 Course Allocation Report.xlsx\" .\\src\\data\\",
+    "load": "node .\\scripts\\parseAndLoadExcel.js \".\\scripts\\course-allocation\\Winter Semester 2021-22 _ Course Allocation Report.xlsx\" .\\src\\data\\",
     "predeploy": "yarn run build",
     "deploy": "gh-pages -d build"
   },
