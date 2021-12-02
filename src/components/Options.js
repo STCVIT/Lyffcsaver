@@ -135,113 +135,122 @@ const Options = ({ generateTimetables, selectSlots }) => {
   };
 
   return (
-    <>
-      {/* <CampusToggle></CampusToggle> */}
-      <div
-        className={`${styles.sectionTitle} heading2`}
-        id="reserve-slots-section"
-      >
-        <div className={styles.left_btns}>
-          <a
-            className={`${styles.btn} body1-medium`}
-            onClick={() => {
-              setReserveView((prevReserveView) => (prevReserveView + 1) % 2);
-            }}
+      <>
+          {/* <CampusToggle></CampusToggle> */}
+          <div
+              className={`${styles.sectionTitle} heading2`}
+              id="reserve-slots-section"
           >
-            Change View
-          </a>
-        </div>
-        <div className={styles.title}>Reserve your Slots</div>
-        <div className={styles.btns}>
-          <a
-            className={`${styles.btn} body1-medium`}
-            onClick={() => {
-              reservedSlots.forEach((slot) => toggleReserve(slot));
-            }}
+              <div className={styles.left_btns}>
+                  <a
+                      className={`${styles.btn} body1-medium`}
+                      onClick={() => {
+                          setReserveView(
+                              (prevReserveView) => (prevReserveView + 1) % 2
+                          );
+                      }}
+                  >
+                      Change View
+                  </a>
+              </div>
+              <div className={styles.title}>Reserve your Slots</div>
+              <div className={styles.btns}>
+                  <a
+                      className={`${styles.btn} body1-medium`}
+                      onClick={() => {
+                          reservedSlots.forEach((slot) => toggleReserve(slot));
+                      }}
+                  >
+                      Clear
+                  </a>
+                  <a
+                      className={`${styles.btn} body1-medium`}
+                      // href="#add-courses-section"
+                      onClick={() => {
+                          document
+                              .getElementById("add-courses-section")
+                              ?.scrollIntoView({
+                                  behavior: "smooth",
+                              });
+                      }}
+                  >
+                      Skip
+                  </a>
+              </div>
+          </div>
+
+          <ReserveSlots
+              reservedSlots={reservedSlots}
+              toggleReserve={toggleReserve}
+              view={reserveView}
+          ></ReserveSlots>
+          <div
+              className={`${styles.sectionTitle} heading2`}
+              id="add-courses-section"
           >
-            Clear
-          </a>
-          <a
-            className={`${styles.btn} body1-medium`}
-            href="#add-courses-section"
+              <div className={styles.title}>Add courses</div>
+          </div>
+
+          <div className={styles.coursePreferences}>
+              <CourseSelect
+                  stageCourse={stageCourse}
+                  unstageCourse={unstageCourse}
+                  getCourseID={getCourseID}
+                  stagedCourses={stagedCourses}
+                  selectCourse={selectCourse}
+                  deselectCourse={deselectCourse}
+                  selectedCourseID={currentlySelectedCourseID}
+                  isProject={isProject}
+                  hasSelectedClasses={hasSelectedClasses}
+              ></CourseSelect>
+              <ClassPreference
+                  classes={selectedClasses[currentlySelectedCourseID]}
+                  removeClass={removeClass}
+                  setReorderedClasses={setReorderedClasses}
+                  selectedCourseID={currentlySelectedCourseID}
+              ></ClassPreference>
+          </div>
+          <ClassSelect
+              selectedCourseID={currentlySelectedCourseID}
+              addClass={addClass}
+              selectedClasses={selectedClasses}
+          ></ClassSelect>
+          <Button
+              classes={styles.generateTimetablesButton}
+              type="primary"
+              id="generate-timetables"
+              clickedCallback={async () => {
+                  const result = await generateTimetables(
+                      selectedClasses,
+                      reservedSlots
+                  );
+                  selectSlots([]);
+                  // console.log(error);
+
+                  // if(error !== undefined)
+                  let error, data;
+                  if (result?.error !== undefined) {
+                      error = result.error;
+                      data = result.data;
+                  }
+                  if (error === "NO_CLASSES") {
+                      document
+                          .querySelector("#add-courses-section")
+                          ?.scrollIntoView({ behavior: "smooth" });
+                      if (data !== undefined) selectCourse(data[0]);
+                  } else if (error === "NO_COURSES")
+                      document
+                          .querySelector("#add-courses-section")
+                          ?.scrollIntoView({ behavior: "smooth" });
+                  else if (error === undefined)
+                      document
+                          .querySelector("#timetable-previews")
+                          ?.scrollIntoView({ behavior: "smooth" });
+              }}
           >
-            Skip
-          </a>
-        </div>
-      </div>
-
-      <ReserveSlots
-        reservedSlots={reservedSlots}
-        toggleReserve={toggleReserve}
-        view={reserveView}
-      ></ReserveSlots>
-      <div
-        className={`${styles.sectionTitle} heading2`}
-        id="add-courses-section"
-      >
-        <div className={styles.title}>Add courses</div>
-      </div>
-
-      <div className={styles.coursePreferences}>
-        <CourseSelect
-          stageCourse={stageCourse}
-          unstageCourse={unstageCourse}
-          getCourseID={getCourseID}
-          stagedCourses={stagedCourses}
-          selectCourse={selectCourse}
-          deselectCourse={deselectCourse}
-          selectedCourseID={currentlySelectedCourseID}
-          isProject={isProject}
-          hasSelectedClasses={hasSelectedClasses}
-        ></CourseSelect>
-        <ClassPreference
-          classes={selectedClasses[currentlySelectedCourseID]}
-          removeClass={removeClass}
-          setReorderedClasses={setReorderedClasses}
-          selectedCourseID={currentlySelectedCourseID}
-        ></ClassPreference>
-      </div>
-      <ClassSelect
-        selectedCourseID={currentlySelectedCourseID}
-        addClass={addClass}
-        selectedClasses={selectedClasses}
-      ></ClassSelect>
-      <Button
-        classes={styles.generateTimetablesButton}
-        type="primary"
-        id="generate-timetables"
-        clickedCallback={async () => {
-          const result = await generateTimetables(
-            selectedClasses,
-            reservedSlots
-          );
-          selectSlots([]);
-          // console.log(error);
-
-          // if(error !== undefined)
-          let error, data;
-          if (result?.error !== undefined) {
-            error = result.error;
-            data = result.data;
-          }
-          if (error === "NO_CLASSES") {
-            document
-              .querySelector("#add-courses-section")
-              ?.scrollIntoView({ behavior: "smooth" });
-            if (data !== undefined) selectCourse(data[0]);
-          } else if (error === "NO_COURSES")
-            document
-              .querySelector("#add-courses-section")
-              ?.scrollIntoView({ behavior: "smooth" });
-          else if (error === undefined)
-            document
-              .querySelector("#timetable-previews")
-              ?.scrollIntoView({ behavior: "smooth" });
-        }}
-      >
-        Generate Timetables
-      </Button>
-    </>
+              Generate Timetables
+          </Button>
+      </>
   );
 };
 
