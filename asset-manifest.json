@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/Lyffcsaver/static/css/main.20757fa8.chunk.css",
-    "main.js": "/Lyffcsaver/static/js/main.7c10f135.chunk.js",
-    "main.js.map": "/Lyffcsaver/static/js/main.7c10f135.chunk.js.map",
+    "main.js": "/Lyffcsaver/static/js/main.8f10ea1e.chunk.js",
+    "main.js.map": "/Lyffcsaver/static/js/main.8f10ea1e.chunk.js.map",
     "runtime-main.js": "/Lyffcsaver/static/js/runtime-main.e2e93954.js",
     "runtime-main.js.map": "/Lyffcsaver/static/js/runtime-main.e2e93954.js.map",
     "static/js/2.6201aec2.chunk.js": "/Lyffcsaver/static/js/2.6201aec2.chunk.js",
@@ -40,6 +40,6 @@
     "static/css/3.383c0125.chunk.css",
     "static/js/3.13723402.chunk.js",
     "static/css/main.20757fa8.chunk.css",
-    "static/js/main.7c10f135.chunk.js"
+    "static/js/main.8f10ea1e.chunk.js"
   ]
 }
