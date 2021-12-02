@@ -4,7 +4,7 @@ import {
   Accordion,
   AccordionContext,
   Card,
-  useAccordionToggle,
+  useAccordionButton,
 } from "react-bootstrap";
 import toggleTriangle from "../assets/toggleTriangle.svg";
 import { useContext } from "react";
@@ -20,12 +20,12 @@ const Faq = () => {
   function ContextAwareToggle({ children, eventKey, callback }) {
     const currentEventKey = useContext(AccordionContext);
 
-    const decoratedOnClick = useAccordionToggle(
+    const decoratedOnClick = useAccordionButton(
       eventKey,
       () => callback && callback(eventKey)
     );
 
-    const isCurrentEventKey = currentEventKey === eventKey;
+    const isCurrentEventKey = currentEventKey.activeEventKey === eventKey;
 
     return (
       <button
@@ -75,7 +75,7 @@ const Faq = () => {
           <p className="body1-bold">Still have questions?</p>
           <p className="body2-medium">
             If you cannot find answers to your questions here, you can always{" "}
-            <NavLink activeClassName={styles.active} to="/contact">
+            <NavLink className={isActive => isActive ? styles.active : null} to="/contact">
               contact us
             </NavLink>
             . <br />

@@ -7,10 +7,29 @@ import Header from "./components/Header";
 
 import {
   HashRouter as Router,
-  Switch,
+  Routes,
   Route,
-  withRouter,
+  useLocation,
+  useNavigate,
+  useParams
 } from "react-router-dom";
+
+function withRouter(Component) {
+  function ComponentWithRouterProp(props) {
+    let location = useLocation();
+    let navigate = useNavigate();
+    let params = useParams();
+    return (
+      <Component
+        {...props}
+        router={{ location, navigate, params }}
+      />
+    );
+  }
+
+  return ComponentWithRouterProp;
+}
+
 const HeaderWithRouter = withRouter(Header);
 
 function App() {
@@ -27,20 +46,12 @@ function App() {
   return (
     <Router>
       <HeaderWithRouter></HeaderWithRouter>
-      <Switch>
-        <Route path="/about">
-          <About></About>
-        </Route>
-        <Route path="/faq">
-          <FAQ></FAQ>
-        </Route>
-        <Route path="/contact">
-          <Contact></Contact>
-        </Route>
-        <Route path="/">
-          <Main></Main>
-        </Route>
-      </Switch>
+      <Routes>
+        <Route path="/about" element={<About></About>}/>
+        <Route path="/faq" element={<FAQ></FAQ>}/>
+        <Route path="/contact" element={<Contact></Contact>}/>
+        <Route path="/" element={<Main></Main>}/>
+      </Routes>
     </Router>
   );
 }

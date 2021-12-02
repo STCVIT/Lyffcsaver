@@ -373,7 +373,7 @@ onmessage = (event) => {
 };
 
 // eslint-disable-next-line no-undef
-if (module !== undefined)
+if (module !== undefined) {
   // eslint-disable-next-line no-undef
   module.exports = {
     allElementsWithinArray,
@@ -386,3 +386,4 @@ if (module !== undefined)
     slotsAlreadyConsidered,
     populateSlotCombination,
   };
+}

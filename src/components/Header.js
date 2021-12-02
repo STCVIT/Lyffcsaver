@@ -5,7 +5,8 @@ import { NavLink } from "react-router-dom";
 import { useState } from "react";
 import Joyride, { STATUS } from "react-joyride";
 
-const Header = ({ location }) => {
+const Header = ({ router }) => {
+  const location = router.location;
   const [expanded, setExpanded] = useState(false);
   const [joyrideRunning, setJoyrideRunning] = useState(false);
   const steps = [
@@ -288,28 +289,36 @@ const Header = ({ location }) => {
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav activeKey={location.pathname} className={styles.navLinks}>
               <NavLink
-                activeClassName={styles.active}
-                to="/home"
+                className={({isActive}) => {
+                  return isActive ? styles.active : null
+                }}
+                to="/"
                 onClick={() => setExpanded(false)}
               >
                 Home
               </NavLink>
               <NavLink
-                activeClassName={styles.active}
+                className={({isActive}) => {
+                  return isActive ? styles.active : null
+                }}
                 to="/about"
                 onClick={() => setExpanded(false)}
               >
                 About
               </NavLink>
               <NavLink
-                activeClassName={styles.active}
+                className={({isActive}) => {
+                  return isActive ? styles.active : null
+                }}
                 to="/faq"
                 onClick={() => setExpanded(false)}
               >
                 FAQs
               </NavLink>
               <NavLink
-                activeClassName={styles.active}
+                className={({isActive}) => {
+                  return isActive ? styles.active : null
+                }}
                 to="/contact"
                 onClick={() => setExpanded(false)}
               >
