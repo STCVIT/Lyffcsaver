@@ -141,11 +141,10 @@ const Searchbar = ({
                           document.querySelector(`#${selector}`)?.blur();
                           break;
                       case "Tab":
-                          e.preventDefault();
                           if (suggestions.length > 0) {
+                              e.preventDefault();
                               e.target?.focus();
                               if (e.shiftKey) {
-                                  e.preventDefault();
                                   setCurrentItem((prevItem) => {
                                       if (prevItem - 1 >= 0) {
                                           --prevItem;
@@ -157,7 +156,6 @@ const Searchbar = ({
                                       return prevItem;
                                   });
                               } else {
-                                  e.preventDefault();
                                   setCurrentItem((prevItem) => {
                                       if (prevItem + 1 < suggestions.length) {
                                           ++prevItem;
