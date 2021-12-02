@@ -61,7 +61,10 @@ const parseAndLoadExcel = async (filePath, writeDir) => {
   const workbook = XLSX.readFile(filePath);
   const sheetNameList = workbook.SheetNames;
   const data = XLSX.utils.sheet_to_json(workbook.Sheets[sheetNameList[0]]);
+  // console.log(data[0])
   for (const classInfo of data) {
+    // classInfo["CLASS TYPE"] = classInfo["CLASS TY"]
+    // classInfo["ROOM NUMBER"] = classInfo["ROOM NUMBE"]
     const matchingFaculty = matchesField(
       classInfo["ERP ID"],
       "ERP ID",
