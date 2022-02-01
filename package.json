@@ -24,7 +24,7 @@
     "xlsx": "^0.17.0"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "react-scripts --openssl-legacy-provider start",
     "build": "yarn run load && react-scripts build",
     "test": "jest",
     "eject": "react-scripts eject",
