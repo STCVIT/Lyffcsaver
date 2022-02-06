@@ -22,7 +22,9 @@ const getCourseID = (course) => {
 };
 
 const getClassID = (course) => {
-  return `${course["COURSE CODE"]}-${course["COURSE TYPE"]}-${count++}`;
+  const courseType =
+    course["COURSE TYPE"] === undefined ? "NA" : course["COURSE TYPE"];
+  return `${course["COURSE CODE"]}-${courseType}-${count++}`;
 };
 const addUnique = async (uniqueField, collectionName, data) => {
   // try {
@@ -89,8 +91,14 @@ const parseAndLoadExcel = async (filePath, writeDir) => {
           : classInfo["CLASS ID"],
       "ASSO CLASS ID": classInfo["ASSO CLASS ID"],
       SLOT: classInfo["SLOT"],
-      "COURSE TYPE": classInfo["COURSE TYPE"],
-      "ROOM NUMBER": classInfo["ROOM NUMBER"],
+      "COURSE TYPE":
+        classInfo["COURSE TYPE"] === undefined
+          ? "NA"
+          : classInfo["COURSE TYPE"],
+      "ROOM NUMBER":
+        classInfo["ROOM NUMBER"] === undefined
+          ? "NA"
+          : classInfo["ROOM NUMBER"],
       BATCH: classInfo["BATCH"] === undefined ? "-" : classInfo["BATCH"],
       "CLASS OPTION": classInfo["CLASS OPTION"],
       "CLASS TYPE": classInfo["CLASS TYPE"],

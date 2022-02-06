@@ -38,6 +38,7 @@ const CourseSelect = ({
           data={filteredCourses}
           keys={["COURSE CODE", "COURSE TITLE"]}
           onSelect={(selectedString) => {
+            console.log("selected string", selectedString);
             coursesData.forEach((course) => {
               if (selectedString.startsWith(course["COURSE CODE"]))
                 stageCourse(course, !course["COURSE TYPE"].endsWith("ELA"));
@@ -49,12 +50,14 @@ const CourseSelect = ({
           placeholder="Eg: CSE1002 or Problem Solving and Programming"
           threshold={0.4}
           suggestionElement={(course, classNames, value, onSelect, key) => {
+            console.log(value);
             return (
               <div
                 className={`${styles.courseSuggestion} ${classNames}`}
                 data-value={value}
                 onClick={(e) => {
-                  onSelect(value);
+                  let currVal = e.target.dataset.value;
+                  onSelect(currVal);
                 }}
                 key={key}
               >
